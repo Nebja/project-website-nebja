@@ -4,9 +4,14 @@
  * We recommend including the built version of this JavaScript file
  * (and its CSS file) in your base layout (base.html.twig).
  */
-
+import 'bootstrap/dist/css/bootstrap.css'
+import { createApp } from 'vue'
+import navi from './vue-templates/naviagation'
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 
 // start the Stimulus application
 import './bootstrap';
+
+const app = createApp(navi).mount('#app')
+import "bootstrap/dist/js/bootstrap.js"
