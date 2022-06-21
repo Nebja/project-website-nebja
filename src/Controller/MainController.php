@@ -10,19 +10,32 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 #[Route('/', name: 'app_')]
 class MainController extends AbstractController
 {
+    private Serializer $serializer;
+
+    public function __construct (){
+        $encoders = [new JsonEncoder()];
+        $normalizer = [new ObjectNormalizer()];
+        $this->serializer =  new Serializer($normalizer, $encoders);
+    }
     /**
      * @return Response
      */
     #[Route('', name: 'main')]
     public function index(): Response
     {
-        $user = $this->getUser();
         return $this->render('main/index.html.twig', [
-            'user' => $user,
+            'toView' => $this->serializer->serialize(json_decode(json_encode(array(
+                'user' => $this->getUser() != null ? $this->getUser()->getUserIdentifier():null,
+                'role' => $this->getUser() != null ? $this->getUser()->getRoles():null)),
+                FALSE),
+                'json')
         ]);
     }
 

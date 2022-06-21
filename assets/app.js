@@ -15,7 +15,6 @@ import './styles/app.css';
 
 // start the Stimulus application
 import './bootstrap';
-
 const app = createApp(homepage)
 app.use(VueAxios)
 app.use(BootstrapIconsPlugin);

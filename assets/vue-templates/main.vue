@@ -1,5 +1,6 @@
 <template>
   <div id="container">
+    <modal/>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">N</a>
@@ -9,13 +10,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#"><BIconHouseDoor/></a>
+              <a class="nav-link active" title="Home" aria-current="page" href="#"><BIconHouseDoor/></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#"><BIconFilm/></a>
+              <a class="nav-link" href="#" title="Movies"><BIconFilm/></a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" title="More" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <BIconMenuDown/>
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -29,60 +30,72 @@
               <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
             </li>-->
           </ul>
-          <span v-if="user">
+          <span v-if="viewData.user">
             <form action="/logout" class="d-flex">
-              <span>{{ user }}</span>&nbsp;&nbsp;&nbsp;
-              <button class="btn btn-outline-danger" type="submit"><BIconDoorClosed /></button>
+              <span>{{ viewData.user }}</span>&nbsp;&nbsp;&nbsp;
+              <button class="btn btn-outline-danger" title="Logout" type="submit"><BIconDoorClosed /></button>
             </form>
           </span>
           <span class="d-flex"  v-else>
-              <form method="post" class="d-flex" action="/login">
-                <input v-model="form.email" class="form-control me-2" placeholder="username" type="email" name="email" id="inputEmail" autocomplete="email" required autofocus>
-                <input v-model="form.password" class="form-control me-2" placeholder="password" type="password" name="password" id="inputPassword" autocomplete="current-password" required>
-                <input v-model="form._csrf_token" type="hidden" name="_csrf_token" id="csrf_token" required>
-                <button class="btn btn-outline-success" type="submit"><BIconDoorOpen /></button>
-              </form>
-            <form class="d-flex"  action="/register">
-                <button class="btn btn-outline-primary" type="submit"><BIconPersonLinesFill/></button>
+            <form method="post" class="d-flex" action="/login">
+              <input v-model="viewData.lastEmail" v-if="viewData.lastEmail" class="fo
+              rm-control me-2" placeholder="no last" type="email" name="email" id="inputEmail" autocomplete="email" required autofocus>
+               <input v-else class="form-control me-2" placeholder="last" type="email" name="email" id="inputEmail" autocomplete="email" required autofocus>
+              <input class="form-control me-2" placeholder="password" type="password" name="password" id="inputPassword" autocomplete="current-password" required>
+              <input v-model="token" type="hidden" name="_csrf_token" id="csrf_token" required>
+              <button class="btn btn-outline-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Login" type="submit"><BIconDoorOpen /></button>
+              &nbsp;&nbsp;
+              <button class="btn btn-outline-primary" title="Register" type="button" @click="showRegister" v-if="!registerForm"><BIconPersonLinesFill /> </button>
+              <button class="btn btn-danger" title="Back" type="button" @click="showRegister" v-else><BIconBackspace /></button>
             </form>
           </span>
         </div>
       </div>
     </nav>
-    <carousel/>
+    <div id="view-show" ref="viewShow">
+      <register v-if="registerForm"/>
+      <carousel v-else/>
+    </div>
+
   </div>
   <!-- Navbar -->
 </template>
 <script>
+import register from "./register";
+import { Modal } from "bootstrap";
+import modal from "./components/modal";
 import carousel from "./components/carousel";
 export default {
   name: "homepage",
   data() {
     return {
-      form:{
-        email: '',
-        password: '',
-        _csrf_token: ''
-      },
-      user : ''
+      token: '',
+      viewData: '',
+      registerForm: false,
+      modal: ''
     }
   },
   components:{
-    carousel
+    carousel,
+    register,
+    modal
   },
   mounted(){
-    this.form._csrf_token = document.getElementById("app").getAttribute('token')
-    this.user = document.getElementById("app").getAttribute('user')
+    this.token = document.getElementById("app").getAttribute('token')
+    this.viewData = JSON.parse(document.getElementById("app").getAttribute('data-view'))
+    this.modal = new Modal(document.getElementById('generalModal'), {})
+    if(this.viewData.error != null){
+
+      this.getModal(this.viewData.error === 'Bad credentials.' ? 'Email doesnt exists': this.viewData.error)
+    }
   },
   methods: {
-    login(e){
-      e.preventDefault()
-      this.axios.post('/login',this.form, {
-        withCredentials: true,
-      }).then((res) => {
-        //const status = JSON.parse(res.data.response.status)
-        console.log(Object.values(res.data.error))
-      })
+     showRegister(){
+       this.registerForm = !this.registerForm
+    },
+    getModal(msg){
+       document.getElementById('modalBody').innerHTML = msg
+       this.modal.show();
     },
     myGetReq (){
       this.axios.get(
