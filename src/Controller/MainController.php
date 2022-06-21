@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,17 +25,18 @@ class MainController extends AbstractController
         $normalizer = [new ObjectNormalizer()];
         $this->serializer =  new Serializer($normalizer, $encoders);
     }
+
     /**
      * @return Response
+     * @throws JsonException
      */
     #[Route('', name: 'main')]
     public function index(): Response
     {
         return $this->render('main/index.html.twig', [
             'toView' => $this->serializer->serialize(json_decode(json_encode(array(
-                'user' => $this->getUser() != null ? $this->getUser()->getUserIdentifier():null,
-                'role' => $this->getUser() != null ? $this->getUser()->getRoles():null)),
-                FALSE),
+                'user' => $this->getUser() !== null ? $this->getUser()->getUserIdentifier() : null,
+                'role' => $this->getUser() !== null ? $this->getUser()->getRoles() : null), JSON_THROW_ON_ERROR), FALSE, 512, JSON_THROW_ON_ERROR),
                 'json')
         ]);
     }
@@ -62,11 +64,11 @@ class MainController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    #[Route('/json', name: 'json', methods: ['GET', 'POST'])]
+    #[Route('/json', name: 'json', methods: ['POST'])]
     public function jsonMsg(Request $request): JsonResponse
     {
-        dump($request);
         $getVar = $request->get('testVar');
+        dump($request->query->all());
         $sendVar = 'The Variable is :'. $getVar;
         return new JsonResponse(array('testData' => $sendVar));
     }

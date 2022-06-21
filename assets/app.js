@@ -14,10 +14,10 @@ import VueAxios from 'vue-axios'
 import './styles/app.css';
 
 // start the Stimulus application
-import './bootstrap';
+import * as bootstrap from './bootstrap';
 const app = createApp(homepage)
-app.use(VueAxios)
-app.use(BootstrapIconsPlugin);
+app.use(VueAxios, axios)
+app.use(BootstrapIconsPlugin, bootstrap);
 app.config.globalProperties.axios=axios
 app.mount('#app')
 import "bootstrap/dist/js/bootstrap.js"
