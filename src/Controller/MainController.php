@@ -20,8 +20,9 @@ class MainController extends AbstractController
     #[Route('', name: 'main')]
     public function index(): Response
     {
+        $user = $this->getUser();
         return $this->render('main/index.html.twig', [
-            'controller_name' => 'MainController',
+            'user' => $user,
         ]);
     }
 

@@ -2,7 +2,7 @@
   <div id="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">N</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -29,11 +29,22 @@
               <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
             </li>-->
           </ul>
-          <span class="d-flex">
-            <input class="form-control me-2" placeholder="username" type="email" value="" name="email" id="inputEmail" autocomplete="email" required autofocus>
-            <input class="form-control me-2" placeholder="password" type="password" name="password" id="inputPassword" autocomplete="current-password" required>
-            <input type="hidden" v-bind:value="token" name="_csrf_token" id="csrf_token" required>
-            <button class="btn btn-outline-success" @click="login">login</button>
+          <span v-if="user">
+            <form action="/logout" class="d-flex">
+              <span>{{ user }}</span>&nbsp;&nbsp;&nbsp;
+              <button class="btn btn-outline-danger" type="submit"><BIconDoorClosed /></button>
+            </form>
+          </span>
+          <span class="d-flex"  v-else>
+              <form method="post" class="d-flex" action="/login">
+                <input v-model="form.email" class="form-control me-2" placeholder="username" type="email" name="email" id="inputEmail" autocomplete="email" required autofocus>
+                <input v-model="form.password" class="form-control me-2" placeholder="password" type="password" name="password" id="inputPassword" autocomplete="current-password" required>
+                <input v-model="form._csrf_token" type="hidden" name="_csrf_token" id="csrf_token" required>
+                <button class="btn btn-outline-success" type="submit"><BIconDoorOpen /></button>
+              </form>
+            <form class="d-flex"  action="/register">
+                <button class="btn btn-outline-primary" type="submit"><BIconPersonLinesFill/></button>
+            </form>
           </span>
         </div>
       </div>
@@ -48,25 +59,29 @@ export default {
   name: "homepage",
   data() {
     return {
-      token: ''
+      form:{
+        email: '',
+        password: '',
+        _csrf_token: ''
+      },
+      user : ''
     }
   },
   components:{
     carousel
   },
   mounted(){
-    this.token = document.getElementById("app").getAttribute('token')
+    this.form._csrf_token = document.getElementById("app").getAttribute('token')
+    this.user = document.getElementById("app").getAttribute('user')
   },
   methods: {
-    login(){
-      this.axios.get('/login',{
-        params: {
-          email: document.getElementById('inputEmail').value,
-          password: document.getElementById('inputPassword').value,
-          _csrf_token: document.getElementById('csrf_token').value
-        }
+    login(e){
+      e.preventDefault()
+      this.axios.post('/login',this.form, {
+        withCredentials: true,
       }).then((res) => {
-        console.log(res.data)
+        //const status = JSON.parse(res.data.response.status)
+        console.log(Object.values(res.data.error))
       })
     },
     myGetReq (){
@@ -109,7 +124,7 @@ export default {
       });
     },
     myToken(){
-      console.log(this.token)
+      console.log(this.form._csrf_token)
     }
   }
 }

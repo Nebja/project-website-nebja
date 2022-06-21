@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
+{% block title %}Homepage!{% endblock %}
 
 {% block body %}
-    <div id="app" token="{{ csrf_token('authenticate') }}" ></div>
+    <div id="app" token="{{ csrf_token('authenticate') }}"
+            {% if user.email is defined %}
+                user="{{ user.email }}"
+            {% endif %}
+    ></div>
 {% endblock %}
