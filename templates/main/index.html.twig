@@ -1,20 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
+{% block title %}Homepage!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/symfonyApp.eu.localnet/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/symfonyApp.eu.localnet/templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
-    </ul>
-</div>
+    {{ dump(toView) }}
+    {% if last_username is defined %}
+        {{ dump(last_username) }}
+    {% endif %}
+    <div id="app" token="{{ csrf_token('authenticate') }}"
+            data-view="{{ toView }}"
+            {% if user.email is defined %}
+                user="{{ user.email }}"
+            {% endif %}
+            {% if error.messageKey is defined %}
+                error="{{ error.messageKey|trans(error.messageData, 'security') }}"
+            {% endif %}
+    ></div>
 {% endblock %}
