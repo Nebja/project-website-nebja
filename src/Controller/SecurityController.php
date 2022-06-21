@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,9 @@ class SecurityController extends AbstractController
         $this->serializer =  new Serializer($normalizer, $encoders);
     }
 
+    /**
+     * @throws JsonException
+     */
     #[Route('/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils , Request $request ): Response
     {
@@ -30,11 +34,9 @@ class SecurityController extends AbstractController
         }
         $error = $authenticationUtils->getLastAuthenticationError();
         return $this->render('main/index.html.twig',[
-            'toView' => $this->serializer->serialize(json_decode(json_encode(array(
+            'toView' => $this->serializer->serialize(array(
                 'lastEmail' => $authenticationUtils->getLastUsername(),
-                'error' => $error?->getMessage())),
-                FALSE),
-                'json')
+                'error' => $error?->getMessage()), 'json')
         ]);
     }
     #[Route(path: '/logout', name: 'app_logout')]

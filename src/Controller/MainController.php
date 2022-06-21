@@ -28,15 +28,14 @@ class MainController extends AbstractController
 
     /**
      * @return Response
-     * @throws JsonException
      */
     #[Route('', name: 'main')]
     public function index(): Response
     {
         return $this->render('main/index.html.twig', [
-            'toView' => $this->serializer->serialize(json_decode(json_encode(array(
+            'toView' => $this->serializer->serialize(array(
                 'user' => $this->getUser() !== null ? $this->getUser()->getUserIdentifier() : null,
-                'role' => $this->getUser() !== null ? $this->getUser()->getRoles() : null), JSON_THROW_ON_ERROR), FALSE, 512, JSON_THROW_ON_ERROR),
+                'role' => $this->getUser() !== null ? $this->getUser()->getRoles() : null),
                 'json')
         ]);
     }
