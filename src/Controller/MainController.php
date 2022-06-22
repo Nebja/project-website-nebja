@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use JsonException;
+use App\Repository\VideosRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,13 +33,29 @@ class MainController extends AbstractController
     public function index(): Response
     {
         return $this->render('main/index.html.twig', [
+            'page' => 'app' ,
             'toView' => $this->serializer->serialize(array(
                 'user' => $this->getUser() !== null ? $this->getUser()->getUserIdentifier() : null,
-                'role' => $this->getUser() !== null ? $this->getUser()->getRoles() : null),
-                'json')
+                'role' => $this->getUser() !== null ? $this->getUser()->getRoles() : null
+            ),'json')
         ]);
     }
 
+    /**
+     * @param int $id
+     * @param VideosRepository $video
+     * @return Response
+     */
+    #[Route('/movies/{id}', name: 'movies')]
+    public function movies(int $id, VideosRepository $video): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_FRIEND');
+
+        return $this->render('main/index.html.twig', [
+            'page' => 'videos',
+            'video' => $this->serializer->serialize($video->find($id), 'json')
+        ]);
+    }
 
     /**
      * @param MailerInterface $mailer

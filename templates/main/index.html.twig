@@ -3,17 +3,11 @@
 {% block title %}Homepage!{% endblock %}
 
 {% block body %}
-    {{ dump(toView) }}
-    {% if last_username is defined %}
-        {{ dump(last_username) }}
+    {% if page is same as('app')%}
+        {{ dump(toView) }}
+        <div id="app" token="{{ csrf_token('authenticate') }}" data-view="{{ toView }}"></div>
+    {% else %}
+        {{ dump(video) }}
+        <div id="video" data-video="{{ video }}"></div>
     {% endif %}
-    <div id="app" token="{{ csrf_token('authenticate') }}"
-            data-view="{{ toView }}"
-            {% if user.email is defined %}
-                user="{{ user.email }}"
-            {% endif %}
-            {% if error.messageKey is defined %}
-                error="{{ error.messageKey|trans(error.messageData, 'security') }}"
-            {% endif %}
-    ></div>
 {% endblock %}

@@ -10,6 +10,8 @@ import { BootstrapIconsPlugin } from 'bootstrap-icons-vue';
 import homepage from './vue-templates/main'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VuePlyr from 'vue-plyr'
+import 'vue-plyr/dist/vue-plyr.css'
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 
@@ -17,6 +19,7 @@ import './styles/app.css';
 import * as bootstrap from './bootstrap';
 const app = createApp(homepage)
 app.use(VueAxios, axios)
+app.use(VuePlyr)
 app.use(BootstrapIconsPlugin, bootstrap);
 app.config.globalProperties.axios=axios
 app.mount('#app')
