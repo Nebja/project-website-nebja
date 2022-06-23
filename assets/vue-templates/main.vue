@@ -6,9 +6,9 @@
         :token="token"
     />
     <div id="view-show" ref="viewShow">
-      <register v-if="registerForm"/>
-      <carousel v-if="homePage" />
-      <movies v-if="moviesPage"/>
+      <register v-if="page==='registerLink'" @getModal="getModal"/>
+      <carousel v-if="page==='homeLink'" />
+      <movies v-if="page==='moviesLink'"/>
     </div>
 
   </div>
@@ -28,9 +28,7 @@ export default {
     return {
       token: '',
       viewData: '',
-      registerForm: false,
-      moviesPage: false,
-      homePage: true,
+      page: 'homeLink',
       modal: ''
     }
   },
@@ -46,7 +44,7 @@ export default {
     this.viewData = JSON.parse(document.getElementById("app").getAttribute('data-view'))
     this.modal = new Modal(document.getElementById('generalModal'), {})
     if(this.viewData.error != null){
-      this.getModal(this.viewData.error === 'Bad credentials.' ? 'Email doesnt exists': this.viewData.error)
+      this.getModal('Login Error',this.viewData.error === 'Bad credentials.' ? 'Email doesnt exists': this.viewData.error)
     }
     this.refreshTooltip()
   },
@@ -62,7 +60,8 @@ export default {
       })
     })
   },
-    getModal(msg){
+    getModal(title, msg){
+      document.getElementById('modalTitle').innerHTML = title
       document.getElementById('modalBody').innerHTML = msg
       this.modal.show();
     },

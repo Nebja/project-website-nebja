@@ -4,10 +4,10 @@
 
 {% block body %}
     {% if page is same as('app')%}
-        {{ dump(toView) }}
-        <div id="app" token="{{ csrf_token('authenticate') }}" data-view="{{ toView }}"></div>
+<!--        {{ dump(toView) }}-->
+        <div class="container-fluid" id="app" token="{{ csrf_token('authenticate') }}" data-view="{{ toView }}"></div>
     {% else %}
-        {{ dump(video) }}
+<!--        {{ dump(video) }}-->
         <div id="video" data-video="{{ video }}"></div>
     {% endif %}
 {% endblock %}

@@ -1,8 +1,19 @@
 body{
     background-color: #B0413E;
-    padding:50px;
 }
 .navbar-nav .active {
     border-bottom: 1px solid rgba(0, 0, 0, 0.55);
 }
-
+.container-fluid{
+    padding-right: 0.2rem;
+    padding-left: 0.1rem;
+}
+.btn-round{
+    border-radius: 50%;
+}
+.no-padding{
+    padding: 0;
+}
+.padding-sm {
+    padding: 0.5rem;
+}

@@ -1,8 +1,8 @@
 <template>
-  <div id="page-container">
-    <div id="movies-container" class="d-flex align-items-start">
-      <movie-label v-for="movie in this.movies" :id="movie.id" :name="movie.name" :poster="movie.imgPoster"/>
-    </div>
+  <div id="page-container" class="flex-column">
+    <div  id="movies-container" class="row">
+      <div class="col-sm-3"><movie-label v-for="movie in this.movies" :id="movie.id" :name="movie.name" :poster="movie.imgPoster"/></div>
+    </div >
   </div>
 </template>
 
