@@ -4,6 +4,9 @@ body{
 .navbar-nav .active {
     border-bottom: 1px solid rgba(0, 0, 0, 0.55);
 }
+.navbar-nav li{
+    padding-left: 4px;
+}
 .container-fluid{
     padding-right: 0.2rem;
     padding-left: 0.1rem;
@@ -11,9 +14,21 @@ body{
 .btn-round{
     border-radius: 50%;
 }
+.btn-borderless {
+    border: 0;
+}
 .no-padding{
     padding: 0;
 }
 .padding-sm {
     padding: 0.5rem;
+}
+.nav-item-zoom{
+    transition: all .4s ease-in-out;
+}
+.nav-item-zoom:hover{
+    transform: scale(2);
+}
+#loginForm{
+    width: 0;
 }
