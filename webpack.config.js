@@ -70,7 +70,7 @@ Encore
         vue$: 'vue/dist/vue.esm-bundler',
     })
     // enables Sass/SCSS support
-    //.enableSassLoader()
+    .enableSassLoader()
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()

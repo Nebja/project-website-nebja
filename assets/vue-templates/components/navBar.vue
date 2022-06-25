@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light no-padding" >
+  <nav class="navbar navbar-expand-lg navbar-light no-padding glowing" >
     <div class="container-fluid moveArea padding-sm">
       <a class="navbar-brand" href="#">N</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,7 +10,7 @@
           <li class="nav-item">
             <a :class="this.$parent.page==='homeLink'?'nav-link active':'nav-link'" data-bs-toggle="tooltip" data-bs-placement="top" title="Home" id="homeLink" aria-current="page" href="#" @click="showPage('homeLink')"><BIconHouseDoor class="nav-item-zoom"/></a>
           </li>
-          <li class="nav-item" v-if="checkRoles(viewData.role)">
+          <li class="nav-item" v-if="this.rolesDump?.includes('ROLE_FRIEND')">
             <a :class="this.$parent.page==='moviesLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Movies" id="moviesLink" @click="showPage('moviesLink')"><BIconFilm class="nav-item-zoom"/></a>
           </li>
           <li class="nav-item dropdown">
@@ -25,11 +25,11 @@
             </ul>
           </li>
         </ul>
-        <a href="#" class="nav-link nav-item-zoom" data-bs-toggle="tooltip" data-bs-placement="top" title="Login" id="loginFormBtn" @click="loginAnimation($event)"><BIconBoxArrowInLeft/></a>
+        <a href="#" class="nav-link nav-item-zoom links" data-bs-toggle="tooltip" data-bs-placement="top" title="Login" id="loginFormBtn" @click="loginAnimation($event)"><BIconBoxArrowInLeft/></a>
         <span class="d-flex" id="loginPanel" v-if="viewData.user" >
-            <form id="loginForm" action="/logout" class="d-flex">
-              <span>{{ viewData.user }}</span>&nbsp;&nbsp;&nbsp;
-              <button class="btn btn-outline-danger"  data-bs-toggle="tooltip" data-bs-placement="top" title="Logout" type="submit"><BIconDoorClosed /></button>
+            <form id="loginForm" action="/logout" class="d-flex logged">
+              <button class="btn btn-outline-danger"  data-bs-toggle="tooltip" data-bs-placement="top" title="Logout" type="submit"><BIconDoorClosed /></button>&nbsp;&nbsp;
+               <span>{{ viewData.user }}</span>&nbsp;&nbsp;&nbsp;
             </form>
           </span>
         <span class="d-flex" id="loginPanel"  v-else>
@@ -60,31 +60,29 @@ export default {
   data(){
     return {
       x:0,
+      rolesDump: '',
       animator: new animator()
     }
+  },
+  updated() {
+    this.rolesDump = this.viewData['role']
   },
   methods: {
     showPage(page){
       Tooltip.getOrCreateInstance(document.getElementById(page)).hide()
       this.$parent.page = page
     },
-    checkRoles(roles){
-      let access = false;
-      roles?.forEach((role) =>{
-        if (role === 'ROLE_FRIEND') access = true
-      })
-      return access
-    },
     loginAnimation(el){
       this.animator.changeEl(document.getElementById('loginForm'))
-      this.animator.width('562px')
+      let width = this.viewData.user ? '310px' : '562px'
+      this.animator.width('5px',width)
       this.animator.changeEl(el.target)
-      this.animator.rotate('180')
+      this.animator.rotate('0','-180')
     }
   }
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+@import "./assets/styles/scss/custom.scss";
 </style>

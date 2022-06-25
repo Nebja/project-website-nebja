@@ -1,18 +1,20 @@
 <template>
-  <div id="container">
+  <div class="container-fluid justify-content-center">
     <modal/>
     <navBar
         :viewData="viewData"
         :token="token"
     />
     <div id="view-show" ref="viewShow">
-      <register v-if="page==='registerLink'" @getModal="getModal"/>
-      <carousel v-if="page==='homeLink'" />
-      <movies v-if="page==='moviesLink'"/>
+
+      <Transition name="fade">
+        <register v-if="page==='registerLink'" @getModal="getModal" class="box"/>
+        <carousel v-else-if="page==='homeLink'" class="box"/>
+        <movies v-else-if="page==='moviesLink'" class="box"/>
+      </Transition>
     </div>
 
   </div>
-  <!-- Navbar -->
 </template>
 <script>
 import register from "./register";
@@ -26,6 +28,7 @@ export default {
   name: "homepage",
   data() {
     return {
+      show: true,
       token: '',
       viewData: '',
       page: 'homeLink',
@@ -68,5 +71,6 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+@import "./assets/styles/scss/custom.scss";
 </style>

@@ -14,25 +14,22 @@ export default class animator {
     changeCon(object) {
         this.con = object
     }
-    width(end){
-        let startPoint = this.el.offsetWidth, endPoint = '0'
-        console.log(this.el.offsetWidth)
-        if (this.el.offsetWidth === 0) {
-            startPoint = '0'
+    width(start, end){
+        let startPoint = this.el.offsetWidth, endPoint = start
+        if (this.el.offsetWidth === parseInt(start.replace(/\D/g,''))) {
+            startPoint = start
             endPoint = end
         }
             this.el.animate([{width: startPoint}, {width: endPoint}], this.con)
     }
-    rotate(value){
-        let start = '0', end = value;
+    rotate(start, end){
+        let startPoint = start, endPoint = end;
         if (this.rotated){
-            start = value
-            end = '0'
-            this.rotated = false;
-        }else {
-            this.rotated = true;
+            startPoint = end
+            endPoint = start
         }
-        this.el.animate([{transform: 'rotate('+start+'deg)'},{transform: 'rotate('+end+'deg)'}], this.con)
+        this.rotated = !this.rotated;
+        this.el.animate([{transform: 'rotate('+startPoint+'deg)'},{transform: 'rotate('+endPoint+'deg)'}], this.con)
     }
     scale(value){
          this.el.animate([{transform: 'scale(1)'},{transform: 'scale('+value+')'}], this.con)
