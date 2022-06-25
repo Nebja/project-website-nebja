@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -22,19 +20,22 @@ class SecurityController extends AbstractController
         $this->serializer =  new Serializer($normalizer, $encoders);
     }
 
+    /**
+     * @param AuthenticationUtils $authenticationUtils
+     * @return Response
+     */
     #[Route('/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils , Request $request ): Response
+    public function login(AuthenticationUtils $authenticationUtils ): Response
     {
         if ($this->getUser()) {
-            return new JsonResponse(array('user' => $this->getUser()));
+            return $this->redirectToRoute('app_main');
         }
         $error = $authenticationUtils->getLastAuthenticationError();
         return $this->render('main/index.html.twig',[
-            'toView' => $this->serializer->serialize(json_decode(json_encode(array(
+            'page' => 'app' ,
+            'toView' => $this->serializer->serialize(array(
                 'lastEmail' => $authenticationUtils->getLastUsername(),
-                'error' => $error?->getMessage())),
-                FALSE),
-                'json')
+                'error' => $error?->getMessage()), 'json')
         ]);
     }
     #[Route(path: '/logout', name: 'app_logout')]

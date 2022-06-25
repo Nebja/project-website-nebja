@@ -6,11 +6,19 @@
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         <base href="/">
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
+            {% if page is same as('app')%}
+                {{ encore_entry_link_tags('app') }}
+            {% else %}
+                {{ encore_entry_link_tags('video') }}
+            {% endif %}
         {% endblock %}
 
         {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+            {% if page is same as('app')%}
+                {{ encore_entry_script_tags('app') }}
+            {% else %}
+                {{ encore_entry_script_tags('video') }}
+            {% endif %}
         {% endblock %}
     </head>
     <body>
