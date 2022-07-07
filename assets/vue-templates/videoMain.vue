@@ -1,8 +1,6 @@
 <template>
-  <div class="container-sm px-5">
-    <form class="row mb-3" action="/">
-      <button type="submit" class="btn btn-danger">Exit</button>
-    </form>
+  <br/><br/><br/>
+  <div class="container-sm px-5 align-middle">
     <div class="row mb-3">
       <vue-plyr ref="plyr" :options="options">
         <video
@@ -10,6 +8,7 @@
             crossorigin
             playsinline
             :data-poster="'/img/'+video.imgPoster"
+            data-plyr='{ "title": "Example Title", "settings": ["captions", "quality", "speed", "loop"] }'
         >
   <!--        <source
               size="720"
@@ -24,9 +23,9 @@
           <track v-if="subs(video['subsFile'])"
               default
               kind="captions"
-              label="English captions"
-              :src="video['subsFile']"
-              srclang="en"
+              label="Ελληνικά"
+              :src="'/subs/'+video['subsFile']"
+              srclang="el"
           />
         </video>
       </vue-plyr>
@@ -50,10 +49,7 @@ export default {
   },
   methods: {
     subs(sub){
-      return sub !== 'no';
-    },
-    closeTab(){
-      window.close
+      return sub !== 'generic.vtt';
     }
   }
 }

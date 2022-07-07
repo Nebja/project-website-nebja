@@ -1,7 +1,6 @@
 <template>
-  <div>
+  <div class="movies-label">
 <!--  <input type="text" :value="movies.name" @input="update('name', $event.target.value)">-->
-  <h1>{{ name }}</h1>
     <a :href="'/movies/'+id"  target="_blank"><img :src="'/img/'+poster" alt="" class="w-25 p-3" /> </a>
   </div>
 </template>

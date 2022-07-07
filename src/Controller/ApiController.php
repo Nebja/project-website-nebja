@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\VideosRepository;
+use App\Service\Helper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,17 +16,19 @@ use Symfony\Component\Serializer\Serializer;
 class ApiController extends AbstractController
 {
     private Serializer $serializer;
-
-    public function __construct (){
+    private Helper $helper;
+    public function __construct (Helper $helper){
         $encoders = [new JsonEncoder()];
         $normalizer = [new ObjectNormalizer()];
         $this->serializer =  new Serializer($normalizer, $encoders);
+        $this->helper = $helper;
+
     }
     #[Route('/movies', name: 'movies')]
     public function movies(VideosRepository $videos): Response
     {
         $this->denyAccessUnlessGranted('ROLE_FRIEND');
-
+        $this->helper->addNewMovieFiles($this->getParameter('kernel.project_dir'));
         return new JsonResponse(array('toView' => $this->serializer->serialize(array('movies' => $videos->findAll()), 'json')));
     }
 }

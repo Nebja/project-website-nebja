@@ -1,19 +1,17 @@
 <template>
   <div class="container-fluid justify-content-center">
-    <modal/>
     <navBar
         :viewData="viewData"
         :token="token"
     />
     <div id="view-show" ref="viewShow">
-
       <Transition name="fade">
         <register v-if="page==='registerLink'" @getModal="getModal" class="box"/>
         <carousel v-else-if="page==='homeLink'" class="box"/>
         <movies v-else-if="page==='moviesLink'" class="box"/>
+        <admin v-else-if="page==='adminLink'" class="box"/>
       </Transition>
     </div>
-
   </div>
 </template>
 <script>
@@ -21,9 +19,9 @@ import register from "./register";
 import Modal from "bootstrap/js/src/modal";
 import Tooltip from  'bootstrap/js/src/tooltip'
 import navBar from "./components/navBar";
-import modal from "./components/modal";
 import carousel from "./components/carousel";
 import movies from "./movies";
+import admin from "./admin"
 export default {
   name: "homepage",
   data() {
@@ -32,24 +30,24 @@ export default {
       token: '',
       viewData: '',
       page: 'homeLink',
-      modal: ''
+      smallScreen: ''
     }
   },
   components:{
     carousel,
     register,
-    modal,
     movies,
-    navBar
+    navBar,
+    admin
   },
   mounted(){
     this.token = document.getElementById("app").getAttribute('token')
     this.viewData = JSON.parse(document.getElementById("app").getAttribute('data-view'))
-    this.modal = new Modal(document.getElementById('generalModal'), {})
     if(this.viewData.error != null){
-      this.getModal('Login Error',this.viewData.error === 'Bad credentials.' ? 'Email doesnt exists': this.viewData.error)
+      this.getModal('Login Error',this.viewData.error === 'Bad credentials.' ? 'Email doesnt exists': this.viewData.error, 'generalModal')
     }
     this.refreshTooltip()
+    this.smallScreen = window.innerWidth <= 1000
   },
   updated() {
     this.refreshTooltip()
@@ -63,14 +61,18 @@ export default {
       })
     })
   },
-    getModal(title, msg){
-      document.getElementById('modalTitle').innerHTML = title
-      document.getElementById('modalBody').innerHTML = msg
-      this.modal.show();
+    getModal(title, msg, name){
+      let modal = new Modal(document.getElementById(name), {})
+      if(name !== 'loginModal'){
+        document.getElementById(name+'Title').innerHTML = title
+        document.getElementById(name+'Body').innerHTML = msg
+      }
+      modal.show();
     },
   }
 }
 </script>
 <style lang="scss" scoped>
+@import "./assets/styles/app-mobile.scss";
 @import "./assets/styles/scss/custom.scss";
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div id="page-container" class="flex-column">
     <div  id="movies-container" class="row">
-      <div class="col-sm-3"><movie-label v-for="movie in this.movies" :id="movie.id" :name="movie.name" :poster="movie.imgPoster"/></div>
+      <div class="col-lg-auto"><movie-label v-for="movie in this.movies" :id="movie.id" :name="movie.name" :poster="movie.imgPoster"/></div>
     </div >
   </div>
 </template>
