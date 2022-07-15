@@ -10,6 +10,9 @@
         <carousel v-else-if="page==='homeLink'" class="box"/>
         <movies v-else-if="page==='moviesLink'" class="box"/>
         <admin v-else-if="page==='adminLink'" class="box"/>
+        <test v-else-if="page==='testLink'" class="box"/>
+        <Contact v-else-if="page==='contactLink'" class="box"/>
+        <About v-else-if="page==='aboutLink'" class="box"/>
       </Transition>
     </div>
   </div>
@@ -22,6 +25,9 @@ import navBar from "./components/navBar";
 import carousel from "./components/carousel";
 import movies from "./movies";
 import admin from "./admin"
+import test from "./test"
+import Contact from "./Contact";
+import About from "./About";
 export default {
   name: "homepage",
   data() {
@@ -34,11 +40,14 @@ export default {
     }
   },
   components:{
+    About,
+    Contact,
     carousel,
     register,
     movies,
     navBar,
-    admin
+    admin,
+    test
   },
   mounted(){
     this.token = document.getElementById("app").getAttribute('token')

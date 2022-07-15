@@ -31,4 +31,16 @@ class ApiController extends AbstractController
         $this->helper->addNewMovieFiles($this->getParameter('kernel.project_dir'));
         return new JsonResponse(array('toView' => $this->serializer->serialize(array('movies' => $videos->findAll()), 'json')));
     }
+    /**
+     * @param int $id
+     * @param VideosRepository $video
+     * @return Response
+     */
+    #[Route('/images', name: 'images')]
+    public function images(): Response
+    {
+        dump('images');
+        $images = $this->helper->getCarouselImages($this->getParameter('kernel.project_dir'));
+        return new JsonResponse(array('images' => $images));
+    }
 }

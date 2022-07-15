@@ -14,7 +14,7 @@ class UploadFilesService {
             onUploadProgress
         });
     }
-    getFiles(path) {
+    getFiles() {
         return axios.get("/admin/files");
     }
     deleteFile(file, folder){
@@ -25,5 +25,9 @@ class UploadFilesService {
             }
         })
     }
+    chunkUpload(){
+
+    }
+
 }
 export default new UploadFilesService();

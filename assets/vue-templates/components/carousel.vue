@@ -1,30 +1,12 @@
 <template>
   <div id="carouselExampleDark" class="carousel carousel-fade slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button  v-for="(images, index) in images" type="button" data-bs-target="#carouselExampleDark" :data-bs-slide-to="index" :class="index !== 0 ? '':'active'" :aria-current="index !== 0 ?'':'true'" :aria-label="'Slide '+index"></button>
     </div>
     <div class="carousel-inner">
-      <div class="carousel-item active" data-bs-interval="10000">
-        <img src="../../img/4.jpg" class="d-block w-100" alt="...">
+      <div v-for="(image, index) in images" :class="index !== 0 ?'carousel-item ':'carousel-item active'" data-bs-interval="10000">
+        <img :src="'/img/carousel/'+image" class="d-block" alt="...">
         <div class="carousel-caption d-none d-md-block">
-          <h5>First slide label</h5>
-          <p>Some representative placeholder content for the first slide.</p>
-        </div>
-      </div>
-      <div class="carousel-item" data-bs-interval="2000">
-        <img src="../../img/3.jpg" class="d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
-          <h5>Second slide label</h5>
-          <p>Some representative placeholder content for the second slide.</p>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img src="../../img/5.jpg" class="d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
-          <h5>Third slide label</h5>
-          <p>Some representative placeholder content for the third slide.</p>
         </div>
       </div>
     </div>
@@ -40,8 +22,25 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  name: "carousel"
+  name: "carousel",
+  data(){
+    return {
+      images: ''
+    }
+  },
+  beforeMount() {
+    this.getImages();
+  },
+  methods: {
+    getImages(){
+      axios.get('/api/images').then(res => {
+        this.images = res.data.images
+        console.log(this.images)
+      })
+    }
+  }
 }
 </script>
 

@@ -3,6 +3,13 @@
         background: url("../../public/img/bg1.jpg") no-repeat center center;
         background-size: cover;
     }
+    .logo{
+        width: 70px;
+    }
+    .navbar-nav{
+        width: 100%;
+        justify-content: center;
+    }
     #video{
         top: 100px;
     }

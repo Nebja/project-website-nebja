@@ -122,7 +122,7 @@ export default {
       UploadService.deleteFile(filepath).then(response => {
         this.error = !!response.data.error
         this.message = response.data.message
-        return UploadService.getFiles('img')
+        return UploadService.getFiles()
       }).then(files => {
           this.fileInfos = files.data
       })

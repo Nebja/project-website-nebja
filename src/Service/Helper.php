@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class Helper
 {
@@ -34,6 +35,19 @@ class Helper
         $this->removeVideosFromDB($this->doc->getRepository(Videos::class), $videosArray);
     }
 
+    /**
+     * @param $path
+     * @return array
+     */
+    public function getCarouselImages ($path){
+        $array = array();
+        $finder = new Finder();
+        $finder->files()->in($path.'/public/img/carousel')->exclude('backup');
+        foreach ($finder as $img){
+            $array[] = $img->getRelativePathname();
+        }
+        return $array;
+    }
     /**
      * @param VideosRepository $videosRepository
      * @param String $path
@@ -71,6 +85,7 @@ class Helper
 
         return $array;
     }
+
 
     /**
      * @param VideosRepository $videosRepository
