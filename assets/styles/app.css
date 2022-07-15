@@ -2,9 +2,16 @@
     body {
         background: url("../../public/img/bg1.jpg") no-repeat center center;
         background-size: cover;
+        overflow: -moz-scrollbars-none;
+    }
+    body::-webkit-scrollbar{
+        width: 0 !important;
     }
     .logo{
         width: 70px;
+    }
+    .mw-50{
+        max-width: 50%;
     }
     .navbar-nav{
         width: 100%;
@@ -61,8 +68,9 @@
     }
 
     #view-show {
-        width: 80%;
+        width: 100%;
         margin: auto;
+        overflow: hidden;
     }
 
     #carouselExampleDark::after {
@@ -115,6 +123,9 @@
         background-color: rgba(167, 155, 255, 0.5);
     }
 }
+.text-shadow{
+    text-shadow: 1px 1px 2px black, 0 0 1em gray, 0 0 0.2em lightgray;
+}
 .box {
     position: absolute;
     width: inherit;
@@ -131,7 +142,7 @@
 
 .slide-up-enter-active,
 .slide-up-leave-active {
-    transition: all 0.25s ease-out;
+    transition: all 0.5s ease-out;
 }
 
 .slide-up-enter-from {

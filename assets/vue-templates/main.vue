@@ -1,10 +1,10 @@
 <template>
-  <div class="container-fluid justify-content-center">
+  <div class="container-fluid justify-content-center overflow-hidden">
     <navBar
         :viewData="viewData"
         :token="token"
     />
-    <div id="view-show" ref="viewShow">
+    <div id="view-show" ref="viewShow" class="overflow-hidden">
       <Transition name="fade">
         <register v-if="page==='registerLink'" @getModal="getModal" class="box"/>
         <carousel v-else-if="page==='homeLink'" class="box"/>
