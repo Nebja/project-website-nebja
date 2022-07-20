@@ -14,13 +14,12 @@
   transition: opacity .3s ease-in-out;
   border-radius: 10px;
 }
-
 .glowing:active {
   color: #000
 }
 
 .glowing:active:after {
-  background: transparent;
+  background: darkcyan;
 }
 
 .glowing:hover:before {

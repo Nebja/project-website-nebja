@@ -5,7 +5,7 @@
     </div>-->
     <div class="carousel-inner">
       <div v-for="(image, index) in images" :class="index !== 0 ?'carousel-item ':'carousel-item active'" data-bs-interval="3000">
-        <img :src="'/img/carousel/'+image" class="d-block m-auto w-25" alt="...">
+          <img :src="'/img/carousel/'+image" class="d-block m-auto w-25" alt="...">
         <div class="carousel-caption d-none d-md-block">
         </div>
       </div>
@@ -45,5 +45,7 @@ export default {
 </script>
 
 <style scoped>
-
+.my-atropos{
+  width: fit-content;
+}
 </style>

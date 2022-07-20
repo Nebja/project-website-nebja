@@ -12,6 +12,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VuePlyr from 'vue-plyr'
 import 'vue-plyr/dist/vue-plyr.css'
+import 'atropos/atropos.css'
 import LoginBox from './vue-templates/components/LoginBox'
 import modal from "./vue-templates/components/modal"
 // any CSS you import will output into a single css file (app.css in this case)

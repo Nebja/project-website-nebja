@@ -16,7 +16,7 @@
       Nevertheless i enjoy any programming language that i have to learn and that's why i am open to any future learning challenge i have to face.</p>
       <p class="card-text"><small class="text-muted text-white">Benjamin Kotsaridis Software Developer since 2005</small></p>
     </div>
-    <img src="/img/about/office.jpg" class="card-img-bottom w-50 auto m-auto" alt="...">
+    <img src="/img/about/office.jpg" class="card-img-bottom w-25 auto m-auto" alt="...">
   </div>
 </template>
 

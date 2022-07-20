@@ -1,6 +1,6 @@
 <template>
   <modal id="generalModal"/>
-  <nav class="navbar navbar-expand-lg navbar-light sticky-top no-padding glowing" v-if="!this.$parent.smallScreen">
+  <nav class="navbar fixed-top navbar-expand-lg no-padding navbar-light glowing" v-if="!this.$parent.smallScreen">
     <div class="container-fluid moveArea padding-sm">
       <img src="/img/logo_new.png" class="logo" alt="nebWeb">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

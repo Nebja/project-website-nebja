@@ -1,8 +1,22 @@
 @media only screen and (min-width: 1000px) {
     body {
-        background: url("../../public/img/bg1.jpg") no-repeat center center;
-        background-size: cover;
         overflow: -moz-scrollbars-none;
+    }
+    body:before{
+        content: '';
+        background: linear-gradient(45deg, #1a05ff, #29a9f2, #57bdf7, #87d0fa, #b1dffa, #87d0fa, #57bdf7, #29a9f2, #1a05ff);
+        position: absolute;
+        background-size: 400%;
+        filter: blur(5px);
+        width: calc(100% + 4px);
+        height: calc(100% + 4px);
+        animation: glowing 20s linear infinite;
+        transition: opacity .3s ease-in-out;
+    }
+    @keyframes body {
+        0% { background-position: 0 0; }
+        50% { background-position: 400% 0; }
+        100% { background-position: 0 0; }
     }
     body::-webkit-scrollbar{
         width: 0 !important;
@@ -16,6 +30,12 @@
     .navbar-nav{
         width: 100%;
         justify-content: center;
+    }
+    .navbar{
+        transition: 1s all ease;
+    }
+    .navbar:hover{
+        padding: 10px;
     }
     #video{
         top: 100px;
@@ -55,12 +75,13 @@
 
     .navbar {
         width: 100vh;
-        border-radius: 10px;
+        border-radius: 25px;
         background: rgba(255, 255, 255, 0.4);
         margin: 10px auto;
-        -webkit-box-shadow: -12px 8px 33px -7px rgba(0, 0, 0, 1);
-        -moz-box-shadow: -12px 8px 33px -7px rgba(0, 0, 0, 1);
-        box-shadow: -12px 8px 33px -7px rgba(0, 0, 0, 1);
+        z-index: 9;
+        -webkit-box-shadow: -12px 8px 15px -7px rgba(0, 0, 0, 1);
+        -moz-box-shadow: -12px 8px 15px -7px rgba(0, 0, 0, 1);
+        box-shadow: -12px 8px 15px -7px rgba(0, 0, 0, 1);
     }
 
     .logged {
@@ -71,6 +92,7 @@
         width: 100%;
         margin: auto;
         overflow: hidden;
+        margin-top: 3%;
     }
 
     #carouselExampleDark::after {
