@@ -7,7 +7,7 @@
     <div id="view-show" ref="viewShow" class="overflow-hidden">
       <Transition name="fade">
         <register v-if="page==='registerLink'" @getModal="getModal" class="box"/>
-        <carousel v-else-if="page==='homeLink'" class="box"/>
+        <parallax v-else-if="page==='homeLink'" class="box"/>
         <movies v-else-if="page==='moviesLink'" class="box"/>
         <admin v-else-if="page==='adminLink'" class="box"/>
         <test v-else-if="page==='testLink'" class="box"/>
@@ -19,10 +19,10 @@
 </template>
 <script>
 import register from "./register";
+import parallax from "./components/parallax"
 import Modal from "bootstrap/js/src/modal";
 import Tooltip from  'bootstrap/js/src/tooltip'
 import navBar from "./components/navBar";
-import carousel from "./components/carousel";
 import movies from "./movies";
 import admin from "./admin"
 import test from "./test"
@@ -42,11 +42,11 @@ export default {
   components:{
     About,
     Contact,
-    carousel,
     register,
     movies,
     navBar,
     admin,
+    parallax,
     test
   },
   mounted(){

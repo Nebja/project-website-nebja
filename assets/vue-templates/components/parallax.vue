@@ -17,7 +17,7 @@
     </div>
     <div class="section section-2" ref="third">
       <div class="box-parallax">
-        <h2>Coding Languanges</h2>
+        <h2>Coding Languages</h2>
         <img src="/img/carousel/13.png" class="images pos-right" alt="image">
         <img src="/img/carousel/10.png" class="images pos-left" alt="image">
       </div>
@@ -49,10 +49,7 @@ export default {
   },
   methods:{
     handleScroll(){
-      console.log(window.scrollY)
       const scrollY = window.scrollY
-      // decreases as user scrolls
-
       if (scrollY <= 1500){
         this.showDiv(this.first)
         this.hideDiv(this.second)
@@ -65,8 +62,7 @@ export default {
         this.showDiv(this.third)
       }
       const maxBackgroundSize = 120
-      const backgroundSize = scrollY / (maxBackgroundSize - 100) // increases as user scrolls
-      // zoom the background at a slower rate
+      const backgroundSize = scrollY / (maxBackgroundSize - 100)
       this.background.style.transform ='scale(' + (100 + backgroundSize * 0.4) / 100 + ')'
     },
     showDiv(elem){

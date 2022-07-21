@@ -1,6 +1,5 @@
 <template>
   <div class="movies-label">
-<!--  <input type="text" :value="movies.name" @input="update('name', $event.target.value)">-->
       <a :href="'/movies/'+id"  target="_blank">
           <img :src="'/img/'+poster" data-atropos-offset="-5" alt="" class="w-25 p-3" />
       </a>
@@ -20,7 +19,7 @@ export default {
 </script>
 
 <style scoped>
-.my-atropos {
-  width: fit-content;
+img{
+  width: 15% !important;
 }
 </style>

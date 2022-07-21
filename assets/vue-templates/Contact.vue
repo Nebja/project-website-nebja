@@ -70,7 +70,7 @@
           </form>
 
           <div class="text-center text-md-left">
-            <a class="btn btn-primary" onclick="document.getElementById('contact-form').submit();">Send</a>
+            <a class="btn btn-primary" @click="sendMsg">Send</a>
           </div>
           <div class="status"></div>
         </div>
@@ -103,7 +103,18 @@
 
 <script>
 export default {
-  name: "Contact"
+  name: "Contact",
+  methods:{
+    sendMsg(e){
+      e.preventDefault()
+      let fd = new FormData
+      fd.append('name',document.getElementById('name').value)
+      fd.append('email',document.getElementById('email').value)
+      fd.append('subject',document.getElementById('subject').value)
+      fd.append('message',document.getElementById('message').value)
+      this.axios.post('/api/sendEmail', fd).then((res) => {console.log(res.data)})
+    }
+  }
 }
 </script>
 

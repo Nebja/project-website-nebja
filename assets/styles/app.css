@@ -32,6 +32,8 @@
         justify-content: center;
     }
     .navbar{
+        width: 50%;
+        min-width: 845px;
         transition: 1s all ease;
     }
     .navbar:hover{

@@ -1,7 +1,7 @@
 <template>
   <div id="page-container" class="flex-column">
     <div  id="movies-container" class="row">
-      <div class="col-lg-auto">
+      <div class="col-lg-auto movies-box">
           <movie-label v-for="movie in this.movies" :id="movie.id" :name="movie.name" :poster="movie.imgPoster"/>
       </div>
     </div >
@@ -29,5 +29,9 @@ export default {
 </script>
 
 <style scoped>
-
+.movies-box{
+  width: 70%;
+  margin: auto;
+  padding-top: 20px;
+}
 </style>

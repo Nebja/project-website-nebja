@@ -39,7 +39,8 @@ class Helper
      * @param $path
      * @return array
      */
-    public function getCarouselImages ($path){
+    public function getCarouselImages ($path): array
+    {
         $array = array();
         $finder = new Finder();
         $finder->files()->in($path.'/public/img/carousel')->exclude('backup');
@@ -71,7 +72,7 @@ class Helper
                     ->setSubsFile($this->matchDbFileToExistingFile($path.'/public/subs', $filenameWithoutExtension, 'vtt'))
                     ->setVideoType('None');
                 $videosRepository->add($object, true);
-                $this->logger->info($fileNameWithExtension.' was added as Entry in Database at');
+                $this->logger->info($fileNameWithExtension.' was added as Entry in Database');
             }else{
                 $posterName = $file_exists[0]->getName();
                 $subsName = $file_exists[0]->getName();
@@ -82,7 +83,6 @@ class Helper
             }
             $array[] = $fileNameWithExtension;
         }
-
         return $array;
     }
 
