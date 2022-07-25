@@ -14,9 +14,10 @@
       I have used many languages in the past as i am Software developer since 2005 where i graduated from Institute of Professional training of Lagada. But as more businesses wanted to expand in the World Wide Web , i was drawn into PhP and Javascript .
       <br><br>
       Nevertheless i enjoy any programming language that i have to learn and that's why i am open to any future learning challenge i have to face.</p>
-      <p class="card-text"><small class="text-muted text-white">Benjamin Kotsaridis Software Developer since 2005</small></p>
+      <p><small class="text-muted text-white">Benjamin Kotsaridis Software Developer since 2005</small></p>
     </div>
     <img src="/img/about/office.jpg" class="card-img-bottom w-25 auto m-auto" alt="...">
+    <img class="background" ref="background" src="/img/bg/coding.jpg"  alt="bg"/>
   </div>
 </template>
 
@@ -27,5 +28,9 @@ export default {
 </script>
 
 <style scoped>
-
+.card-text{
+  background-color: rgba(0, 0, 0, 0.47);
+  padding: 30px;
+  border-radius: 25px;
+}
 </style>

@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\VideosRepository;
 use App\Service\Helper;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -44,18 +46,22 @@ class ApiController extends AbstractController
         $this->helper->addNewMovieFiles($this->getParameter('kernel.project_dir'));
         return new JsonResponse(array('toView' => 'added'));
     }
+
     /**
+     * @param ManagerRegistry $doc
      * @return Response
      */
-    #[Route('/images', name: 'images')]
-    public function images(): Response
+    #[Route('/getUserInfo', name: 'getUserInfo')]
+    public function getUserInfo(ManagerRegistry $doc): Response
     {
-        $images = $this->helper->getCarouselImages($this->getParameter('kernel.project_dir'));
-        return new JsonResponse(array('images' => $images));
+        $user = $doc->getManager()->getRepository(User::class)->findBy(['email' => $this->getUser()->getUserIdentifier()]);
+        dump($user[0]);
+        return new JsonResponse(array('data' => $this->serializer->serialize(array('user' => $user[0]), 'json')));
     }
 
     /**
-     * @param TransportInterface  $mailer
+     * @param TransportInterface $mailer
+     * @param Request $request
      * @return Response
      */
     #[Route('/sendEmail', name: 'sendEmail')]
@@ -79,13 +85,12 @@ class ApiController extends AbstractController
                 'fromEmail' => $fromEmail
             ]);
         try {
-            dump($email);
             $mailer->send($email);
-            $response = 'msg Send';
+            $response = 'Your message was sent. I will try to contact you as soon as possible!';
         }catch (TransportExceptionInterface $e){
             $response = $e->getMessage();
         }
-        return new JsonResponse(array('images' => $response));
+        return new JsonResponse(array('msg' => $response));
     }
 
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="root">
-    <img class="background" ref="background" src="/img/parallax/tree.jpg"  alt="bg"/>
+    <img class="background" ref="background" src="/img/bg/earth.jpg"  alt="bg"/>
     <div class="section section-1" ref="first">
       <div class="first-box">
         <h1>NebWeb!<br>
@@ -22,6 +22,12 @@
         <img src="/img/carousel/10.png" class="images pos-left" alt="image">
       </div>
     </div>
+    <div class="section section-2" ref="fourth">
+      <div class="box-parallax">
+        <h2>Special Thanks</h2>
+        <img src="/img/carousel/boot.png" class="images" alt="image">
+      </div>
+    </div>
   </div>
 </template>
 
@@ -34,11 +40,13 @@ export default {
     const first = ref(first)
     const second = ref(second)
     const third = ref(third)
+    const fourth = ref(fourth)
     return {
       background,
       first,
       second,
-      third
+      third,
+      fourth
     }
   },
   mounted() {
@@ -50,16 +58,20 @@ export default {
   methods:{
     handleScroll(){
       const scrollY = window.scrollY
-      if (scrollY <= 1500){
+      if (scrollY <= 1000){
         this.showDiv(this.first)
         this.hideDiv(this.second)
-      }else if (scrollY > 1500 && scrollY <= 5000){
+      }else if (scrollY > 1000 && scrollY <= 4000){
         this.hideDiv(this.first)
         this.hideDiv(this.third)
         this.showDiv(this.second)
-      }else if (scrollY > 5000 && scrollY <= 9000){
+      }else if (scrollY > 4000 && scrollY <= 7000){
         this.hideDiv(this.second)
+        this.hideDiv(this.fourth)
         this.showDiv(this.third)
+      }else if (scrollY > 7000 && scrollY <= 10000){
+        this.hideDiv(this.third)
+        this.showDiv(this.fourth)
       }
       const maxBackgroundSize = 120
       const backgroundSize = scrollY / (maxBackgroundSize - 100)
@@ -84,9 +96,6 @@ h1{
   text-shadow: 2px 2px black;
 }
 .first-box{
-  background-color: rgba(255, 255, 255, 0.5);
-  padding: 80px;
-  border-radius: 25%;
   text-align: center;
 }
 .images{

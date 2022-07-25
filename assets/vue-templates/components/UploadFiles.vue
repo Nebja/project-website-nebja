@@ -18,7 +18,7 @@
     <button class="btn btn-success" :disabled="!selectedFiles" @click="upload">
       Upload
     </button>
-    <select class="form-select-sm" id="folder-select">
+    <select class="form-select-sm" id="folder-select" @change="onChange($event)">
       <option value="videos">Videos</option>
       <option value="img">Images</option>
       <option value="subs">Subtitles</option>
@@ -30,31 +30,33 @@
       <div class="alert alert-light" role="alert" v-else >{{ message }}</div>
     </Transition>
     <div id="fileManager">
-      <div class="card">
-        <div class="card-header">Folder: videos</div>
-        <ul class="list-group list-group-flush">
-          <li
-              class="list-group-item"
-              v-for="(file, index) in fileInfos.videos"
-              :key="index"
-          >
-            <p><BIconFilm /> {{ file.name }} <a href="#" @click="deleteFile('videos/'+file.name)"> x</a></p>
-          </li>
-        </ul>
-      </div>
-      <div class="card">
-        <div class="card-header">Folder: img</div>
-        <ul class="list-group list-group-flush">
-          <li
-              class="list-group-item"
-              v-for="(file, index) in fileInfos.images"
-              :key="index"
-          >
-            <p><BIconFileEarmarkImage /> {{ file.name }} <a href="#" @click="deleteFile('img/'+file.name)"> x</a></p>
-          </li>
-        </ul>
-      </div>
-      <div class="card">
+      <Transition name="fade">
+        <div class="card" v-if="this.folder==='videos'">
+          <div class="card-header">Folder: videos</div>
+          <ul class="list-group list-group-flush">
+            <li
+                class="list-group-item"
+                v-for="(file, index) in fileInfos.videos"
+                :key="index"
+            >
+              <p><BIconFilm /> {{ file.name }} <a href="#" @click="deleteFile('videos/'+file.name)"> x</a></p>
+            </li>
+          </ul>
+        </div>
+        <div class="card" v-else-if="this.folder==='img'">
+          <div class="card-header">Folder: img</div>
+          <ul class="list-group list-group-flush">
+            <li
+                class="list-group-item"
+                v-for="(file, index) in fileInfos.images"
+                :key="index"
+            >
+              <p><BIconFileEarmarkImage /> {{ file.name }} <a href="#" @click="deleteFile('img/'+file.name)"> x</a></p>
+            </li>
+          </ul>
+        </div>
+        <div class="card" v-else-if="this.folder==='subs'">
+
         <div class="card-header">Folder: subs</div>
         <ul class="list-group list-group-flush">
           <li
@@ -66,6 +68,7 @@
           </li>
         </ul>
       </div>
+      </Transition>
     </div>
   </div>
 </template>
@@ -83,6 +86,7 @@ export default {
   },
   data (){
     return {
+      folder: 'videos',
       selectedFiles: undefined,
       currentFile: undefined,
       progress: 0,
@@ -92,6 +96,9 @@ export default {
     }
   },
   methods: {
+    onChange(event){
+      this.folder = event.target.value
+    },
     selectFile() {
       this.selectedFiles = this.$refs.file.files[0];
     },

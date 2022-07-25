@@ -5,7 +5,16 @@
 {% block body %}
     {% if page is same as('app')%}
 <!--       {{ dump(toView) }}-->
-        <div class="container-fluid" id="app" token="{{ csrf_token('authenticate') }}" data-view="{{ toView }}"></div>
+        {% set msg =  '' %}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                {% set msg = msg~message~'<br>' %}
+            {% endfor %}
+        {% endfor %}
+        <div class="container-fluid" id="app" token="{{ csrf_token('authenticate') }}" flash="{{ msg }}" data-view="{{ toView }}"></div>
+        <input type="hidden" name="_csrf_token"
+               value="{{ csrf_token('authenticate') }}"
+        >
     {% else %}
 <!--       {{ dump(video) }}-->
         <div id="video" data-video="{{ video }}"></div>

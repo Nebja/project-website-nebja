@@ -1,31 +1,43 @@
 <template>
-  <div>
-    <parallax />
-<!--    <input type="file" ref="file" id="uploadFile" @change="selectFile">
-    <button type="button" @click="upload">Upload</button>
-    <atropos class="my-atropos">
-      <img src="/img/posters/sq1.jpg" data-atropos-offset="-5" alt="test">
-    </atropos>-->
-  </div>
+
 </template>
 
 <script>
 import testClass from '../vue-service/testClass'
 import Atropos from 'atropos/vue'
-import Parallax from "./components/parallax";
 export default {
   name: "test",
   components: {
-    Parallax,
     Atropos
   },
   data (){
     return {
       selectedFiles: undefined,
       currentFile: undefined,
+      user: '',
+      role: ''
     }
   },
+  mounted() {
+    this.axios('/api/getUserInfo').then((res) => {
+      this.user = JSON.parse(res.data['data']).user
+      this.role = this.translateRole(this.user.roles[0])
+      console.log(JSON.stringify(this.user))
+    })
+  },
   methods:{
+    translateRole(role){
+      switch (role){
+        case 'ROLE_ADMIN':
+          return 'Adminstrator'
+        case 'ROLE_USER':
+          return 'User'
+        case 'ROLE_FRIEND':
+          return 'Personal Friend'
+        default :
+          return 'Guest'
+      }
+    },
     selectFile() {
       this.selectedFiles = this.$refs.file.files[0];
     },
@@ -40,7 +52,8 @@ export default {
 </script>
 
 <style scoped>
-  .my-atropos {
-    width: fit-content;
+  .custom-box {
+    text-align: center;
+    margin: 30px auto 30px auto;
   }
 </style>

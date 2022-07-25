@@ -1,5 +1,6 @@
 <template>
   <div id="page-container" class="flex-column">
+    <img class="background" ref="background" src="/img/bg/film.jpg"  alt="bg"/>
     <div  id="movies-container" class="row">
       <div class="col-lg-auto movies-box">
           <movie-label v-for="movie in this.movies" :id="movie.id" :name="movie.name" :poster="movie.imgPoster"/>

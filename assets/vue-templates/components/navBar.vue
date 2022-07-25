@@ -8,36 +8,32 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-auto" id="navbar-list">
+          <!-- Home Link  /-->
           <li :class="this.$parent.smallScreen ? 'nav-item text-center': 'nav-item'">
             <a :class="this.$parent.page==='homeLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Home" id="homeLink" aria-current="page"  @click="showPage('homeLink')"><BIconHouseDoor class="nav-item-zoom"/></a>
           </li>
+          <!-- Movie Link  /-->
           <li :class="this.$parent.smallScreen ? 'nav-item': 'nav-item'" v-if="this.rolesDump?.includes('ROLE_FRIEND')">
             <a :class="this.$parent.page==='moviesLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Movies" id="moviesLink" aria-current="page" @click="showPage('moviesLink')"><BIconCameraReels class="nav-item-zoom"/></a>
           </li>
-          <li :class="this.$parent.smallScreen ? 'nav-item': 'nav-item'" v-if="this.rolesDump?.includes('ROLE_ADMIN')">
-            <a :class="this.$parent.page==='adminLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Admin Panel" id="adminLink" aria-current="page" @click="showPage('adminLink')"><BIconTools class="nav-item-zoom"/></a>
+          <!-- Account Link  /-->
+          <li :class="this.$parent.smallScreen ? 'nav-item': 'nav-item'" v-if="this.rolesDump?.includes('ROLE_USER')">
+            <a :class="this.$parent.page==='accountLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="My account" id="accountLink" aria-current="page" @click="showPage('accountLink')"><BIconPersonCircle class="nav-item-zoom"/></a>
           </li>
-          <li :class="this.$parent.smallScreen ? 'nav-item': 'nav-item'" v-if="this.rolesDump?.includes('ROLE_ADMIN')">
-            <a :class="this.$parent.page==='testLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Test Site" id="testLink" aria-current="page" @click="showPage('testLink')"><BIconAt class="nav-item-zoom"/></a>
-          </li>
+          <!-- Common Links  /-->
           <li :class="this.$parent.smallScreen ? 'nav-item': 'nav-item'">
             <a :class="this.$parent.page==='aboutLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="About" id="aboutLink" aria-current="page"  @click="showPage('aboutLink')"><BIconGlobe2 class="nav-item-zoom"/></a>
           </li>
           <li :class="this.$parent.smallScreen ? 'nav-item': 'nav-item'">
             <a :class="this.$parent.page==='contactLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Contact" id="contactLink" aria-current="page"  @click="showPage('contactLink')"><BIconAt class="nav-item-zoom"/></a>
           </li>
-
-<!--          <li :class="this.$parent.smallScreen ? 'nav-item dropdown text-center': 'nav-item dropdown'">
-            <a class="nav-link dropdown-toggle nav-item-zoom" href="#" id="navbarDropdown"  title="More" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <BIconMenuDown/>
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Get Req</a></li>
-              <li><a class="dropdown-item" href="#">Post Req</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Token</a></li>
-            </ul>
-          </li>-->
+          <!-- Admin Links  /-->
+          <li :class="this.$parent.smallScreen ? 'nav-item': 'nav-item'" v-if="this.rolesDump?.includes('ROLE_ADMIN')">
+            <a :class="this.$parent.page==='adminLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Admin Panel" id="adminLink" aria-current="page" @click="showPage('adminLink')"><BIconTools class="nav-item-zoom"/></a>
+          </li>
+          <li :class="this.$parent.smallScreen ? 'nav-item': 'nav-item'" v-if="this.rolesDump?.includes('ROLE_ADMIN')">
+            <a :class="this.$parent.page==='testLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Test Site" id="testLink" aria-current="page" @click="showPage('testLink')"><BIconAt class="nav-item-zoom"/></a>
+          </li>
         </ul>
         <a href="#" v-if="!this.$parent.smallScreen" class="nav-link nav-item-zoom links" data-bs-toggle="tooltip" data-bs-placement="top" title="Login" id="loginFormBtn" @click="loginAnimation($event)"><BIconBoxArrowInLeft/></a>
           <LoginBox :modal="false"/>

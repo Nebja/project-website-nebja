@@ -1,6 +1,6 @@
 <template>
   <div class="card bg-transparent border-0">
-
+    <img class="background" ref="background" src="/img/bg/tag.jpg"  alt="bg"/>
     <!--Card content-->
     <div class="card-body text-white text-shadow mw-50 m-auto">
 
@@ -20,8 +20,9 @@
             <div class="row">
 
               <!--Grid column-->
-              <div class="col-md-6">
+              <div :class="this.viewData.user ? 'col-md-12':'col-md-6'">
                 <div class="md-form mb-0">
+                  <input v-if="this.viewData.user" :value="this.viewData.user" type="text" id="email" name="email" class="form-control" hidden>
                   <input type="text" id="name" name="name" class="form-control">
                   <label for="name" class="">Your name</label>
                 </div>
@@ -29,9 +30,10 @@
               <!--Grid column-->
 
               <!--Grid column-->
-              <div class="col-md-6">
+              <div class="col-md-6" v-if="!this.viewData.user">
                 <div class="md-form mb-0">
-                  <input type="text" id="email" name="email" class="form-control">
+
+                  <input v-else type="text" id="email" name="email" class="form-control">
                   <label for="email" class="">Your email</label>
                 </div>
               </div>
@@ -104,6 +106,7 @@
 <script>
 export default {
   name: "Contact",
+  props:['viewData'],
   methods:{
     sendMsg(e){
       e.preventDefault()
@@ -112,8 +115,13 @@ export default {
       fd.append('email',document.getElementById('email').value)
       fd.append('subject',document.getElementById('subject').value)
       fd.append('message',document.getElementById('message').value)
-      this.axios.post('/api/sendEmail', fd).then((res) => {console.log(res.data)})
+      this.axios.post('/api/sendEmail', fd).then((res) => {
+        this.$emit('getModal','Email Process', res.data['msg'],'generalModal')
+      })
     }
+  },
+  mounted() {
+    console.log(this.viewData)
   }
 }
 </script>
