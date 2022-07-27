@@ -1,5 +1,5 @@
 <template>
-  <modal id="generalModal"/>
+  <modal id="generalModal" btn="false" userId="none"/>
   <nav class="navbar fixed-top navbar-expand-lg no-padding navbar-light glowing" v-if="!this.$parent.smallScreen">
     <div class="container-fluid moveArea padding-sm">
       <img src="/img/logo_new.png" class="logo" alt="nebWeb">
@@ -134,5 +134,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/styles/scss/custom.scss";
 </style>

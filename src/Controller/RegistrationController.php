@@ -13,7 +13,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -28,8 +31,16 @@ class RegistrationController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
+    /**
+     * @param Request $request
+     * @param UserPasswordHasherInterface $userPasswordHasher
+     * @param EntityManagerInterface $entityManager
+     * @param TransportInterface $mailer
+     * @return Response
+     * @throws TransportExceptionInterface
+     */
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request,UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request,UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, TransportInterface $mailer): Response
     {
 
         $user = new User();
@@ -53,6 +64,13 @@ class RegistrationController extends AbstractController
                 ->subject('Please Confirm your Email')
                 ->htmlTemplate('registration/confirmation_email.html.twig')
         );
+        $inform = (new Email())
+            ->from('no-reply@nebja.eu')
+            ->to('nebwebsites@nebja.eu')
+            ->subject('New Registration from '.$user->getEmail())
+            ->text('New Registration Email')
+            ->html('New Registration with Email: '.$user->getEmail().'! (Dont Forget to check the Role)');
+        $mailer->send($inform);
         return new JsonResponse(array('msg' => 'User registered , please confirm Your email.'));
     }
 
@@ -63,18 +81,13 @@ class RegistrationController extends AbstractController
             $this->addFlash('notice', 'Please login first and then click the link');
             $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         }
-        // validate email confirmation link, sets User::isVerified=true and persists
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
         } catch (VerifyEmailExceptionInterface $exception) {
-
             $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
-
             return $this->redirectToRoute('app_main');
         }
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
-
         return $this->redirectToRoute('app_main');
     }
 

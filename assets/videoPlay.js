@@ -8,8 +8,10 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import { createApp } from "vue";
 import VuePlyr from 'vue-plyr'
 import 'vue-plyr/dist/vue-plyr.css'
-import './styles/app.css';
-import videoMain from "./vue-templates/videoMain";
+import './styles/app.scss';
+import './styles/media.scss'
+import './styles/mobile.scss'
+import videoMain from "./vue-templates/pages/videoMain";
 // start the Stimulus application
 import './bootstrap';
 const video = createApp(videoMain)

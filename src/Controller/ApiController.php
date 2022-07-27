@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\VideosRepository;
 use App\Service\Helper;
+use Doctrine\DBAL\Exception;
 use Doctrine\Persistence\ManagerRegistry;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -54,9 +57,39 @@ class ApiController extends AbstractController
     #[Route('/getUserInfo', name: 'getUserInfo')]
     public function getUserInfo(ManagerRegistry $doc): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $doc->getManager()->getRepository(User::class)->findBy(['email' => $this->getUser()->getUserIdentifier()]);
-        dump($user[0]);
         return new JsonResponse(array('data' => $this->serializer->serialize(array('user' => $user[0]), 'json')));
+    }
+
+    /**
+     * @param ManagerRegistry $doc
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/deleteAccount', name: 'deleteAccount')]
+    public function deleteAccount(ManagerRegistry $doc, Request $request): Response
+    {
+
+        $user = $doc->getManager()->find(User::class, $request->get('id'));
+        if ($user->getEmail() !== $this->getUser()->getUserIdentifier()){
+            return new JsonResponse(array('msg' => 'You are not the owner of the account with email '.$user->getEmail().' , please contact an Administrator'));
+        }
+        try {
+            $doc->getManager()->getRepository(User::class)->remove($user, true);
+            $request->getSession()->invalidate();
+            $this->container->get('security.token_storage')->setToken(null);
+            $this->addFlash('notice', 'We are sad to see you go but your account was delete.');
+        }catch (Exception|NotFoundExceptionInterface|ContainerExceptionInterface $e){
+            $this->addFlash('notice', 'We encountered an error , please contact an Administrator');
+        }
+        return $this->render('main/index.html.twig', [
+            'page' => 'app' ,
+            'toView' => $this->serializer->serialize(array(
+                'user' => null,
+                'role' => null
+            ),'json')
+        ]);
     }
 
     /**
@@ -67,12 +100,10 @@ class ApiController extends AbstractController
     #[Route('/sendEmail', name: 'sendEmail')]
     public function sendEmail(TransportInterface  $mailer, Request $request): Response
     {
-
         $fromEmail = $request->get('email');
         $senderName = $request->get('name');
         $senderMsg = $request->get('message');
         $subject = $request->get('subject');
-
         $email = (new TemplatedEmail())
             ->from($fromEmail)
             ->to('nebwebsites@nebja.eu')

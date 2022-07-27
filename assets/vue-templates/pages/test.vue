@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import testClass from '../vue-service/testClass'
+import testClass from '../../js/testClass'
 import Atropos from 'atropos/vue'
 export default {
   name: "test",

@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import UploadFiles from "./components/UploadFiles";
+import UploadFiles from "../components/UploadFiles";
 export default {
   name: "admin",
   components: {

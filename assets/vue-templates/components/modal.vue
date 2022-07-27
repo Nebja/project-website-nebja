@@ -9,7 +9,14 @@
         <div class="modal-body" :id="id+'Body'">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button v-if="btn!=='Logout'" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <form v-if="btn==='Delete'" action="/api/deleteAccount">
+            <input name="id" id="id" :value="userId">
+            <button type="submit" class="btn btn-primary">{{ btn }}</button>
+          </form>
+          <form v-if="btn==='Logout'" action="/logout">
+            <button type="submit" class="btn btn-primary">{{ btn }}</button>
+          </form>
         </div>
       </div>
     </div>
@@ -20,7 +27,26 @@
 export default {
   name: "modal",
   props:{
-    id:''
+    id: null,
+    btn: null,
+    userId: null
+  },
+  methods:{
+/*    deleteAccount(id){
+      this.axios.get("/api/deleteAccount", {
+        params:{
+          'id': id
+        }
+      }).then((res) => {
+        if (res.data['msg'] === 'success'){
+          console.log(res.data['msg'])
+          this.$emit('getModal', '', '', 'deleteModal', false)
+          this.$emit('getModal', 'Account Process', 'Your account was Deleted proceed to Logout', 'logoutModal')
+        }else {
+          this.$emit('getModal', 'Account Process', res.data['msg'] , 'generalModal')
+        }
+      })
+    }*/
   }
 }
 </script>

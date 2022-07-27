@@ -1,0 +1,27 @@
+/*  General */
+.text-shadow{
+    text-shadow: 1px 1px 2px black, 0 0 1em gray, 0 0 0.2em lightgray;
+}
+.box {
+    position: absolute;
+    width: inherit;
+}
+.nav-item {
+    opacity: 1;
+}
+
+.nav-item-zoom {
+    transition: all .4s ease-in-out;
+}
+
+.nav-item-zoom:hover {
+    transform: scale(2);
+}
+.nav-link {
+    color: black;
+    text-decoration: none;
+}
+
+.nav-link:visited {
+    color: inherit;
+}

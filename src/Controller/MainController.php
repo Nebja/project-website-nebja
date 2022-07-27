@@ -37,7 +37,6 @@ class MainController extends AbstractController
     {
         if ($this->getUser() !== null ){
             $user = $doc->getManager()->getRepository(User::class)->findBy(['email' => $this->getUser()->getUserIdentifier()]);
-            dump($user);
             $verify = $user[0]->isVerified();
             if(!$verify){
                 $this->addFlash('notice', 'Please verify your email . For new link click here <a href="/verify/newEmail">NEW LINK</a>');

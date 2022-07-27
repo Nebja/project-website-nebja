@@ -19,7 +19,6 @@
       Upload
     </button>
     <select class="form-select-sm" id="folder-select" @change="onChange($event)">
-      <option value="videos">Videos</option>
       <option value="img">Images</option>
       <option value="subs">Subtitles</option>
     </select>
@@ -31,19 +30,7 @@
     </Transition>
     <div id="fileManager">
       <Transition name="fade">
-        <div class="card" v-if="this.folder==='videos'">
-          <div class="card-header">Folder: videos</div>
-          <ul class="list-group list-group-flush">
-            <li
-                class="list-group-item"
-                v-for="(file, index) in fileInfos.videos"
-                :key="index"
-            >
-              <p><BIconFilm /> {{ file.name }} <a href="#" @click="deleteFile('videos/'+file.name)"> x</a></p>
-            </li>
-          </ul>
-        </div>
-        <div class="card" v-else-if="this.folder==='img'">
+        <div class="card" v-if="this.folder==='img'">
           <div class="card-header">Folder: img</div>
           <ul class="list-group list-group-flush">
             <li
@@ -51,7 +38,7 @@
                 v-for="(file, index) in fileInfos.images"
                 :key="index"
             >
-              <p><BIconFileEarmarkImage /> {{ file.name }} <a href="#" @click="deleteFile('img/'+file.name)"> x</a></p>
+              <p class="folder-icons"><BIconFileEarmarkImage  width="100" height="50" /> {{ file.name }} <a href="#" @click="deleteFile('img/'+file.name)"> x</a></p>
             </li>
           </ul>
         </div>
@@ -64,17 +51,29 @@
               v-for="(file, index) in fileInfos.subs"
               :key="index"
           >
-            <p><BIconFileText /> {{ file.name }} <a href="#" @click="deleteFile('subs/'+file.name)"> x</a></p>
+            <p class="folder-icons"><BIconFileText width="100" height="50"/> {{ file.name }} <a href="#" @click="deleteFile('subs/'+file.name)"> x</a></p>
           </li>
         </ul>
       </div>
+        <div class="card" v-else-if="this.folder==='videos'">
+          <div class="card-header">Folder: videos</div>
+          <ul class="list-group list-group-flush">
+            <li
+                class="list-group-item"
+                v-for="(file, index) in fileInfos.videos"
+                :key="index"
+            >
+              <p class="folder-icons"><BIconFilm /> {{ file.name }} <a href="#" @click="deleteFile('videos/'+file.name)"> x</a></p>
+            </li>
+          </ul>
+        </div> <!--TODO Big File size Upload-->
       </Transition>
     </div>
   </div>
 </template>
 
 <script>
-import UploadService from "../../vue-service/UploadFilesService";
+import UploadService from "../../js/UploadFilesService";
 export default {
   name: "UploadFiles",
   mounted() {
@@ -86,7 +85,7 @@ export default {
   },
   data (){
     return {
-      folder: 'videos',
+      folder: 'img',
       selectedFiles: undefined,
       currentFile: undefined,
       progress: 0,
@@ -139,5 +138,17 @@ export default {
 </script>
 
 <style scoped>
-
+  .folder-icons{
+    display: grid;
+    text-align: center;
+    width: fit-content;
+  }
+  li{
+    text-decoration: none !important;
+    width: fit-content;
+    float: left;
+  }
+  ul{
+    display: block;
+  }
 </style>

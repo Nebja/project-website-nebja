@@ -7,13 +7,13 @@
       <div class="row mb-3">
         <label for="register_email" class="col-sm-2 col-form-label">Email</label>
         <div class="col-sm-10">
-          <input type="email" class="form-control" id="register_email">
+          <input type="email" v-model="email" class="form-control" id="register_email">
         </div>
       </div>
       <div class="row mb-3">
         <label for="register_password" class="col-sm-2 col-form-label">Password</label>
         <div class="col-sm-10">
-          <input type="password" class="form-control" id="register_password">
+          <input type="password" v-model="password" class="form-control" id="register_password">
         </div>
       </div>
       <div class="row mb-3">
@@ -23,7 +23,7 @@
           </transition>
           <a href="#" class="link-info" @click="showAgreement = !showAgreement">{{ showAgreement ? 'Hide Policy' : 'Show Policy'}}</a>
           <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="register_agreement">
+            <input type="checkbox" v-model="agreement" class="form-check-input" id="register_agreement">
             <label for="register_agreement" class="form-check-label" >Agree with our Policy</label>
           </div>
 
@@ -34,7 +34,7 @@
   </div>
 </template>
 <script>
-import agreement from "./components/agreement"
+import agreement from "../components/agreement"
 export default {
   name: "register",
   components:{
@@ -42,11 +42,21 @@ export default {
   },
   data(){
     return{
-      showAgreement: false
+      showAgreement: false,
+      email: null,
+      password: null,
+      agreement: null
     }
   },
   methods: {
     register() {
+      if (!this.email || !this.password){
+        this.$emit('getModal','Register Process', 'Email and Password are required for the registration.', 'generalModal')
+        return
+      }else if (!this.validEmail(this.email)){
+        this.$emit('getModal','Register Process', 'Valid Email is required. ', 'generalModal')
+        return
+      }
       const fd = new FormData();
       fd.append('email', document.getElementById('register_email').value)
       fd.append('password', document.getElementById('register_password').value)
@@ -71,6 +81,10 @@ export default {
         console.log('here plus')
         elem.disabled = bool
       })
+    },
+    validEmail(email) {
+      let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
     }
   }
 }

@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import MovieLabel from "./components/movie-label";
+import MovieLabel from "../components/movie-label";
 export default {
   name: "movies",
   components: {MovieLabel},

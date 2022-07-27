@@ -5,12 +5,12 @@
         :token="token"
     />
     <div id="view-show" ref="viewShow" class="overflow-hidden">
-      <Transition name="fade">
+      <Transition name="fade" mode="out-in">
         <register v-if="page==='registerLink'" @getModal="getModal"/>
         <parallax v-else-if="page==='homeLink'" class="box"/>
         <movies v-else-if="page==='moviesLink'" class="box"/>
         <admin v-else-if="page==='adminLink'" class="box"/>
-        <account v-else-if="page==='accountLink'"/>
+        <account v-else-if="page==='accountLink'" @getModal="getModal"/>
         <test v-else-if="page==='testLink'"  @getModal="getModal" />
         <Contact v-else-if="page==='contactLink'" :viewData="viewData" @getModal="getModal" class="box"/>
         <About v-else-if="page==='aboutLink'" class="box"/>
@@ -20,10 +20,10 @@
 </template>
 <script>
 import register from "./register";
-import parallax from "./components/parallax"
+import parallax from "../components/parallax"
 import Modal from "bootstrap/js/src/modal";
 import Tooltip from  'bootstrap/js/src/tooltip'
-import navBar from "./components/navBar";
+import navBar from "../components/navBar";
 import movies from "./movies";
 import admin from "./admin"
 import test from "./test"
@@ -78,18 +78,20 @@ export default {
       })
     })
   },
-    getModal(title, msg, name){
+    getModal(title, msg, name, show=true){
       let modal = new Modal(document.getElementById(name), {})
-      if(name !== 'loginModal'){
-        document.getElementById(name+'Title').innerHTML = title
-        document.getElementById(name+'Body').innerHTML = msg
+      if(show) {
+        if (name !== 'loginModal') {
+          document.getElementById(name + 'Title').innerHTML = title
+          document.getElementById(name + 'Body').innerHTML = msg
+        }
+        modal.show();
+      }else {
+        modal.hide();
       }
-      modal.show();
     },
   }
 }
 </script>
 <style lang="scss" scoped>
-@import "./assets/styles/app-mobile.scss";
-@import "./assets/styles/scss/custom.scss";
 </style>
