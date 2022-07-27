@@ -60,6 +60,9 @@ export default {
     if(this.viewData.error != null){
       this.getModal('Login Error',this.viewData.error === 'Bad credentials.' ? 'Email doesnt exists': this.viewData.error, 'generalModal')
     }
+    if (this.viewData.form){
+      this.getModal('Reset Password',this.viewData.form, 'generalModal')
+    }
     this.refreshTooltip()
     this.smallScreen = window.innerWidth <= 1000
     if(this.flash !== ''){
@@ -81,7 +84,8 @@ export default {
     getModal(title, msg, name, show=true){
       let modal = new Modal(document.getElementById(name), {})
       if(show) {
-        if (name !== 'loginModal') {
+        if (name !== 'loginModal' && name !== 'resetModal'){
+          console.log('here')
           document.getElementById(name + 'Title').innerHTML = title
           document.getElementById(name + 'Body').innerHTML = msg
         }

@@ -15,6 +15,7 @@
         <button class="btn btn-outline-success btn-round" data-bs-toggle="tooltip" data-bs-placement="top" title="Login" type="submit"><BIconDoorOpen /></button>
         &nbsp;&nbsp;
          <button :class="this.$parent.page==='registerLink'?'btn btn-primary btn-round disabled' :'btn btn-outline-primary btn-round'" id="registerLink" data-bs-toggle="tooltip" data-bs-placement="right" title="Register" type="button" @click="this.$parent.showPage('registerLink')"><BIconPersonLinesFill /> </button>
+         <button class="btn btn-outline-warning btn-round" id="resetLink" data-bs-toggle="tooltip" data-bs-placement="right" title="Reset Password" type="button" @click="resetPass"><BIconInfoCircle /> </button>
       </form>
     </span>
   </div>
@@ -57,6 +58,11 @@ export default {
   name: "LoginBox",
   props:{
     modal:''
+  },
+  methods:{
+    resetPass(){
+        this.$emit('getModal', 'Reset Password Process', '', 'resetModal');
+    }
   }
 }
 </script>

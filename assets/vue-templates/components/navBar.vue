@@ -1,5 +1,6 @@
 <template>
   <modal id="generalModal" btn="false" userId="none"/>
+  <modal id="resetModal" btn="Reset" userId="none" @getModal="getModal"/>
   <nav class="navbar fixed-top navbar-expand-lg no-padding navbar-light glowing" v-if="!this.$parent.smallScreen">
     <div class="container-fluid moveArea padding-sm">
       <img src="/img/logo_new.png" class="logo" alt="nebWeb">
@@ -36,7 +37,7 @@
           </li>
         </ul>
         <a href="#" v-if="!this.$parent.smallScreen" class="nav-link nav-item-zoom links" data-bs-toggle="tooltip" data-bs-placement="top" title="Login" id="loginFormBtn" @click="loginAnimation($event)"><BIconBoxArrowInLeft/></a>
-          <LoginBox :modal="false"/>
+          <LoginBox :modal="false" @getModal="getModal"/>
       </div>
     </div>
   </nav>
@@ -128,6 +129,9 @@ export default {
       links.forEach((link) => {
         Tooltip.getOrCreateInstance(document.getElementById(link.id)).hide()
       })
+    },
+    getModal(title, msg, name, show=true){
+      this.$parent.getModal(title, msg, name, show)
     }
   }
 }

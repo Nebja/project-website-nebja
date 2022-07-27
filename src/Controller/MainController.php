@@ -93,7 +93,6 @@ class MainController extends AbstractController
     public function jsonMsg(Request $request): JsonResponse
     {
         $getVar = $request->get('testVar');
-        dump($request->query->all());
         $sendVar = 'The Variable is :'. $getVar;
         return new JsonResponse(array('testData' => $sendVar));
     }
