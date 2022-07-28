@@ -2,6 +2,8 @@
   <div class="card custom-box accountBox" id="account-box">
     <modal id="deleteModal" btn="Delete" :userId="user.id" @getModal="getModal"/>
     <modal id="logoutModal" btn="Logout" :userId="user.id" @getModal="getModal"/>
+    <modal id="editModal" btn="Edit" :userId="user.id" @getModal="getModal"/>
+    <modal id="policyModal" btn="Policy" :userId="user.id" @getModal="getModal"/>
     <img class="background" ref="background" src="/img/bg/account.jpg"  alt="bg"/>
     <h5 class="card-header">{{ user.email }}</h5>
     <div class="card-body">
@@ -17,7 +19,8 @@
           your own account with your email address.
         </span>
       </p>
-      <button v-if="user.email !== 'guest@nebja.eu'" class="btn btn-warning" @click="openModal" >Delete Account</button>
+      <button v-if="user.email !== 'guest@nebja.eu'" class="btn btn-warning" @click="openModal('Delete')" >Delete Account</button>&nbsp;
+      <button v-if="user.email !== 'guest@nebja.eu'" class="btn btn-success" @click="openModal('Edit')" >Edit Account</button>
     </div>
   </div>
 </template>
@@ -51,8 +54,12 @@ export default {
           return 'Personal Friend'
       }
     },
-    openModal(){
-      this.$emit('getModal', 'Delete Account', 'Are you sure you want to delete your account?', 'deleteModal')
+    openModal(type){
+      if (type === 'Delete'){
+        this.$emit('getModal', 'Delete Account', 'Are you sure you want to delete your account?', 'deleteModal')
+      }else {
+        this.$emit('getModal', 'Edit Account', '', 'editModal')
+      }
     },
     getModal(title, msg, name, show=true){
       this.$emit('getModal', title, msg, name, show)

@@ -63,6 +63,30 @@ class ApiController extends AbstractController
     }
 
     /**
+     * @param Request $request
+     * @param ManagerRegistry $doc
+     * @return Response
+     */
+    #[Route('/editEmail', name: 'editEmail')]
+    public function editEmail(Request $request, ManagerRegistry $doc): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $email = $request->get('email');
+        $id = $request->get('id');
+        $agree = $request->get('agree');
+        $user = $doc->getManager()->find(User::class, $id);
+        if (!$user){
+            throw $this->createNotFoundException(
+              'No user Found with id: '.$request->get('id')
+            );
+        }
+        $user->setEmail($email)
+                ->setAgreement($agree===true?1:0);
+        $doc->getManager()->flush();
+        return new JsonResponse(array('data' => 'updated'));
+    }
+
+    /**
      * @param ManagerRegistry $doc
      * @param Request $request
      * @return Response
