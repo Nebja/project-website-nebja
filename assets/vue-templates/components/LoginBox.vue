@@ -1,9 +1,9 @@
 <template>
   <div v-if="!modal">
     <span class="d-flex" id="loginPanel" v-if="this.$parent.viewData.user" >
-      <form id="loginForm" action="/logout" class="d-flex logged">
-        <button class="btn btn-outline-danger"  data-bs-toggle="tooltip" data-bs-placement="top" title="Logout" type="submit"><BIconDoorClosed /></button>&nbsp;&nbsp;
-         <span>{{ this.$parent.viewData.user }}</span>&nbsp;&nbsp;&nbsp;
+      <form id="loginForm22" action="/logout" class="d-flex">
+          <span id="loggedInUser">{{ this.$parent.viewData.user }}</span>&nbsp;&nbsp;&nbsp;
+          <button class="btn btn-outline-danger"  data-bs-toggle="tooltip" data-bs-placement="top" title="Logout" type="submit"><BIconDoorClosed /></button>&nbsp;&nbsp;
       </form>
     </span>
     <span class="d-flex" id="loginPanel"  v-else>
@@ -68,5 +68,8 @@ export default {
 </script>
 
 <style scoped>
-
+#loggedInUser{
+  color: white;
+  text-shadow: 2px 2px black;
+}
 </style>

@@ -12,10 +12,12 @@
             <p>Enter your email address and we will send you a link to reset your password</p>
           </div>
           <div v-else-if="btn==='Edit'">
-            <p id="edit_text">Enter your new Email.</p>
+            <p id="edit_text_email">Enter your new Email.</p>
             <input name="edit_id" id="edit_id" :value="userId" hidden>
-            <input class="form-control input-group" id="edit_email" type="email" placeholder="Email" name="edit_email" @keyup="checkEmail">
+            <input class="form-control input-group" id="edit_email" type="email" placeholder="Email" data-validate="edit_text_email" name="edit_email" @keyup="validateInput">
             <br>
+            <p id="edit_text_username">Enter your new Username.</p>
+            <input class="form-control input-group" id="edit_username" type="text" placeholder="Username" data-validate="edit_text_username" name="edit_username" @keyup="validateInput">
             <p>Do you agree with our Privacy Policy?</p>
             <input type="checkbox"  id="edit_agreement" name="edit_agreement">&nbsp;<label for="edit_agreement">I agree with <a href="#" @click="policy">Privacy Policy</a></label>
           </div>
@@ -33,7 +35,7 @@
             <button type="submit" class="btn btn-primary">{{ btn }}</button>
           </form>
           <button v-if="btn==='Reset'" class="btn btn-primary" data-bs-dismiss="modal" @click="resetPass">Send </button>
-          <button v-if="btn==='Edit'" class="btn btn-primary" data-bs-dismiss="modal" @click="changeEmail">Change</button>
+          <button v-if="btn==='Edit'" id="btn_change" class="btn btn-primary" data-bs-dismiss="modal" @click="changeInfo">Change</button>
         </div>
       </div>
     </div>
@@ -60,7 +62,7 @@ export default {
   updated() {
     this.axios.get('/api/getUserInfo').then((res) => {
       this.editUser = JSON.parse(res.data['data']).user
-      console.log('mount')
+      this.$parent.user = this.editUser
       document.getElementById('edit_email').value = this.editUser.email
       document.getElementById('edit_agreement').checked = this.editUser.agreement
     })
@@ -73,20 +75,39 @@ export default {
         this.$emit('getModal', 'Password Reset Email Sent', res.data['view'], 'generalModal')
       })
     },
-    checkEmail(){
-      let editEmail = document.getElementById('edit_email')
-      if (editEmail.value === ''){
-        document.getElementById('edit_text').innerHTML = 'Empty field means no change'
-      }else if (!editEmail.value.includes("@") || !editEmail.value.includes(".")){
-        document.getElementById('edit_text').innerHTML = 'Please give a correct Email'
-      }else {
-        if (!editEmail.value.split(".")[1].length >= 2){
-          document.getElementById('edit_text').innerHTML = 'Please give a correct Email with correct domain'
+    validateInput(e){ /*TODO Finish Validations , better make your own class */
+      let input = e.target, label = input.dataset.validate, type= input.type, string
+      if (input.value === ''){
+        string = 'Empty field means no change'
+      }else{
+        switch(type){
+          case 'email':
+            if (!input.value.includes("@") || !input.value.includes(".")){
+              string = 'Please give a correct Email'
+            }else if (!input.value.split(".")[1].length >= 2){
+              string = 'Please give a correct Email with correct domain'
+            }else {
+              string = 'Press change button to save the changes'
+            }
+            break;
+          case 'text':
+            let spChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+            if (spChars.test(input.value)){
+              string = 'Username cant contain special Characters'
+            }else if(input.value.length < 3){
+              string = 'Username must be at least 3 characters'
+            }else {
+              string = 'Press change button to save your new Username'
+            }
+            break;
+          default:
+            console.log('Input is undefined please check with an Admin')
+            break;
         }
-        document.getElementById('edit_text').innerHTML = 'Press change button to save the changes'
       }
+      document.getElementById(label).innerHTML = string
     },
-    changeEmail(){
+    changeInfo(){
       let editEmail = document.getElementById('edit_email')
       if (editEmail.value === ''){
         editEmail.value = this.editUser.email
@@ -97,9 +118,11 @@ export default {
       let fd = new FormData()
       fd.append('email', document.getElementById('edit_email').value)
       fd.append('id', document.getElementById('edit_id').value)
-      fd.append('agree', document.getElementById('edit_agreement').value)
+      fd.append('id', document.getElementById('edit_username').value)
+      fd.append('agree', document.getElementById('edit_agreement').checked)
       this.axios.post('/api/editEmail', fd).then((res) => {
-        this.$emit('getModal', 'Edit Email', document.getElementById('edit_agreement').checked, 'generalModal')
+        this.$emit('getModal', 'Edit Email', 'Your changes were Saved', 'generalModal')
+        this.$emit('UserInfo');
       })
     },
     policy(){

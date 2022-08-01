@@ -45,6 +45,7 @@ class RegistrationController extends AbstractController
 
         $user = new User();
         $user->setEmail($request->get('email'))
+             ->setUsername($request->get('username'))
              ->setRoles(array("ROLE_USER"))
              ->setAgreement(($request->get('agreement') === 'false' ? 0 : 1))
              ->setPassword(

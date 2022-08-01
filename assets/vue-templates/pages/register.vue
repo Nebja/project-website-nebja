@@ -11,6 +11,12 @@
         </div>
       </div>
       <div class="row mb-3">
+        <label for="register_username" class="col-sm-2 col-form-label">Username</label>
+        <div class="col-sm-10">
+          <input type="text" v-model="username" class="form-control" id="register_username">
+        </div>
+      </div>
+      <div class="row mb-3">
         <label for="register_password" class="col-sm-2 col-form-label">Password</label>
         <div class="col-sm-10">
           <input type="password" v-model="password" class="form-control" id="register_password">
@@ -45,6 +51,7 @@ export default {
       showAgreement: false,
       email: null,
       password: null,
+      username: null,
       agreement: null
     }
   },
@@ -60,6 +67,7 @@ export default {
       const fd = new FormData();
       fd.append('email', document.getElementById('register_email').value)
       fd.append('password', document.getElementById('register_password').value)
+      fd.append('username', document.getElementById('register_username').value)
       fd.append('agreement', document.getElementById('register_agreement').checked)
       let thisPage = this
       this.axios.interceptors.request.use(function (config) {

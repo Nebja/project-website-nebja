@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Repository\VideosRepository;
 use App\Service\Helper;
 use Doctrine\DBAL\Exception;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -26,13 +26,17 @@ class ApiController extends AbstractController
 {
     private Serializer $serializer;
     private Helper $helper;
+    private UserRepository $userRepository;
+    private EntityManagerInterface $em;
 
-    public function __construct(Helper $helper)
+    public function __construct(Helper $helper, UserRepository $userRepo, EntityManagerInterface $em)
     {
         $encoders = [new JsonEncoder()];
         $normalizer = [new ObjectNormalizer()];
         $this->serializer = new Serializer($normalizer, $encoders);
         $this->helper = $helper;
+        $this->userRepository = $userRepo;
+        $this->em = $em;
 
     }
 
@@ -51,56 +55,56 @@ class ApiController extends AbstractController
     }
 
     /**
-     * @param ManagerRegistry $doc
      * @return Response
      */
     #[Route('/getUserInfo', name: 'getUserInfo')]
-    public function getUserInfo(ManagerRegistry $doc): Response
+    public function getUserInfo(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $user = $doc->getManager()->getRepository(User::class)->findBy(['email' => $this->getUser()->getUserIdentifier()]);
+        $user = $this->userRepository->findBy(['email' => $this->getUser()->getUserIdentifier()]);
         return new JsonResponse(array('data' => $this->serializer->serialize(array('user' => $user[0]), 'json')));
     }
 
     /**
      * @param Request $request
-     * @param ManagerRegistry $doc
      * @return Response
      */
     #[Route('/editEmail', name: 'editEmail')]
-    public function editEmail(Request $request, ManagerRegistry $doc): Response
+    public function editEmail(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $email = $request->get('email');
         $id = $request->get('id');
         $agree = $request->get('agree');
-        $user = $doc->getManager()->find(User::class, $id);
+        //$user = $doc->getManager()->find(User::class, $id);
+        $user = $this->userRepository->find($id);
         if (!$user){
             throw $this->createNotFoundException(
               'No user Found with id: '.$request->get('id')
             );
         }
         $user->setEmail($email)
-                ->setAgreement($agree===true?1:0);
-        $doc->getManager()->flush();
+                ->setAgreement($agree==='true'?1:0);
+        $this->em->flush();
         return new JsonResponse(array('data' => 'updated'));
     }
 
     /**
-     * @param ManagerRegistry $doc
      * @param Request $request
      * @return Response
      */
     #[Route('/deleteAccount', name: 'deleteAccount')]
-    public function deleteAccount(ManagerRegistry $doc, Request $request): Response
+    public function deleteAccount(Request $request): Response
     {
 
-        $user = $doc->getManager()->find(User::class, $request->get('id'));
+        $user = $this->userRepository->find($request->get('id'));
         if ($user->getEmail() !== $this->getUser()->getUserIdentifier()){
             return new JsonResponse(array('msg' => 'You are not the owner of the account with email '.$user->getEmail().' , please contact an Administrator'));
         }
+
+
         try {
-            $doc->getManager()->getRepository(User::class)->remove($user, true);
+            $this->userRepository->remove($user, true);
             $request->getSession()->invalidate();
             $this->container->get('security.token_storage')->setToken(null);
             $this->addFlash('notice', 'We are sad to see you go but your account was delete.');

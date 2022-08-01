@@ -29,7 +29,7 @@ import admin from "./admin"
 import test from "./test"
 import Contact from "./Contact";
 import About from "./About";
-import account from "./account"
+import account from "./account";
 export default {
   name: "homepage",
   data() {
@@ -51,7 +51,7 @@ export default {
     admin,
     parallax,
     test,
-    account
+    account,
   },
   mounted(){
     this.token = document.getElementById("app").getAttribute('token')

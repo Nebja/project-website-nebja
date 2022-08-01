@@ -36,8 +36,8 @@
             <a :class="this.$parent.page==='testLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Test Site" id="testLink" aria-current="page" @click="showPage('testLink')"><BIconAt class="nav-item-zoom"/></a>
           </li>
         </ul>
-        <a href="#" v-if="!this.$parent.smallScreen" class="nav-link nav-item-zoom links" data-bs-toggle="tooltip" data-bs-placement="top" title="Login" id="loginFormBtn" @click="loginAnimation($event)"><BIconBoxArrowInLeft/></a>
-          <LoginBox :modal="false" @getModal="getModal"/>
+        <a href="#" v-if="!this.viewData.user || !this.$parent.smallScreen"   class="nav-link nav-item-zoom links" data-bs-toggle="tooltip" data-bs-placement="top" title="Login" id="loginFormBtn" @click="loginAnimation($event)"><BIconBoxArrowInLeft/></a>
+        <LoginBox :modal="false" @getModal="getModal"/>
       </div>
     </div>
   </nav>

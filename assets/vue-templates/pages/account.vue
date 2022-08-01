@@ -2,14 +2,14 @@
   <div class="card custom-box accountBox" id="account-box">
     <modal id="deleteModal" btn="Delete" :userId="user.id" @getModal="getModal"/>
     <modal id="logoutModal" btn="Logout" :userId="user.id" @getModal="getModal"/>
-    <modal id="editModal" btn="Edit" :userId="user.id" @getModal="getModal"/>
+    <modal id="editModal" btn="Edit" :userId="user.id" @getModal="getModal" @UserInfo="UserInfo"/>
     <modal id="policyModal" btn="Policy" :userId="user.id" @getModal="getModal"/>
     <img class="background" ref="background" src="/img/bg/account.jpg"  alt="bg"/>
-    <h5 class="card-header">{{ user.email }}</h5>
+    <h5 class="card-header" id="email_header" :key="user">{{ user.email }}</h5>
     <div class="card-body">
       <h5 class="card-title">Your are here as  {{ user.email !== 'guest@nebja.eu' ? role : 'Guest' }}</h5>
       <p class="card-text">
-        <span v-if="user.email !== 'guest@nebja.eu'">
+        <span v-if="user.email !== 'guest@nebja.eu'" :key="user">
           {{ user.verified ? 'Your Email is verified' : 'You need to verify your email' }} <br>
           {{ user.agreement ? 'You have agreed with our Privacy Policy' : 'You didn\'t agree with our Privacy Policy'}}
         </span>
@@ -36,14 +36,18 @@ export default {
     }
   },
   created() {
-    this.axios('/api/getUserInfo').then((res) => {
-      this.user = JSON.parse(res.data['data']).user
-      this.role = this.translateRole(this.user.roles[0])
-      let box = document.getElementById('account-box')
-      box.classList.add('fadeIn')
-    })
+    this.UserInfo();
   },
   methods:{
+    UserInfo(){
+      this.axios('/api/getUserInfo').then((res) => {
+        this.user = JSON.parse(res.data['data']).user
+        this.role = this.translateRole(this.user.roles[0])
+        document.getElementById('loggedInUser').innerHTML = this.user.username
+        let box = document.getElementById('account-box')
+        box.classList.add('fadeIn')
+      })
+    },
     translateRole(role){
       switch (role){
         case 'ROLE_ADMIN':

@@ -45,7 +45,7 @@ class MainController extends AbstractController
         return $this->render('main/index.html.twig', [
             'page' => 'app' ,
             'toView' => $this->serializer->serialize(array(
-                'user' => $this->getUser() !== null ? $this->getUser()->getUserIdentifier() : null,
+                'user' => $this->getUser() !== null ? $user[0]->getUserName() : null,
                 'role' => $this->getUser() !== null ? $this->getUser()->getRoles() : null
             ),'json')
         ]);
