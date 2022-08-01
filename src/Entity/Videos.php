@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\VideosRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -146,12 +147,12 @@ class Videos
         return $this;
     }
 
-    public function getEntryAt(): ?\DateTimeImmutable
+    public function getEntryAt(): ?DateTimeImmutable
     {
         return $this->entryAt;
     }
 
-    public function setEntryAt(\DateTimeImmutable $entryAt): self
+    public function setEntryAt(DateTimeImmutable $entryAt): self
     {
         $this->entryAt = $entryAt;
 

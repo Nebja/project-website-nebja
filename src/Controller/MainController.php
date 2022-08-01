@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\VideosRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,15 +29,23 @@ class MainController extends AbstractController
     }
 
     /**
+     * @param ManagerRegistry $doc
      * @return Response
      */
     #[Route('', name: 'main')]
-    public function index(): Response
+    public function index(ManagerRegistry $doc): Response
     {
+        if ($this->getUser() !== null ){
+            $user = $doc->getManager()->getRepository(User::class)->findBy(['email' => $this->getUser()->getUserIdentifier()]);
+            $verify = $user[0]->isVerified();
+            if(!$verify){
+                $this->addFlash('notice', 'Please verify your email . For new link click here <a href="/verify/newEmail">NEW LINK</a>');
+            }
+        }
         return $this->render('main/index.html.twig', [
             'page' => 'app' ,
             'toView' => $this->serializer->serialize(array(
-                'user' => $this->getUser() !== null ? $this->getUser()->getUserIdentifier() : null,
+                'user' => $this->getUser() !== null ? $user[0]->getUserName() : null,
                 'role' => $this->getUser() !== null ? $this->getUser()->getRoles() : null
             ),'json')
         ]);
@@ -83,7 +93,6 @@ class MainController extends AbstractController
     public function jsonMsg(Request $request): JsonResponse
     {
         $getVar = $request->get('testVar');
-        dump($request->query->all());
         $sendVar = 'The Variable is :'. $getVar;
         return new JsonResponse(array('testData' => $sendVar));
     }
