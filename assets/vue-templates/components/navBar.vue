@@ -14,29 +14,29 @@
             <a :class="this.$parent.page==='homeLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Home" id="homeLink" aria-current="page"  @click="showPage('homeLink')"><BIconHouseDoor class="nav-item-zoom"/></a>
           </li>
           <!-- Movie Link  /-->
-          <li :class="this.$parent.smallScreen ? 'nav-item': 'nav-item'" v-if="this.rolesDump?.includes('ROLE_FRIEND')">
+          <li class="nav-item" v-if="this.rolesDump?.includes('ROLE_FRIEND')">
             <a :class="this.$parent.page==='moviesLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Movies" id="moviesLink" aria-current="page" @click="showPage('moviesLink')"><BIconCameraReels class="nav-item-zoom"/></a>
           </li>
           <!-- Account Link  /-->
-          <li :class="this.$parent.smallScreen ? 'nav-item': 'nav-item'" v-if="this.rolesDump?.includes('ROLE_USER')">
+          <li class="nav-item" v-if="this.rolesDump?.includes('ROLE_USER')">
             <a :class="this.$parent.page==='accountLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="My account" id="accountLink" aria-current="page" @click="showPage('accountLink')"><BIconPersonCircle class="nav-item-zoom"/></a>
           </li>
           <!-- Common Links  /-->
-          <li :class="this.$parent.smallScreen ? 'nav-item': 'nav-item'">
+          <li class="nav-item">
             <a :class="this.$parent.page==='aboutLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="About" id="aboutLink" aria-current="page"  @click="showPage('aboutLink')"><BIconGlobe2 class="nav-item-zoom"/></a>
           </li>
-          <li :class="this.$parent.smallScreen ? 'nav-item': 'nav-item'">
+          <li class="nav-item">
             <a :class="this.$parent.page==='contactLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Contact" id="contactLink" aria-current="page"  @click="showPage('contactLink')"><BIconAt class="nav-item-zoom"/></a>
           </li>
           <!-- Admin Links  /-->
-          <li :class="this.$parent.smallScreen ? 'nav-item': 'nav-item'" v-if="this.rolesDump?.includes('ROLE_ADMIN')">
+          <li class="nav-item" v-if="this.rolesDump?.includes('ROLE_ADMIN')">
             <a :class="this.$parent.page==='adminLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Admin Panel" id="adminLink" aria-current="page" @click="showPage('adminLink')"><BIconTools class="nav-item-zoom"/></a>
           </li>
-          <li :class="this.$parent.smallScreen ? 'nav-item': 'nav-item'" v-if="this.rolesDump?.includes('ROLE_ADMIN')">
+          <li class="nav-item" v-if="this.rolesDump?.includes('ROLE_ADMIN')">
             <a :class="this.$parent.page==='testLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Test Site" id="testLink" aria-current="page" @click="showPage('testLink')"><BIconAt class="nav-item-zoom"/></a>
           </li>
         </ul>
-        <a href="#" v-if="!this.viewData.user || !this.$parent.smallScreen"   class="nav-link nav-item-zoom links" data-bs-toggle="tooltip" data-bs-placement="top" title="Login" id="loginFormBtn" @click="loginAnimation($event)"><BIconBoxArrowInLeft/></a>
+        <a href="#" v-if="showArrow"   class="nav-link nav-item-zoom links" data-bs-toggle="tooltip" data-bs-placement="top" title="Login" id="loginFormBtn" @click="loginAnimation($event)"><BIconBoxArrowInLeft/></a>
         <LoginBox :modal="false" @getModal="getModal"/>
       </div>
     </div>
@@ -56,10 +56,10 @@
             <li class="nav-item" v-if="this.rolesDump?.includes('ROLE_FRIEND')">
               <a :class="this.$parent.page==='moviesLink'?'nav-link active':'nav-link'" data-bs-toggle="tooltip" data-bs-placement="top" title="Movies" id="moviesLink" aria-current="page" href="#"  @click="showPage('moviesLink')"><BIconFilm class="nav-item-zoom"/></a>
             </li>
-            <li :class="this.$parent.smallScreen ? 'nav-item': 'nav-item'">
+            <li class="nav-item">
               <a :class="this.$parent.page==='aboutLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="About" id="aboutLink" aria-current="page"  @click="showPage('aboutLink')"><BIconGlobe2 class="nav-item-zoom"/></a>
             </li>
-            <li :class="this.$parent.smallScreen ? 'nav-item': 'nav-item'">
+            <li class="nav-item">
               <a :class="this.$parent.page==='contactLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Contact" id="contactLink" aria-current="page"  @click="showPage('contactLink')"><BIconAt class="nav-item-zoom"/></a>
             </li>
             <li v-if="this.$parent.viewData.user">
@@ -73,17 +73,6 @@
               </a>
             </li>
           </ul>
-<!--          <div class="dropdown">
-            <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
-              <BIconMenuDown/>
-            </a>
-            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
-              <li><a class="dropdown-item" href="javascript:void(0)" @click="mobileLogin">Modal</a></li>
-              <li><a class="dropdown-item" href="#">Post Req</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Token</a></li>
-            </ul>
-          </div>-->
         </div>
       </div>
     </div>
@@ -104,6 +93,11 @@ export default {
       x:0,
       rolesDump: '',
       animator: new animator()
+    }
+  },
+  computed:{
+    showArrow: function () {
+      return !!(!this.viewData.user || this.$parent.smallScreen);
     }
   },
   updated() {
