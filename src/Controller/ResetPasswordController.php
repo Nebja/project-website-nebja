@@ -179,7 +179,7 @@ class ResetPasswordController extends AbstractController
         }
 
         $email = (new TemplatedEmail())
-            ->from(new Address('nebwebsites@nebja.eu', 'NebWeb Mail Bot'))
+            ->from(new Address('support@nebweb.eu', 'NebWeb Mail Bot'))
             ->to($user->getEmail())
             ->subject('Your password reset request')
             ->htmlTemplate('reset_password/email.html.twig')
