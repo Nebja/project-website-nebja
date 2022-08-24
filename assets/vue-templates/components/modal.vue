@@ -22,7 +22,7 @@
             <input type="checkbox"  id="edit_agreement" name="edit_agreement">&nbsp;<label for="edit_agreement">I agree with <a href="#" @click="policy">Privacy Policy</a></label>
           </div>
           <div v-else-if="btn==='Policy'">
-            <agreement/>
+            <Agreement/>
           </div>
         </div>
         <div class="modal-footer">
@@ -35,7 +35,7 @@
             <button type="submit" class="btn btn-primary">{{ btn }}</button>
           </form>
           <button v-if="btn==='Reset'" class="btn btn-primary" data-bs-dismiss="modal" @click="resetPass">Send </button>
-          <button v-if="btn==='Edit'" id="btn_change" class="btn btn-primary" data-bs-dismiss="modal" @click="changeInfo">Change</button>
+          <button v-if="btn==='Edit'" id="btn_change" class="btn btn-primary" data-bs-dismiss="modal" data-validationBtn="true" @click="changeInfo">Change</button>
         </div>
       </div>
     </div>
@@ -43,12 +43,9 @@
 </template>
 
 <script>
-import agreement from './agreement'
+import validations from "../../js/Validations";
 export default {
   name: "modal",
-  components: {
-    agreement
-  },
   props:{
     id: null,
     btn: null,
@@ -76,37 +73,8 @@ export default {
         this.$emit('getModal', 'Password Reset Email Sent', res.data['view'], 'generalModal')
       })
     },
-    validateInput(e){ /*TODO Finish Validations , better make your own class */
-      let input = e.target, label = input.dataset.validate, type= input.type, string
-      if (input.value === ''){
-        string = 'Empty field means no change'
-      }else{
-        switch(type){
-          case 'email':
-            if (!input.value.includes("@") || !input.value.includes(".")){
-              string = 'Please give a correct Email'
-            }else if (!input.value.split(".")[1].length >= 2){
-              string = 'Please give a correct Email with correct domain'
-            }else {
-              string = 'Press change button to save the changes'
-            }
-            break;
-          case 'text':
-            let spChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-            if (spChars.test(input.value)){
-              string = 'Username cant contain special Characters'
-            }else if(input.value.length < 3){
-              string = 'Username must be at least 3 characters'
-            }else {
-              string = 'Press change button to save your new Username'
-            }
-            break;
-          default:
-            console.log('Input is undefined please check with an Admin')
-            break;
-        }
-      }
-      document.getElementById(label).innerHTML = string
+    validateInput(){
+      validations.validate()
     },
     changeInfo(){
       let editEmail = document.getElementById('edit_email')

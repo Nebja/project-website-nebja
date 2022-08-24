@@ -22,7 +22,6 @@ export default {
   created() {
     this.axios.get('/api/movies').then((res) => {
       this.movies = JSON.parse(res.data['toView']).movies
-      console.log(this.movies)
     })
   },
   methods: {}

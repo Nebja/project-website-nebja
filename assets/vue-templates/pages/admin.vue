@@ -22,7 +22,6 @@ export default {
   methods:{
     refreshFiles(){
       this.axios.get('/api/addMovies').then((res) => {
-        console.log(res.data)
       })
     }
   }

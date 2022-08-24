@@ -93,7 +93,6 @@ export default {
       let modal = new Modal(document.getElementById(name), {})
       if(show) {
         if (name === 'generalModal' || name ==='deleteModal'){
-          console.log('here')
           document.getElementById(name + 'Title').innerHTML = title
           document.getElementById(name + 'Body').innerHTML = msg
         }
