@@ -69,6 +69,14 @@ export default {
       this.getModal('NebWeB', this.flash, 'generalModal')
     }
   },
+  watch:{
+    '$data':{
+      handler: function (newVal){
+        console.log('This flash  '+ newVal.flash)
+      },
+      deep: true
+    }
+  },
   updated() {
     this.refreshTooltip()
   },

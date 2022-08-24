@@ -8,7 +8,6 @@ use DateTimeImmutable;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class Helper
 {
@@ -27,28 +26,15 @@ class Helper
 
     /**
      * @param String $projectPath
+     * @param VideosRepository $videosRepository
      * @return void
      */
-    public function addNewMovieFiles (String $projectPath): void
+    public function addNewMovieFiles (String $projectPath, VideosRepository $videosRepository): void
     {
-        $videosArray = $this->addVideosToDB($this->doc->getRepository(Videos::class),$projectPath);
-        $this->removeVideosFromDB($this->doc->getRepository(Videos::class), $videosArray);
+        $videosArray = $this->addVideosToDB($videosRepository,$projectPath);
+        $this->removeVideosFromDB($videosRepository, $videosArray);
     }
 
-    /**
-     * @param $path
-     * @return array
-     */
-    public function getCarouselImages ($path): array
-    {
-        $array = array();
-        $finder = new Finder();
-        $finder->files()->in($path.'/public/img/carousel')->exclude('backup');
-        foreach ($finder as $img){
-            $array[] = $img->getRelativePathname();
-        }
-        return $array;
-    }
     /**
      * @param VideosRepository $videosRepository
      * @param String $path
@@ -58,7 +44,7 @@ class Helper
     {
         $array = array();
         $finder = new Finder();
-        $finder->files()->in($path.'/public/videos');
+        $finder->files()->in($path.'/public_html/Videos');
         foreach ($finder->name('*.mp4') as $file) {
             $fileNameWithExtension = $file->getRelativePathname();
             $filenameWithoutExtension = basename($file->getFilename(), '.'.$file->getExtension());
@@ -68,16 +54,16 @@ class Helper
                 $object->setFile($fileNameWithExtension)
                     ->setName($filenameWithoutExtension)
                     ->setEntryAt(new DateTimeImmutable())
-                    ->setImgPoster($this->matchDbFileToExistingFile($path.'/public/img', $filenameWithoutExtension, 'jpg'))
-                    ->setSubsFile($this->matchDbFileToExistingFile($path.'/public/subs', $filenameWithoutExtension, 'vtt'))
+                    ->setImgPoster($this->matchDbFileToExistingFile($path.'/public_html/img', $filenameWithoutExtension, 'jpg'))
+                    ->setSubsFile($this->matchDbFileToExistingFile($path.'/public_html/subs', $filenameWithoutExtension, 'vtt'))
                     ->setVideoType('None');
                 $videosRepository->add($object, true);
                 $this->logger->info($fileNameWithExtension.' was added as Entry in Database');
             }else{
                 $posterName = $file_exists[0]->getName();
                 $subsName = $file_exists[0]->getName();
-                $file_exists[0]->setImgPoster($this->matchDbFileToExistingFile($path.'/public/img', $posterName, 'jpg'))
-                                ->setSubsFile($this->matchDbFileToExistingFile($path.'/public/subs', $subsName, 'vtt'));
+                $file_exists[0]->setImgPoster($this->matchDbFileToExistingFile($path.'/public_html/img', $posterName, 'jpg'))
+                                ->setSubsFile($this->matchDbFileToExistingFile($path.'/public_html/subs', $subsName, 'vtt'));
                 $this->doc->getManager()->persist($file_exists[0]);
                 $this->doc->getManager()->flush();
             }

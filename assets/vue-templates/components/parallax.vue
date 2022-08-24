@@ -11,14 +11,14 @@
     <div class="section section-2" ref="second">
       <div class="box-parallax">
         <h2>Frameworks</h2>
-        <img src="/img/carousel/12.png" class="images pos-right" alt="image">
-        <img src="/img/carousel/11.png" class="images pos-left" alt="image">
+        <img src="/img/carousel/1.png" class="images pos-right" alt="image">
+        <img src="/img/carousel/2.png" class="images pos-left" alt="image">
       </div>
     </div>
     <div class="section section-2" ref="third">
       <div class="box-parallax">
         <h2>Coding Languages</h2>
-        <img src="/img/carousel/13.png" class="images pos-right" alt="image">
+        <img src="/img/carousel/3.png" class="images pos-right" alt="image">
         <img src="/img/carousel/10.png" class="images pos-left" alt="image">
       </div>
     </div>

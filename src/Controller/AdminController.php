@@ -30,7 +30,7 @@ class AdminController extends AbstractController
     #[Route('/files', name: 'files')]
     public function getFiles(): Response
     {
-        $this->filesystem->setProjectDir($this->getParameter('kernel.project_dir').'/public/');
+        $this->filesystem->setProjectDir($this->getParameter('kernel.project_dir').'/public_html/');
         return new JsonResponse($this->filesystem->serverFiles());
     }
     #[Route('/upload', name: 'upload')]

@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use JetBrains\PhpStorm\ArrayShape;
-use phpDocumentor\Reflection\Project;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -13,9 +12,6 @@ class FileManager
     private Filesystem$filesystem;
     private String $projectDir;
 
-    /**
-     * @param String $projectDir
-     */
     public function __construct()
     {
         $this->projectDir = 'none';
@@ -36,14 +32,13 @@ class FileManager
     public function serverFiles(): array
     {
         $response['images']= $this->findFiles('img');
-        $response['videos']= $this->findFiles('videos');
+        $response['videos']= $this->findFiles('Videos');
         $response['subs']= $this->findFiles('subs');
         return $response;
     }
 
     /**
      * @param String $file
-     * @param String $folder
      * @return array
      */
     #[ArrayShape(['message' => "string", 'error' => "bool"])]

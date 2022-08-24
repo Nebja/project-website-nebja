@@ -64,6 +64,7 @@ export default {
       this.editUser = JSON.parse(res.data['data']).user
       this.$parent.user = this.editUser
       document.getElementById('edit_email').value = this.editUser.email
+      document.getElementById('edit_username').value = this.editUser.username
       document.getElementById('edit_agreement').checked = this.editUser.agreement
     })
   },
@@ -118,10 +119,10 @@ export default {
       let fd = new FormData()
       fd.append('email', document.getElementById('edit_email').value)
       fd.append('id', document.getElementById('edit_id').value)
-      fd.append('id', document.getElementById('edit_username').value)
+      fd.append('username', document.getElementById('edit_username').value)
       fd.append('agree', document.getElementById('edit_agreement').checked)
-      this.axios.post('/api/editEmail', fd).then((res) => {
-        this.$emit('getModal', 'Edit Email', 'Your changes were Saved', 'generalModal')
+      this.axios.post('/api/editInfo', fd).then((res) => {
+        this.$emit('getModal', 'Edit Info', 'Your changes were Saved', 'generalModal')
         this.$emit('UserInfo');
       })
     },

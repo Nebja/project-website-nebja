@@ -7,7 +7,7 @@
             controls
             crossorigin
             playsinline
-            :data-poster="'/img/'+video.imgPoster"
+            :data-poster="'/img/posters/'+video.imgPoster"
             data-plyr='{ "title": "Example Title", "settings": ["captions", "quality", "speed", "loop"] }'
         >
   <!--        <source
@@ -44,8 +44,8 @@ export default {
   },
   beforeMount() {
     this.video = JSON.parse(document.getElementById("video").getAttribute('data-video'))
-    this.source = "/videos/"+this.video
-    this.source = '/videos/'+this.video['file']
+    this.source = "/Videos/"+this.video
+    this.source = '/Videos/'+this.video['file']
   },
   methods: {
     subs(sub){

@@ -47,10 +47,10 @@ class ApiController extends AbstractController
         return new JsonResponse(array('toView' => $this->serializer->serialize(array('movies' => $videos->findAll()), 'json')));
     }
     #[Route('/addMovies', name: 'addMovies', methods: 'GET')]
-    public function addMovies(): Response
+    public function addMovies(VideosRepository $videosRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $this->helper->addNewMovieFiles($this->getParameter('kernel.project_dir'));
+        $this->helper->addNewMovieFiles($this->getParameter('kernel.project_dir'), $videosRepository);
         return new JsonResponse(array('toView' => 'added'));
     }
 
@@ -76,14 +76,15 @@ class ApiController extends AbstractController
         $email = $request->get('email');
         $id = $request->get('id');
         $agree = $request->get('agree');
+        $username = $request->get('username');
         //$user = $doc->getManager()->find(User::class, $id);
         $user = $this->userRepository->find($id);
         if (!$user){
-            throw $this->createNotFoundException(
-              'No user Found with id: '.$request->get('id')
-            );
+            $this->addFlash('error', 'No user Found with id: '.$request->get('id'));
+            return new JsonResponse(array('data' => 'error'));
         }
         $user->setEmail($email)
+                ->setUsername($username)
                 ->setAgreement($agree==='true'?1:0);
         $this->em->flush();
         return new JsonResponse(array('data' => 'updated'));
@@ -133,8 +134,8 @@ class ApiController extends AbstractController
         $senderMsg = $request->get('message');
         $subject = $request->get('subject');
         $email = (new TemplatedEmail())
-            ->from($fromEmail)
-            ->to('nebwebsites@nebja.eu')
+            ->from('support@nebweb.eu')
+            ->to('support@nebweb.eu')
             ->cc($fromEmail)
             ->subject($subject)
             ->htmlTemplate('twig-assets/contactEmail.html.twig')
