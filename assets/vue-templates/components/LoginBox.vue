@@ -9,13 +9,13 @@
     <span class="d-flex" id="loginPanel"  v-else>
       <form id="loginForm" method="post" class="d-flex" action="/login">
         <input v-model="this.$parent.viewData.lastEmail" v-if="this.$parent.viewData.lastEmail" class="form-control me-2" placeholder="username" type="email" name="email" id="inputEmail" autocomplete="email" required autofocus>
-         <input v-else class="form-control me-2" placeholder="username" type="email" name="email" id="inputEmail" autocomplete="email" required autofocus>
-        <input class="form-control me-2" placeholder="password" type="password" name="password" id="inputPassword" autocomplete="current-password" required>
+         <input v-else class="form-control me-2" :placeholder="trans['navbar.username']" type="email" name="email" id="inputEmail" autocomplete="email" required autofocus>
+        <input class="form-control me-2" :placeholder="trans['navbar.pass']" type="password" name="password" id="inputPassword" autocomplete="current-password" required>
         <input v-model="this.$parent.token" type="hidden" name="_csrf_token" id="csrf_token" required>
-        <button class="btn btn-outline-success btn-round" data-bs-toggle="tooltip" data-bs-placement="top" title="Login" type="submit"><BIconDoorOpen /></button>
+        <button class="btn btn-outline-success btn-round" data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.login']" type="submit"><BIconDoorOpen /></button>
         &nbsp;&nbsp;
-         <button :class="this.$parent.page==='registerLink'?'btn btn-primary btn-round disabled' :'btn btn-outline-primary btn-round'" id="registerLink" data-bs-toggle="tooltip" data-bs-placement="right" title="Register" type="button" @click="this.$parent.showPage('registerLink')"><BIconPersonLinesFill /> </button>
-         <button class="btn btn-outline-warning btn-round" id="resetLink" data-bs-toggle="tooltip" data-bs-placement="right" title="Reset Password" type="button" @click="resetPass"><BIconInfoCircle /> </button>
+         <button :class="this.$parent.page==='registerLink'?'btn btn-primary btn-round disabled' :'btn btn-outline-primary btn-round'" id="registerLink" data-bs-toggle="tooltip" data-bs-placement="right" :title="trans['navbar.reg']" type="button" @click="this.$parent.showPage('registerLink')"><BIconPersonLinesFill /> </button>
+         <button class="btn btn-outline-warning btn-round" id="resetLink" data-bs-toggle="tooltip" data-bs-placement="right" :title="trans['navbar.reset']" type="button" @click="resetPass"><BIconInfoCircle /> </button>
       </form>
     </span>
   </div>
@@ -56,9 +56,10 @@
 <script>
 export default {
   name: "LoginBox",
-  props:{
-    modal:''
-  },
+  props:[
+    'modal',
+    'trans'
+    ],
   methods:{
     resetPass(){
         this.$emit('getModal', 'Reset Password Process', '', 'resetModal');

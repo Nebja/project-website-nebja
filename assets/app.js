@@ -22,6 +22,7 @@ import './styles/media.scss'
 import './styles/mobile.scss'
 import './styles/transitions.scss'
 import './styles/animations.scss'
+import "/node_modules/flag-icons/css/flag-icons.min.css"
 // start the Stimulus application
 import * as bootstrap from './bootstrap';
 const app = createApp(homepage)

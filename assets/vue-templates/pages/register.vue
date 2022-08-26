@@ -28,9 +28,9 @@
       <div class="row mb-3">
         <div class="col-sm-10 offset-sm-2">
           <transition name="fade">
-            <Agreement ref="agreement" v-show="showAgreement"/>
+            <Agreement ref="agreement" :trans="trans" v-show="showAgreement"/>
           </transition>
-          <a href="#" class="link-info" @click="showAgreement = !showAgreement">{{ showAgreement ? 'Hide Policy' : 'Show Policy'}}</a>
+          <a href="javascript:void(0)" class="link-info" @click="showAgreement = !showAgreement">{{ showAgreement ? 'Hide Policy' : 'Show Policy'}}</a>
           <div class="form-check">
             <input type="checkbox" v-model="agreement" class="form-check-input" id="register_agreement">
             <label for="register_agreement" class="form-check-label" >Agree with our Policy</label>
@@ -46,6 +46,7 @@
 import validations from "../../js/Validations";
 export default {
   name: "register",
+  props: ['trans'],
   data(){
     return{
       showAgreement: false,

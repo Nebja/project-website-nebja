@@ -47,7 +47,6 @@ class Validations {
         }else {
             this.elem.setAttribute('data-validated', 'true')
             return ''
-            //return 'Press change button to save the changes'
         }
     }
     #text(){
@@ -95,6 +94,7 @@ class Validations {
     }
     #btnCheck(){
         if(this.btn !== null){
+            this.validation = true
             this.elements.forEach( elem => {
                 if (elem.dataset.validated === 'false'){
                     this.validation = false

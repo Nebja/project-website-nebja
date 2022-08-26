@@ -5,10 +5,9 @@
     <div class="card-body text-white text-shadow mw-50 m-auto">
 
       <!--Section heading-->
-      <h2 class="h1-responsive font-weight-bold text-center my-4">Contact Me</h2>
+      <h2 class="h1-responsive font-weight-bold text-center my-4" v-html="trans['contactPage.title']"></h2>
       <!--Section description-->
-      <p class="text-center w-responsive mx-auto mb-5">Do you have any questions? Please do not hesitate to contact
-        me directly.I will come back to you within a matter of hours.</p>
+      <p class="text-center w-responsive mx-auto mb-5" v-html="trans['contactPage.text']"></p>
 
       <div class="row">
 
@@ -24,7 +23,7 @@
                 <div class="md-form mb-0">
                   <input v-if="this.viewData.user" v-model="email" type="text" id="email" name="email" class="form-control" hidden>
                   <input type="text" id="name" name="name" v-model="name" class="form-control">
-                  <label for="name" class="">Your name</label>
+                  <label for="name" class="">{{ trans.name }}</label>
                 </div>
               </div>
               <!--Grid column-->
@@ -33,7 +32,7 @@
               <div class="col-md-6" v-if="!this.viewData.user">
                 <div class="md-form mb-0">
                   <input type="text" id="email" v-model="email" name="email" class="form-control">
-                  <label for="email" class="">Your email</label>
+                  <label for="email" class="">{{ trans.email }}</label>
                 </div>
               </div>
               <!--Grid column-->
@@ -46,7 +45,7 @@
               <div class="col-md-12">
                 <div class="md-form mb-0">
                   <input type="text" id="subject" v-model="subject" name="subject" class="form-control">
-                  <label for="subject" class="">Subject</label>
+                  <label for="subject" class="">{{ trans.subject }}</label>
                 </div>
               </div>
             </div>
@@ -61,7 +60,7 @@
                 <div class="md-form">
                       <textarea type="text" id="message" v-model="message" name="message" rows="2"
                                 class="form-control md-textarea"></textarea>
-                  <label for="message">Your message</label>
+                  <label for="message">{{ trans.msg }}</label>
                 </div>
 
               </div>
@@ -71,7 +70,7 @@
           </form>
 
           <div class="text-center text-md-left">
-            <a class="btn btn-primary" @click="sendMsg">Send</a>
+            <a class="btn btn-primary" @click="sendMsg">{{ trans.send }}</a>
           </div>
           <div class="status"></div>
         </div>
@@ -81,7 +80,7 @@
         <div class="col-md-3 text-center">
           <ul class="list-unstyled mb-0">
             <li><i class="fas fa-map-marker-alt fa-2x"></i>
-              <p>Berlin, 13351, Germany</p>
+              <p>{{ trans.address }}</p>
             </li>
 
             <li><i class="fas fa-phone mt-4 fa-2x"></i>
@@ -105,7 +104,7 @@
 <script>
 export default {
   name: "Contact",
-  props:['viewData'],
+  props:['viewData', 'trans'],
   data(){
     return {
       message: null,
@@ -113,6 +112,9 @@ export default {
       email: this.viewData.user,
       subject: null
     }
+  },
+  mounted() {
+    console.log(JSON.stringify(this.trans))
   },
   methods:{
     sendMsg(e){
