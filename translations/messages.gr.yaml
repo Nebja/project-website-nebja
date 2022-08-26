@@ -15,6 +15,7 @@ navbar:
   about: Σχετικά
   contact: Επικοινωνία
   login: Σύνδεση
+  logout: Αποσύνδεση
   reg: Εγγραφή
   reset: Επαναφορά κωδικού
   username: Όνομα Χρήστη

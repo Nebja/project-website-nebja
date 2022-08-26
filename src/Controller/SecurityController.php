@@ -25,6 +25,7 @@ class SecurityController extends AbstractController
     /**
      * @param AuthenticationUtils $authenticationUtils
      * @param RequestStack $requestStack
+     * @param TranslatorInterface $translator
      * @return Response
      */
     #[Route('/login', name: 'app_login')]

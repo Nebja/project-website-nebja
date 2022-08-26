@@ -15,6 +15,7 @@ navbar:
   about: About
   contact: Contact
   login: Login
+  logout: Logout
   register: Register
   reset: Reset password
   username: Username

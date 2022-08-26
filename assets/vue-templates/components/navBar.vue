@@ -29,14 +29,15 @@
             <a :class="this.$parent.page==='contactLink'?'nav-link active':'nav-link'" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.contact']" id="contactLink" aria-current="page"  @click="showPage('contactLink')"><BIconAt class="nav-item-zoom"/></a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle nav-item-zoom" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <span class="fi fi-gb" v-if="trans.lang === 'en'"></span>
-              <span class="fi fi-gr" v-else></span>
+              <span class="fi fi-gr" v-else-if="trans.lang === 'gr'"></span>
+              <span class="fi fi-de" v-else></span>
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="/gr"><span class="fi fi-gr"></span>{{ trans['languages.gr']}}</a></li>
-              <li><a class="dropdown-item" href="/en"><span class="fi fi-gb"></span>{{ trans['languages.en']}}</a></li>
-              <li><a class="dropdown-item disabled" href="javascript:void(0)"><span class="fi fi-de"></span>{{ trans['languages.de']}}</a></li>
+              <li><a :class="trans.lang === 'gr' ? 'dropdown-item nav-item-zoom disabled' : 'dropdown-item nav-item-zoom'" href="/gr"><span class="fi fi-gr"></span>{{ trans['languages.gr']}}</a></li>
+              <li><a :class="trans.lang === 'en' ? 'dropdown-item nav-item-zoom disabled' : 'dropdown-item nav-item-zoom'" href="/en"><span class="fi fi-gb"></span>{{ trans['languages.en']}}</a></li>
+              <li><a :class="trans.lang === 'de' ? 'dropdown-item nav-item-zoom disabled' : 'dropdown-item nav-item-zoom'" href="/de"><span class="fi fi-de"></span>{{ trans['languages.de']}}</a></li>
             </ul>
           </li>
           <!-- Admin Links  /-->
