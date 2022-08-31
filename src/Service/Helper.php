@@ -44,7 +44,7 @@ class Helper
     {
         $array = array();
         $finder = new Finder();
-        $finder->files()->in($path.'/public_html/Videos');
+        $finder->files()->in($path.'/public/Videos');
         foreach ($finder->name('*.mp4') as $file) {
             $fileNameWithExtension = $file->getRelativePathname();
             $filenameWithoutExtension = basename($file->getFilename(), '.'.$file->getExtension());
@@ -54,16 +54,16 @@ class Helper
                 $object->setFile($fileNameWithExtension)
                     ->setName($filenameWithoutExtension)
                     ->setEntryAt(new DateTimeImmutable())
-                    ->setImgPoster($this->matchDbFileToExistingFile($path.'/public_html/img', $filenameWithoutExtension, 'jpg'))
-                    ->setSubsFile($this->matchDbFileToExistingFile($path.'/public_html/subs', $filenameWithoutExtension, 'vtt'))
+                    ->setImgPoster($this->matchDbFileToExistingFile($path.'/public/img', $filenameWithoutExtension, 'jpg'))
+                    ->setSubsFile($this->matchDbFileToExistingFile($path.'/public/subs', $filenameWithoutExtension, 'vtt'))
                     ->setVideoType('None');
                 $videosRepository->add($object, true);
                 $this->logger->info($fileNameWithExtension.' was added as Entry in Database');
             }else{
                 $posterName = $file_exists[0]->getName();
                 $subsName = $file_exists[0]->getName();
-                $file_exists[0]->setImgPoster($this->matchDbFileToExistingFile($path.'/public_html/img', $posterName, 'jpg'))
-                                ->setSubsFile($this->matchDbFileToExistingFile($path.'/public_html/subs', $subsName, 'vtt'));
+                $file_exists[0]->setImgPoster($this->matchDbFileToExistingFile($path.'/public/img', $posterName, 'jpg'))
+                                ->setSubsFile($this->matchDbFileToExistingFile($path.'/public/subs', $subsName, 'vtt'));
                 $this->doc->getManager()->persist($file_exists[0]);
                 $this->doc->getManager()->flush();
             }

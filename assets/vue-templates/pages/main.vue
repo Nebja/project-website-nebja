@@ -3,17 +3,18 @@
     <navBar
         :viewData="viewData"
         :token="token"
+        :trans="trans"
     />
     <div id="view-show" ref="viewShow" class="overflow-hidden">
       <Transition name="fade" mode="out-in">
-        <register v-if="page==='registerLink'" @getModal="getModal"/>
-        <parallax v-else-if="page==='homeLink'" class="box"/>
-        <movies v-else-if="page==='moviesLink'" class="box"/>
-        <admin v-else-if="page==='adminLink'" class="box"/>
-        <account v-else-if="page==='accountLink'" @getModal="getModal"/>
-        <test v-else-if="page==='testLink'"  @getModal="getModal" />
-        <Contact v-else-if="page==='contactLink'" :viewData="viewData" @getModal="getModal" class="box"/>
-        <About v-else-if="page==='aboutLink'" class="box"/>
+        <register v-if="page==='registerLink'" @getModal="getModal" :trans="trans"/>
+        <parallax v-else-if="page==='homeLink'" class="box" :trans="trans"/>
+        <movies v-else-if="page==='moviesLink'" class="box" :trans="trans"/>
+        <admin v-else-if="page==='adminLink'" class="box" :trans="trans"/>
+        <account v-else-if="page==='accountLink'" @getModal="getModal" :trans="trans"/>
+        <test v-else-if="page==='testLink'"  @getModal="getModal" :trans="trans"/>
+        <Contact v-else-if="page==='contactLink'" :viewData="viewData" :trans="trans" @getModal="getModal" class="box"/>
+        <About v-else-if="page==='aboutLink'" :trans="trans" class="box"/>
       </Transition>
     </div>
   </div>
@@ -39,7 +40,8 @@ export default {
       viewData: '',
       page: 'homeLink',
       smallScreen: '',
-      flash: ''
+      flash: '',
+      trans: ''
     }
   },
   components:{
@@ -53,12 +55,15 @@ export default {
     test,
     account,
   },
+  created(){
+    this.viewData = JSON.parse(document.getElementById("app").getAttribute('data-view'))
+    this.trans = JSON.parse(this.viewData.trans)
+  },
   mounted(){
     this.token = document.getElementById("app").getAttribute('token')
     this.flash = document.getElementById("app").getAttribute('flash')
-    this.viewData = JSON.parse(document.getElementById("app").getAttribute('data-view'))
     if(this.viewData.error != null){
-      this.getModal('Login Error',this.viewData.error === 'Bad credentials.' ? 'Email doesnt exists': this.viewData.error, 'generalModal')
+      this.getModal(this.trans['modal.logError'],this.viewData.error === 'Bad credentials.' ? this.trans['navbar.badCre']: this.trans['navbar.wrongPass'], 'generalModal')
     }
     if (this.viewData.form){
       this.getModal('Reset Password',this.viewData.form, 'generalModal')
@@ -93,7 +98,6 @@ export default {
       let modal = new Modal(document.getElementById(name), {})
       if(show) {
         if (name === 'generalModal' || name ==='deleteModal'){
-          console.log('here')
           document.getElementById(name + 'Title').innerHTML = title
           document.getElementById(name + 'Body').innerHTML = msg
         }

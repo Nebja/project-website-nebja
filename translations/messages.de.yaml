@@ -1,0 +1,69 @@
+lang: de
+name: Name
+email: Email
+subject: Thema
+msg: Nachricht
+send: Senden
+close: Schließen
+address: Berlin, 13351, Deutchland
+languages:
+  en: Englisch
+  gr: Griechisch
+  de: Deutch
+navbar:
+  home: Home
+  about: Mehr
+  contact: Kontakt
+  login: Anmelden
+  logout: Abmelden
+  register: Registrierung
+  reset: Passwort zurücksetzen
+  username: Nutzername
+  pass: passwort
+  movies: Filme
+  account: Mein Konto
+  admin: Administrationsmenü
+  badCre: Email existiert nicht
+  wrongPass: Falshe passwort
+modal:
+  logError: Login Fehler
+  policy: Datenschutz
+  agreeWith: Ich bin einverstanden mit
+  agree: Stimmen Sie unserer Datenschutzerklärung zu?
+  resetText: Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Link zum Zurücksetzen Ihres Passworts.
+  enterName: Geben Sie Ihren neuen Benutzernamen ein.
+  enterEmail: Geben Sie Ihre neue E-Mail ein.
+  change: Ändern
+home:
+  code: Programmiersprachen
+  scroll: Scrollen Sie für weitere Informationen
+  thanks: Mit der Hilfe von
+
+aboutPage:
+  title: Über meine Arbeit
+  text: Nachdem ich mich 2012 in Berlin zurechtgefunden hatte, entschied ich mich 2017, zu dem Job zurückzukehren, den ich 2005 so sehr geliebt habe, im Coding.<br>
+    Seit 2017 konzentriere ich mich auf Webanwendungen mit etwas Erfahrung in mobilen und Windows-Apps. Ich begann mit einigen kleinen Web-Apps für einige Freunde (jQuery-Frontend und einfaches PHP-Backend) und nach zwei Jahren Ausbildung als Softwareentwickler,
+    Ich habe Symfony während meines Praktikums verwendet. Das letzte Jahr in meinem jetzigen Job musste ich mehr über Vue.Js lernen und ich liebte es.
+    <br><br>
+    Genauer gesagt habe ich 2 Websites für einige Freunde mit Symfony und jQuery erstellt, eine Web-App für die Speicherverwaltung mit Symfony/jQuery in meinem Praktikum und in meinem aktuellen Job eine Web-App für das Back-End mit dem Symfony-Framework.
+    In meinem Praktikum habe ich auch eine Windows-App mit Java/JavaFx und eine mobile App mit Android Studio und Java erstellt.
+    <br><br>
+    Ich habe in der Vergangenheit viele Sprachen verwendet, da ich seit 2005 Softwareentwickler bin, wo ich das Institute of Professional Training von Lagada abschloss. Aber als immer mehr Unternehmen in das World Wide Web expandieren wollten , wurde ich von PhP und Javascript angezogen .
+    <br><br>
+    Trotzdem genieße ich jede Programmiersprache, die ich lernen muss, und deshalb bin ich offen für jede zukünftige Lernherausforderung, der ich mich stellen muss.
+  footer: Beniamin Kotsaridis Softwareentwickler seit 2005
+contactPage:
+  title: Kontaktiere sie mich
+  text: Haben Sie irgendwelche Fragen? Bitte zögern Sie nicht, mich direkt zu kontaktieren. Ich werde mich innerhalb weniger Stunden bei Ihnen melden.
+accountPage:
+  here: Du bist here als
+  yEmail: Ihre E-Mail ist verifiziert.
+  nEmail: Sie müssen Ihre E-Mail bestätigen.
+  yAgree: Sie haben unserer Datenschutzerklärung zugestimmt
+  nAgree: Sie haben unserer Datenschutzrichtlinie nicht zugestimmt
+  gText1: Bitte senden Sie keine E-Mails an
+  gText2: Es wird nur für die Gastanmeldung verwendet.<br>
+    Dieses Konto kann für Entwicklungszwecke deaktiviert werden, daher empfehle ich <br>
+    Ihr eigenes Konto mit Ihrer E-Mail-Adresse.
+  del: Konto löschen
+  edit: Konto bearbeiten

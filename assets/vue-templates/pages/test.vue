@@ -22,7 +22,6 @@ export default {
     this.axios('/api/getUserInfo').then((res) => {
       this.user = JSON.parse(res.data['data']).user
       this.role = this.translateRole(this.user.roles[0])
-      console.log(JSON.stringify(this.user))
     })
   },
   methods:{

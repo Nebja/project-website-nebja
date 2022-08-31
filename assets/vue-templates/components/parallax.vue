@@ -4,7 +4,7 @@
     <div class="section section-1" ref="first">
       <div class="first-box">
         <h1>NebWeb!<br>
-            Scroll for more Info
+           {{ this.trans['home.scroll'] }}
         </h1>
       </div>
     </div>
@@ -17,14 +17,14 @@
     </div>
     <div class="section section-2" ref="third">
       <div class="box-parallax">
-        <h2>Coding Languages</h2>
+        <h2>{{ this.trans['home.code'] }}</h2>
         <img src="/img/carousel/3.png" class="images pos-right" alt="image">
-        <img src="/img/carousel/10.png" class="images pos-left" alt="image">
+        <img src="/img/carousel/4.png" class="images pos-left" alt="image">
       </div>
     </div>
     <div class="section section-2" ref="fourth">
       <div class="box-parallax">
-        <h2>Special Thanks</h2>
+        <h2>{{ this.trans['home.thanks'] }}</h2>
         <img src="/img/carousel/boot.png" class="images" alt="image">
       </div>
     </div>
@@ -35,6 +35,7 @@
 import { ref } from 'vue'
 export default {
   name: 'parallax',
+  props: [ 'trans' ],
   setup() {
     const background = ref(background)
     const first = ref(first)

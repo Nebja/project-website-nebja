@@ -4,7 +4,6 @@
 
 {% block body %}
     {% if page is same as('app')%}
-<!--       {{ dump(toView) }}-->
         {% set msg =  '' %}
         {% for label, messages in app.flashes %}
             {% for message in messages %}
@@ -16,7 +15,6 @@
                value="{{ csrf_token('authenticate') }}"
         >
     {% else %}
-<!--       {{ dump(video) }}-->
         <div id="video" data-video="{{ video }}"></div>
     {% endif %}
 {% endblock %}

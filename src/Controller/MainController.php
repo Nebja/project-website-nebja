@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -16,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/', name: 'app_')]
 class MainController extends AbstractController
@@ -27,14 +29,26 @@ class MainController extends AbstractController
         $normalizer = [new ObjectNormalizer()];
         $this->serializer =  new Serializer($normalizer, $encoders);
     }
+    #[Route('')]
+    public function indexNoLocale(): Response
+    {
+        return $this->redirectToRoute('app_main', ['_locale' => 'en']);
+    }
 
     /**
      * @param ManagerRegistry $doc
+     * @param TranslatorInterface $translator
+     * @param Request $request
      * @return Response
      */
-    #[Route('', name: 'main')]
-    public function index(ManagerRegistry $doc): Response
+    #[Route('{_locale<%app.supported_locales%>}/', name: 'main')]
+    public function index(ManagerRegistry $doc, TranslatorInterface $translator, Request $request, RequestStack $requestStack): Response
     {
+        $loc = $request->getLocale();
+        $session = $requestStack->getSession();
+        $session->set('lang', $loc);
+
+        $translations = $translator->getCatalogue($loc);
         if ($this->getUser() !== null ){
             $user = $doc->getManager()->getRepository(User::class)->findBy(['email' => $this->getUser()->getUserIdentifier()]);
             $verify = $user[0]->isVerified();
@@ -46,7 +60,8 @@ class MainController extends AbstractController
             'page' => 'app' ,
             'toView' => $this->serializer->serialize(array(
                 'user' => $this->getUser() !== null ? $user[0]->getUserName() : null,
-                'role' => $this->getUser() !== null ? $this->getUser()->getRoles() : null
+                'role' => $this->getUser() !== null ? $this->getUser()->getRoles() : null,
+                'trans' => $this->serializer->serialize($translations->all()['messages'], 'json')
             ),'json')
         ]);
     }

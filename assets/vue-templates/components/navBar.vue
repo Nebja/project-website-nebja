@@ -1,6 +1,6 @@
 <template>
-  <modal id="generalModal" btn="false" userId="none"/>
-  <modal id="resetModal" btn="Reset" userId="none" @getModal="getModal"/>
+  <modal id="generalModal" btn="false" userId="none" :trans="trans"/>
+  <modal id="resetModal" btn="Reset" userId="none" :trans="trans" @getModal="getModal"/>
   <nav class="navbar fixed-top navbar-expand-lg no-padding navbar-light glowing" v-if="!this.$parent.smallScreen">
     <div class="container-fluid moveArea padding-sm">
       <img src="/img/logo_new.png" class="logo" alt="nebWeb">
@@ -11,36 +11,48 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-auto" id="navbar-list">
           <!-- Home Link  /-->
           <li :class="this.$parent.smallScreen ? 'nav-item text-center': 'nav-item'">
-            <a :class="this.$parent.page==='homeLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Home" id="homeLink" aria-current="page"  @click="showPage('homeLink')"><BIconHouseDoor class="nav-item-zoom"/></a>
+            <a :class="this.$parent.page==='homeLink'?'nav-link active':'nav-link'" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.home']" id="homeLink" aria-current="page"  @click="showPage('homeLink')"><BIconHouseDoor class="nav-item-zoom"/></a>
           </li>
           <!-- Movie Link  /-->
           <li class="nav-item" v-if="this.rolesDump?.includes('ROLE_FRIEND')">
-            <a :class="this.$parent.page==='moviesLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Movies" id="moviesLink" aria-current="page" @click="showPage('moviesLink')"><BIconCameraReels class="nav-item-zoom"/></a>
+            <a :class="this.$parent.page==='moviesLink'?'nav-link active':'nav-link'" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.movies']" id="moviesLink" aria-current="page" @click="showPage('moviesLink')"><BIconCameraReels class="nav-item-zoom"/></a>
           </li>
           <!-- Account Link  /-->
           <li class="nav-item" v-if="this.rolesDump?.includes('ROLE_USER')">
-            <a :class="this.$parent.page==='accountLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="My account" id="accountLink" aria-current="page" @click="showPage('accountLink')"><BIconPersonCircle class="nav-item-zoom"/></a>
+            <a :class="this.$parent.page==='accountLink'?'nav-link active':'nav-link'" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.account']" id="accountLink" aria-current="page" @click="showPage('accountLink')"><BIconPersonCircle class="nav-item-zoom"/></a>
           </li>
           <!-- Common Links  /-->
           <li class="nav-item">
-            <a :class="this.$parent.page==='aboutLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="About" id="aboutLink" aria-current="page"  @click="showPage('aboutLink')"><BIconGlobe2 class="nav-item-zoom"/></a>
+            <a :class="this.$parent.page==='aboutLink'?'nav-link active':'nav-link'" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.about']" id="aboutLink" aria-current="page"  @click="showPage('aboutLink')"><BIconGlobe2 class="nav-item-zoom"/></a>
           </li>
           <li class="nav-item">
-            <a :class="this.$parent.page==='contactLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Contact" id="contactLink" aria-current="page"  @click="showPage('contactLink')"><BIconAt class="nav-item-zoom"/></a>
+            <a :class="this.$parent.page==='contactLink'?'nav-link active':'nav-link'" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.contact']" id="contactLink" aria-current="page"  @click="showPage('contactLink')"><BIconAt class="nav-item-zoom"/></a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle nav-item-zoom" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="fi fi-gb" v-if="trans.lang === 'en'"></span>
+              <span class="fi fi-gr" v-else-if="trans.lang === 'gr'"></span>
+              <span class="fi fi-de" v-else></span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a :class="trans.lang === 'gr' ? 'dropdown-item nav-item-zoom disabled' : 'dropdown-item nav-item-zoom'" href="/gr"><span class="fi fi-gr"></span>{{ trans['languages.gr']}}</a></li>
+              <li><a :class="trans.lang === 'en' ? 'dropdown-item nav-item-zoom disabled' : 'dropdown-item nav-item-zoom'" href="/en"><span class="fi fi-gb"></span>{{ trans['languages.en']}}</a></li>
+              <li><a :class="trans.lang === 'de' ? 'dropdown-item nav-item-zoom disabled' : 'dropdown-item nav-item-zoom'" href="/de"><span class="fi fi-de"></span>{{ trans['languages.de']}}</a></li>
+            </ul>
           </li>
           <!-- Admin Links  /-->
           <li class="nav-item" v-if="this.rolesDump?.includes('ROLE_ADMIN')">
-            <a :class="this.$parent.page==='adminLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Admin Panel" id="adminLink" aria-current="page" @click="showPage('adminLink')"><BIconTools class="nav-item-zoom"/></a>
+            <a :class="this.$parent.page==='adminLink'?'nav-link active':'nav-link'" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.admin']" id="adminLink" aria-current="page" @click="showPage('adminLink')"><BIconTools class="nav-item-zoom"/></a>
           </li>
         </ul>
-        <a href="#" v-if="showArrow"   class="nav-link nav-item-zoom links" data-bs-toggle="tooltip" data-bs-placement="top" title="Login" id="loginFormBtn" @click="loginAnimation($event)"><BIconBoxArrowInLeft/></a>
-        <LoginBox :modal="false" @getModal="getModal"/>
+        <a href="javascript:void(0)" v-if="showArrow"   class="nav-link nav-item-zoom links" data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.login']" id="loginFormBtn" @click="loginAnimation($event)"><BIconBoxArrowInLeft/></a>
+        <LoginBox :modal="false" @getModal="getModal" :trans="trans"/>
       </div>
     </div>
   </nav>
   <div class="mobile-bar glowing" v-else>
     <div class="">
-      <LoginBox :modal="true"/>
+      <LoginBox :modal="true" :trans="trans"/>
       <div class="col-sm-auto">
         <div class="d-flex flex-sm-column flex-row align-items-center">
           <a href="/" class="d-block p-3 link-dark text-decoration-none">
@@ -81,10 +93,11 @@ import animator from '/assets/js/animations';
 import Tooltip from "bootstrap/js/src/tooltip";
 export default {
   name: "navBar",
-  props: {
-    viewData: '',
-    token: '',
-  },
+  props: [
+    'viewData',
+    'token',
+    'trans'
+  ],
   data(){
     return {
       x:0,

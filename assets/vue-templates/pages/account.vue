@@ -1,26 +1,24 @@
 <template>
   <div class="card custom-box accountBox" id="account-box">
-    <modal id="deleteModal" btn="Delete" :userId="user.id" @getModal="getModal"/>
-    <modal id="logoutModal" btn="Logout" :userId="user.id" @getModal="getModal"/>
-    <modal id="editModal" btn="Edit" :userId="user.id" @getModal="getModal" @UserInfo="UserInfo"/>
-    <modal id="policyModal" btn="Policy" :userId="user.id" @getModal="getModal"/>
+    <modal id="deleteModal" btn="Delete" :userId="user.id" @getModal="getModal" :trans="trans"/>
+    <modal id="logoutModal" btn="Logout" :userId="user.id" @getModal="getModal" :trans="trans"/>
+    <modal id="editModal" btn="Edit" :userId="user.id" :trans="trans" @getModal="getModal" @UserInfo="UserInfo"/>
+    <modal id="policyModal" btn="Policy" :userId="user.id" :trans="trans" @getModal="getModal"/>
     <img class="background" ref="background" src="/img/bg/account.jpg"  alt="bg"/>
     <h5 class="card-header" id="email_header" :key="user">{{ user.email }}</h5>
     <div class="card-body">
-      <h5 class="card-title">Your are here as  {{ user.email !== 'guest@nebja.eu' ? role : 'Guest' }}</h5>
+      <h5 class="card-title">{{ trans['accountPage.here']}} {{ user.email !== 'guest@nebja.eu' ? role : 'Guest' }}</h5>
       <p class="card-text">
         <span v-if="user.email !== 'guest@nebja.eu'" :key="user">
-          {{ user.verified ? 'Your Email is verified' : 'You need to verify your email' }} <br>
-          {{ user.agreement ? 'You have agreed with our Privacy Policy' : 'You didn\'t agree with our Privacy Policy'}}
+          {{ user.verified ? trans['accountPage.yEmail'] : trans['accountPage.nEmail'] }} <br>
+          {{ user.agreement ? trans['accountPage.yAgree'] : trans['accountPage.nAgree'] }}
         </span>
         <span v-else>
-          Please dont send Emails to guest@nebja.eu. Its only use is for guest login.<br>
-          This account can be disabled for development purposes , so I recommend to make <br>
-          your own account with your email address.
+          {{ trans['accountPage.gText1'] }} guest@nebja.eu. <span v-html="trans['accountPage.gText2']"></span>
         </span>
       </p>
-      <button v-if="user.email !== 'guest@nebja.eu'" class="btn btn-warning" @click="openModal('Delete')" >Delete Account</button>&nbsp;
-      <button v-if="user.email !== 'guest@nebja.eu'" class="btn btn-success" @click="openModal('Edit')" >Edit Account</button>
+      <button v-if="user.email !== 'guest@nebja.eu'" class="btn btn-warning" @click="openModal('Delete')" >{{ trans['accountPage.del'] }}</button>&nbsp;
+      <button v-if="user.email !== 'guest@nebja.eu'" class="btn btn-success" @click="openModal('Edit')" >{{ trans['accountPage.edit'] }}</button>
     </div>
   </div>
 </template>
@@ -29,6 +27,7 @@
 export default {
   name: "account",
   emits:["getModal"],
+  props: ['trans'],
   data (){
     return {
       user: '',

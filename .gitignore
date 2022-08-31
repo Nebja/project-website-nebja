@@ -7,7 +7,7 @@
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
-/public_html/bundles/
+/public/bundles/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
@@ -22,7 +22,7 @@
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
-/public_html/build/
+/public/build/
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###

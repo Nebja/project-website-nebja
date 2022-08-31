@@ -9,24 +9,24 @@
         <div class="modal-body" :id="id+'Body'">
           <div v-if="btn==='Reset'" >
             <input class="form-control input-group" id="reset_email" type="email" placeholder="Email" name="reset_email">
-            <p>Enter your email address and we will send you a link to reset your password</p>
+            <p>{{ trans['modal.resetText'] }}</p>
           </div>
           <div v-else-if="btn==='Edit'">
-            <p id="edit_text_email">Enter your new Email.</p>
+            <p id="edit_text_email">{{ trans['modal.enterEmail'] }}</p>
             <input name="edit_id" id="edit_id" :value="userId" hidden>
             <input class="form-control input-group" id="edit_email" type="email" placeholder="Email" data-validate="edit_text_email" name="edit_email" @keyup="validateInput">
             <br>
-            <p id="edit_text_username">Enter your new Username.</p>
+            <p id="edit_text_username">{{ trans['modal.enterName'] }}</p>
             <input class="form-control input-group" id="edit_username" type="text" placeholder="Username" data-validate="edit_text_username" name="edit_username" @keyup="validateInput">
-            <p>Do you agree with our Privacy Policy?</p>
-            <input type="checkbox"  id="edit_agreement" name="edit_agreement">&nbsp;<label for="edit_agreement">I agree with <a href="#" @click="policy">Privacy Policy</a></label>
+            <p>{{ trans['modal.agree'] }}</p>
+            <input type="checkbox"  id="edit_agreement" name="edit_agreement">&nbsp;<label for="edit_agreement">{{ trans['modal.agreeWith'] }}<a href="#" @click="policy">{{ trans['modal.policy'] }}</a></label>
           </div>
           <div v-else-if="btn==='Policy'">
-            <agreement/>
+            <Agreement :trans="trans" />
           </div>
         </div>
         <div class="modal-footer">
-          <button v-if="btn!=='Logout'" id="xClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button v-if="btn!=='Logout'" id="xClose" type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ trans.close }}</button>
           <form v-if="btn==='Delete'" action="/api/deleteAccount">
             <input name="id" id="id" :value="userId" hidden>
             <button type="submit" class="btn btn-primary">{{ btn }}</button>
@@ -34,8 +34,8 @@
           <form v-if="btn==='Logout'" action="/logout">
             <button type="submit" class="btn btn-primary">{{ btn }}</button>
           </form>
-          <button v-if="btn==='Reset'" class="btn btn-primary" data-bs-dismiss="modal" @click="resetPass">Send </button>
-          <button v-if="btn==='Edit'" id="btn_change" class="btn btn-primary" data-bs-dismiss="modal" @click="changeInfo">Change</button>
+          <button v-if="btn==='Reset'" class="btn btn-primary" data-bs-dismiss="modal" @click="resetPass">{{ trans.send }} </button>
+          <button v-if="btn==='Edit'" id="btn_change" class="btn btn-primary" data-bs-dismiss="modal" data-validationBtn="true" @click="changeInfo">{{ trans['modal.change'] }}</button>
         </div>
       </div>
     </div>
@@ -43,17 +43,15 @@
 </template>
 
 <script>
-import agreement from './agreement'
+import validations from "../../js/Validations";
 export default {
   name: "modal",
-  components: {
-    agreement
-  },
-  props:{
-    id: null,
-    btn: null,
-    userId: null
-  },
+  props:[
+    'id',
+    'btn',
+    'userId',
+    'trans'
+    ],
   data(){
     return {
       editUser: ''
@@ -76,37 +74,8 @@ export default {
         this.$emit('getModal', 'Password Reset Email Sent', res.data['view'], 'generalModal')
       })
     },
-    validateInput(e){ /*TODO Finish Validations , better make your own class */
-      let input = e.target, label = input.dataset.validate, type= input.type, string
-      if (input.value === ''){
-        string = 'Empty field means no change'
-      }else{
-        switch(type){
-          case 'email':
-            if (!input.value.includes("@") || !input.value.includes(".")){
-              string = 'Please give a correct Email'
-            }else if (!input.value.split(".")[1].length >= 2){
-              string = 'Please give a correct Email with correct domain'
-            }else {
-              string = 'Press change button to save the changes'
-            }
-            break;
-          case 'text':
-            let spChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-            if (spChars.test(input.value)){
-              string = 'Username cant contain special Characters'
-            }else if(input.value.length < 3){
-              string = 'Username must be at least 3 characters'
-            }else {
-              string = 'Press change button to save your new Username'
-            }
-            break;
-          default:
-            console.log('Input is undefined please check with an Admin')
-            break;
-        }
-      }
-      document.getElementById(label).innerHTML = string
+    validateInput(){
+      validations.validate()
     },
     changeInfo(){
       let editEmail = document.getElementById('edit_email')

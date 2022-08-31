@@ -30,7 +30,7 @@ class AdminController extends AbstractController
     #[Route('/files', name: 'files')]
     public function getFiles(): Response
     {
-        $this->filesystem->setProjectDir($this->getParameter('kernel.project_dir').'/public_html/');
+        $this->filesystem->setProjectDir($this->getParameter('kernel.project_dir').'/public/');
         return new JsonResponse($this->filesystem->serverFiles());
     }
     #[Route('/upload', name: 'upload')]
@@ -53,8 +53,6 @@ class AdminController extends AbstractController
     #[Route('/test', name: 'test')]
     public function test(Request $request): Response
     {
-        dump('Chunk with id: '.$request->get('id').' received.');
-        dump($request->files->get('data'));
         return new JsonResponse(array('data' => $request->files->get('data')));
     }
 }

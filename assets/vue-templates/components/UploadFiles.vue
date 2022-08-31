@@ -78,8 +78,6 @@ export default {
   name: "UploadFiles",
   mounted() {
     UploadService.getFiles('img').then(response => {
-      console.log('works')
-      console.log(response.data)
       this.fileInfos = response.data;
     });
   },
@@ -104,7 +102,6 @@ export default {
     upload() {
       let filename = document.getElementById('filename').value, folder = document.getElementById('folder-select').value
       this.progress = 0;
-      console.log(this.selectedFiles)
       this.currentFile = this.selectedFiles;
       UploadService.upload(this.currentFile, event => {
         this.progress = Math.round((100 * event.loaded) / event.total);
