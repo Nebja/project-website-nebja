@@ -1,34 +1,52 @@
 <?php
 namespace Deployer;
 
-require 'recipe/common.php';
+require 'recipe/symfony.php';
+require 'contrib/yarn.php';
 
 // Config
 
-set('repository', 'git@github.com:Nebja/project-website-nebja.git');
-
+set('repository', 'https://github.com/Nebja/project-website-nebja.git');
+set('keep_releases', 3);
 add('shared_files', []);
 add('shared_dirs', []);
 add('writable_dirs', []);
 
 // Hosts
-host('Dev')
-    ->setHostname('45.84.206.195')
-    ->setForwardAgent(true)
-    ->setRemoteUser('u463018380')
-    ->setPort(65002)
-    ->setIdentityFile('~/.ssh/nebjaeu_id_rsa')
-    ->set('deploy_path', '~/domains/nebja.eu/dev');
-// Hooks
+host('dev')
+    ->setHostname('185.224.139.185')
+    ->setIdentityFile('~/.ssh/id_rsa')
+    ->setRemoteUser('root')
+    ->setPort(22)
+    ->set('deploy_path', '/var/www/nebja.eu/dev');
 
+host('prod')
+    ->setHostname('185.224.139.185')
+    ->setRemoteUser('root')
+    ->setPort(22)
+    ->set('deploy_path', '/var/www/nebja.eu/prod');
+
+// Hooks
 after('deploy:failed', 'deploy:unlock');
 
-desc('Deploy your project');
-task('deploy', [
-    'deploy:prepare',
+//tasks
+task( 'deploy', [
+    'deploy:setup',
+    'deploy:lock',
     'deploy:release',
     'deploy:update_code',
+    'yarn:install',
     'deploy:shared',
+    'deploy:writable',
     'deploy:vendors',
+    'deploy:cache:clear',
     'deploy:symlink',
+    'deploy:unlock',
+    'deploy:cleanup',
+    'deploy:success',
+    'build'
 ]);
+task('build', function (){
+    cd('/var/www/nebja.eu/dev/current');
+    run('yarn run build');
+});

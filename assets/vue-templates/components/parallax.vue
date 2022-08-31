@@ -19,7 +19,7 @@
       <div class="box-parallax">
         <h2>{{ this.trans['home.code'] }}</h2>
         <img src="/img/carousel/3.png" class="images pos-right" alt="image">
-        <img src="/img/carousel/10.png" class="images pos-left" alt="image">
+        <img src="/img/carousel/4.png" class="images pos-left" alt="image">
       </div>
     </div>
     <div class="section section-2" ref="fourth">
