@@ -8,7 +8,7 @@ require 'contrib/yarn.php';
 
 set('repository', 'https://github.com/Nebja/project-website-nebja.git');
 set('keep_releases', 3);
-add('shared_files', []);
+add('shared_files', ['.env']);
 add('shared_dirs', ['public/Videos', 'public/subs', 'public/img/posters']);
 add('writable_dirs', []);
 
