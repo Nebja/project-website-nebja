@@ -54,7 +54,7 @@ class Helper
                 $object->setFile($fileNameWithExtension)
                     ->setName($filenameWithoutExtension)
                     ->setEntryAt(new DateTimeImmutable())
-                    ->setImgPoster($this->matchDbFileToExistingFile($path.'/public/img', $filenameWithoutExtension, 'jpg'))
+                    ->setImgPoster($this->matchDbFileToExistingFile($path.'/public/img/posters', $filenameWithoutExtension, 'jpg'))
                     ->setSubsFile($this->matchDbFileToExistingFile($path.'/public/subs', $filenameWithoutExtension, 'vtt'))
                     ->setVideoType('None');
                 $videosRepository->add($object, true);
