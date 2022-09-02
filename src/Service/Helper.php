@@ -62,7 +62,7 @@ class Helper
             }else{
                 $posterName = $file_exists[0]->getName();
                 $subsName = $file_exists[0]->getName();
-                $file_exists[0]->setImgPoster($this->matchDbFileToExistingFile($path.'/public/img', $posterName, 'jpg'))
+                $file_exists[0]->setImgPoster($this->matchDbFileToExistingFile($path.'/public/img/posters', $posterName, 'jpg'))
                                 ->setSubsFile($this->matchDbFileToExistingFile($path.'/public/subs', $subsName, 'vtt'));
                 $this->doc->getManager()->persist($file_exists[0]);
                 $this->doc->getManager()->flush();
