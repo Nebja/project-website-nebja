@@ -9,23 +9,30 @@ require 'contrib/yarn.php';
 set('repository', 'https://github.com/Nebja/project-website-nebja.git');
 set('keep_releases', 3);
 add('shared_files', []);
-add('shared_dirs', []);
+add('shared_dirs', ['public/Videos', 'public/subs', 'public/img/posters']);
 add('writable_dirs', []);
 
 // Hosts
 host('dev')
     ->setHostname('185.224.139.185')
-    ->setIdentityFile('~/.ssh/id_rsa')
+    ->setIdentityFile('~/.ssh/vps_rsa')
     ->setRemoteUser('root')
     ->setPort(22)
     ->set('deploy_path', '/var/www/nebja.eu/dev');
 
 host('prod')
     ->setHostname('185.224.139.185')
+    ->setIdentityFile('~/.ssh/vps_rsa')
     ->setRemoteUser('root')
     ->setPort(22)
     ->set('deploy_path', '/var/www/nebja.eu/prod');
 
+host('local')
+    ->setHostname('192.168.178.40')
+    ->setIdentityFile('~/.ssh/id_local_server_rsa.pub')
+    ->setRemoteUser('nebja')
+    ->setPort(22)
+    ->set('deploy_path', '/var/www/nebja.eu/dev');
 // Hooks
 after('deploy:failed', 'deploy:unlock');
 

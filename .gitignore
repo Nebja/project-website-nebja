@@ -26,3 +26,8 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+###< public folders###
+/public/Videos
+/public/subs
+/public/img/posters
+###< public folders###
