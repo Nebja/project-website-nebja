@@ -3,7 +3,7 @@
     <img class="background" ref="background" src="/img/bg/film.jpg"  alt="bg"/>
     <div  id="movies-container" class="row">
       <div class="col-lg-auto movies-box">
-          <movie-label v-for="movie in this.movies" :id="movie.id" :name="movie.name" :poster="movie.imgPoster"/>
+          <movie-label v-for="movie in movies" :id="movie.id" :name="movie.name" :poster="movie.imgPoster"/>
       </div>
     </div >
   </div>
@@ -16,12 +16,14 @@ export default {
   components: {MovieLabel},
   data (){
     return {
-      movies: ''
+      movies: '',
+      series: ''
     }
   },
   created() {
     this.axios.get('/api/movies').then((res) => {
       this.movies = JSON.parse(res.data['toView']).movies
+      this.series = JSON.parse(res.data['toView']).series
     })
   },
   methods: {}

@@ -8,6 +8,7 @@ require 'contrib/yarn.php';
 
 set('repository', 'https://github.com/Nebja/project-website-nebja.git');
 set('project_path', '');
+set('environment', '');
 set('keep_releases', 3);
 add('shared_files', ['.env']);
 add('shared_dirs', ['public/Videos', 'public/subs', 'public/img/posters']);
@@ -15,6 +16,7 @@ add('writable_dirs', []);
 
 // Hosts
 host('dev')
+    ->set('environment', 'dev')
     ->set('project_path', '/var/www/nebja.eu/dev')
     ->setHostname('185.224.139.185')
     ->setIdentityFile('~/.ssh/vps_rsa')
@@ -23,18 +25,11 @@ host('dev')
     ->set('deploy_path', '{{project_path}}');
 
 host('prod')
+    ->set('environment', 'prod')
     ->set('project_path', '/var/www/nebja.eu/prod')
     ->setHostname('185.224.139.185')
     ->setIdentityFile('~/.ssh/vps_rsa')
     ->setRemoteUser('root')
-    ->setPort(22)
-    ->set('deploy_path', '{{project_path}}');
-
-host('local')
-    ->set('project_path', '/var/www/nebja.eu/dev')
-    ->setHostname('192.168.178.40')
-    ->setIdentityFile('~/.ssh/id_local_server_rsa.pub')
-    ->setRemoteUser('nebja')
     ->setPort(22)
     ->set('deploy_path', '{{project_path}}');
 // Hooks
@@ -49,15 +44,20 @@ task( 'deploy', [
     'yarn:install',
     'deploy:shared',
     'deploy:writable',
-    'deploy:vendors',
     'deploy:cache:clear',
     'deploy:symlink',
     'deploy:unlock',
     'deploy:cleanup',
+    'build:vendors',
     'deploy:success',
-    'build'
 ]);
-task('build', function (){
+task('build:vendors', function (){
     cd('{{project_path}}/current');
+    if(get('environment') === 'dev'){
+        run('composer install');
+    }else{
+        run('composer install --no-dev');
+    }
     run('yarn run build');
+
 });

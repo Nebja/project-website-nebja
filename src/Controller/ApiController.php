@@ -44,12 +44,19 @@ class ApiController extends AbstractController
     public function movies(VideosRepository $videos): Response
     {
         $this->denyAccessUnlessGranted('ROLE_FRIEND');
-        return new JsonResponse(array('toView' => $this->serializer->serialize(array('movies' => $videos->findAll()), 'json')));
+        $series = $videos->findBy(['videoType' => 'Episode']);
+        $seriesArray = [];
+        foreach ($series as $episode){
+            $seriesName = explode('/',$episode->getFile())[0];
+            $seriesArray[$seriesName][] = $episode;
+        }
+        return new JsonResponse(array('toView' => $this->serializer->serialize(array('movies' => $videos->findBy(['videoType' => 'Movie']), 'series' => $seriesArray), 'json')));
     }
     #[Route('/addMovies', name: 'addMovies', methods: 'GET')]
     public function addMovies(VideosRepository $videosRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        dump('dest');
         $this->helper->addNewMovieFiles($this->getParameter('kernel.project_dir'), $videosRepository);
         return new JsonResponse(array('toView' => 'added'));
     }

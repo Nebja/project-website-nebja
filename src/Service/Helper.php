@@ -44,30 +44,33 @@ class Helper
     {
         $array = array();
         $finder = new Finder();
-        $finder->files()->in($path.'/public/Videos');
-        foreach ($finder->name('*.mp4') as $file) {
-            $fileNameWithExtension = $file->getRelativePathname();
-            $filenameWithoutExtension = basename($file->getFilename(), '.'.$file->getExtension());
-            $file_exists = $videosRepository->findBy(['file' => $fileNameWithExtension]);
-            if (empty($file_exists)){
-                $object = new Videos;
-                $object->setFile($fileNameWithExtension)
-                    ->setName($filenameWithoutExtension)
-                    ->setEntryAt(new DateTimeImmutable())
-                    ->setImgPoster($this->matchDbFileToExistingFile($path.'/public/img/posters', $filenameWithoutExtension, 'jpg'))
-                    ->setSubsFile($this->matchDbFileToExistingFile($path.'/public/subs', $filenameWithoutExtension, 'vtt'))
-                    ->setVideoType('None');
-                $videosRepository->add($object, true);
-                $this->logger->info($fileNameWithExtension.' was added as Entry in Database');
-            }else{
-                $posterName = $file_exists[0]->getName();
-                $subsName = $file_exists[0]->getName();
-                $file_exists[0]->setImgPoster($this->matchDbFileToExistingFile($path.'/public/img/posters', $posterName, 'jpg'))
-                                ->setSubsFile($this->matchDbFileToExistingFile($path.'/public/subs', $subsName, 'vtt'));
-                $this->doc->getManager()->persist($file_exists[0]);
-                $this->doc->getManager()->flush();
+        for ($i=0;$i <=1;$i++) {
+            $type = $i === 0 ? 'Movie' : 'Episode';
+            $finder->files()->depth('=='.$i)->in($path . '/public/Videos');
+            foreach ($finder->files()->name('*.mp4') as $file) {
+                $fileNameWithExtension = $file->getRelativePathname();
+                $filenameWithoutExtension = basename($file->getFilename(), '.' . $file->getExtension());
+                $file_exists = $videosRepository->findBy(['file' => $fileNameWithExtension]);
+                if (empty($file_exists)) {
+                    $object = new Videos;
+                    $object->setFile($fileNameWithExtension)
+                        ->setName($filenameWithoutExtension)
+                        ->setEntryAt(new DateTimeImmutable())
+                        ->setImgPoster($this->matchDbFileToExistingFile($path . '/public/img/posters', $filenameWithoutExtension, 'jpg'))
+                        ->setSubsFile($this->matchDbFileToExistingFile($path . '/public/subs', $filenameWithoutExtension, 'vtt'))
+                        ->setVideoType($type);
+                    $videosRepository->add($object, true);
+                    $this->logger->info($fileNameWithExtension . ' was added as Entry in Database');
+                } else {
+                    $posterName = $file_exists[0]->getName();
+                    $subsName = $file_exists[0]->getName();
+                    $file_exists[0]->setImgPoster($this->matchDbFileToExistingFile($path . '/public/img/posters', $posterName, 'jpg'))
+                        ->setSubsFile($this->matchDbFileToExistingFile($path . '/public/subs', $subsName, 'vtt'));
+                    $this->doc->getManager()->persist($file_exists[0]);
+                    $this->doc->getManager()->flush();
+                }
+                $array[] = $fileNameWithExtension;
             }
-            $array[] = $fileNameWithExtension;
         }
         return $array;
     }
@@ -95,14 +98,15 @@ class Helper
      * @param String $ext
      * @return string
      */
-    private function matchDbFileToExistingFile(String $path, String $fileName, String $ext): string
+    private function
+    matchDbFileToExistingFile(String $path, String $fileName, String $ext): string
     {
         $fullName = $fileName.'.'.$ext;
         $finder = new Finder();
         $array = array();
         $finder->files()->in($path);
-        foreach ($finder->name('*.'.$ext) as $img){
-            $fileNameWithExtension = $img->getRelativePathname();
+        foreach ($finder->files()->name('*.'.$ext) as $file){
+            $fileNameWithExtension = $file->getRelativePathname();
             $array[] = $fileNameWithExtension;
         }
         if (in_array($fullName, $array, true)){
