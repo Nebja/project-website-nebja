@@ -6,6 +6,8 @@ msg: Nachricht
 send: Senden
 close: Schließen
 address: Berlin, 13351, Deutchland
+play: Spielen
+reset: Passwort zurücksetzen
 languages:
   en: Englisch
   gr: Griechisch
@@ -67,3 +69,6 @@ accountPage:
     Ihr eigenes Konto mit Ihrer E-Mail-Adresse.
   del: Konto löschen
   edit: Konto bearbeiten
+registerPage:
+  hide: Datenschutzerklärung schließen
+  show: Datenschutzerklärung anzeigen

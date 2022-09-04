@@ -85,7 +85,7 @@
   <p>NebWeb does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records.</p>
 </div>
   <div v-else >
-    <h1>Privacy Policy for NebWeb IN GREEK</h1>
+    <h1>Privacy Policy for NebWeb (Greek-German Translation Soon)</h1>
 
     <p>At NebWeb, accessible from nebja.eu, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by NebWeb and how we use it.</p>
 
@@ -179,5 +179,7 @@ export default {
 </script>
 
 <style scoped>
-
+h1, h2{
+  text-align: center;
+}
 </style>

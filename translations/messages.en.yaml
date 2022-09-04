@@ -6,6 +6,8 @@ msg: Message
 send: Send
 close: Close
 address: Berlin, 13351, Germany
+play: Play
+reset: Reset
 languages:
   en: English
   gr: Greek
@@ -67,3 +69,6 @@ accountPage:
     your own account with your email address.
   del: Delete Account
   edit: Edit Account
+registerPage:
+  hide: Hide Policy
+  show: Show Policy

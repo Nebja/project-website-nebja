@@ -7,7 +7,7 @@
       </form>
     </span>
     <span class="d-flex" id="loginPanel"  v-else>
-      <form id="loginForm" method="post" class="d-flex" action="/login">
+      <form id="loginForm" method="POST" class="d-flex" action="/login">
         <input v-model="this.$parent.viewData.lastEmail" v-if="this.$parent.viewData.lastEmail" class="form-control me-2" placeholder="username" type="email" name="email" id="inputEmail" autocomplete="email" required autofocus>
          <input v-else class="form-control me-2" :placeholder="trans['navbar.username']" type="email" name="email" id="inputEmail" autocomplete="email" required autofocus>
         <input class="form-control me-2" :placeholder="trans['navbar.pass']" type="password" name="password" id="inputPassword" autocomplete="current-password" required>

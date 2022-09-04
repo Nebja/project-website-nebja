@@ -48,7 +48,9 @@ class ApiController extends AbstractController
         $seriesArray = [];
         foreach ($series as $episode){
             $seriesName = explode('/',$episode->getFile())[0];
-            $seriesArray[$seriesName][] = $episode;
+            $seriesArray[$seriesName]['name'] = $seriesName;
+            $seriesArray[$seriesName]['episodes'][] = $episode;
+            $seriesArray[$seriesName]['poster'] = $episode->getImgPoster();
         }
         return new JsonResponse(array('toView' => $this->serializer->serialize(array('movies' => $videos->findBy(['videoType' => 'Movie']), 'series' => $seriesArray), 'json')));
     }
@@ -56,7 +58,6 @@ class ApiController extends AbstractController
     public function addMovies(VideosRepository $videosRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        dump('dest');
         $this->helper->addNewMovieFiles($this->getParameter('kernel.project_dir'), $videosRepository);
         return new JsonResponse(array('toView' => 'added'));
     }

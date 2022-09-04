@@ -113,9 +113,6 @@ export default {
       subject: null
     }
   },
-  mounted() {
-    console.log(JSON.stringify(this.trans))
-  },
   methods:{
     sendMsg(e){
       e.preventDefault()

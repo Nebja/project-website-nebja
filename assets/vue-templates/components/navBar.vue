@@ -1,6 +1,6 @@
 <template>
-  <modal id="generalModal" btn="false" userId="none" :trans="trans"/>
-  <modal id="resetModal" btn="Reset" userId="none" :trans="trans" @getModal="getModal"/>
+  <modal id="generalModal" type="false" data="none" :trans="trans"/>
+  <modal id="resetModal" type="Reset" data="none" :trans="trans" @getModal="getModal"/>
   <nav class="navbar fixed-top navbar-expand-lg no-padding navbar-light glowing" v-if="!this.$parent.smallScreen">
     <div class="container-fluid moveArea padding-sm">
       <img src="/img/logo_new.png" class="logo" alt="nebWeb">

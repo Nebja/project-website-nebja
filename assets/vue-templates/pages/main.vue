@@ -9,7 +9,7 @@
       <Transition name="fade" mode="out-in">
         <register v-if="page==='registerLink'" @getModal="getModal" :trans="trans"/>
         <parallax v-else-if="page==='homeLink'" class="box" :trans="trans"/>
-        <movies v-else-if="page==='moviesLink'" class="box" :trans="trans"/>
+        <movies v-else-if="page==='moviesLink'" class="box" @getModal="getModal" :trans="trans"/>
         <admin v-else-if="page==='adminLink'" class="box" :trans="trans"/>
         <account v-else-if="page==='accountLink'" @getModal="getModal" :trans="trans"/>
         <test v-else-if="page==='testLink'"  @getModal="getModal" :trans="trans"/>
@@ -72,14 +72,6 @@ export default {
     this.smallScreen = window.innerWidth <= 1000
     if(this.flash !== ''){
       this.getModal('NebWeB', this.flash, 'generalModal')
-    }
-  },
-  watch:{
-    '$data':{
-      handler: function (newVal){
-        console.log('This flash  '+ newVal.flash)
-      },
-      deep: true
     }
   },
   updated() {

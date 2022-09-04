@@ -1,9 +1,9 @@
 <template>
   <div class="card custom-box accountBox" id="account-box">
-    <modal id="deleteModal" btn="Delete" :userId="user.id" @getModal="getModal" :trans="trans"/>
-    <modal id="logoutModal" btn="Logout" :userId="user.id" @getModal="getModal" :trans="trans"/>
-    <modal id="editModal" btn="Edit" :userId="user.id" :trans="trans" @getModal="getModal" @UserInfo="UserInfo"/>
-    <modal id="policyModal" btn="Policy" :userId="user.id" :trans="trans" @getModal="getModal"/>
+    <modal id="deleteModal" type="Delete" :data="user.id" @getModal="getModal" :trans="trans"/>
+    <modal id="logoutModal" type="Logout" :data="user.id" @getModal="getModal" :trans="trans"/>
+    <modal id="editModal" type="Edit" :data="user.id" :trans="trans" @getModal="getModal" @UserInfo="UserInfo"/>
+    <modal id="policyModal" type="Policy" :data="user.id" :trans="trans" @getModal="getModal"/>
     <img class="background" ref="background" src="/img/bg/account.jpg"  alt="bg"/>
     <h5 class="card-header" id="email_header" :key="user">{{ user.email }}</h5>
     <div class="card-body">
