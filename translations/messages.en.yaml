@@ -72,3 +72,14 @@ accountPage:
 registerPage:
   hide: Hide Policy
   show: Show Policy
+  error: Something went wrong, contact and Admin
+  usernameExists: A profile with the current Username Exists
+  emailExists: A profile with the current Email Exists
+other:
+  loginFirst: Please login first and then click the link
+  emailVerified: Your email address has been verified.
+  confirmEmail: Please Confirm your Email
+twigTemp:
+  pleaseConfirm: Please confirm your email address by clicking the following link
+  pleaseConfirm2: Confirm my Email
+  pleaseConfirm3: This link will expire in

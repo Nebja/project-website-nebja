@@ -14,7 +14,7 @@
         <input v-model="this.$parent.token" type="hidden" name="_csrf_token" id="csrf_token" required>
         <button class="btn btn-outline-success btn-round" data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.login']" type="submit"><BIconDoorOpen /></button>
         &nbsp;&nbsp;
-         <button :class="this.$parent.page==='registerLink'?'btn btn-primary btn-round disabled' :'btn btn-outline-primary btn-round'" id="registerLink" data-bs-toggle="tooltip" data-bs-placement="right" :title="trans['navbar.reg']" type="button" @click="this.$parent.showPage('registerLink')"><BIconPersonLinesFill /> </button>
+         <button :class="this.$parent.page==='registerLink'?'btn btn-primary btn-round disabled' :'btn btn-outline-primary btn-round'" id="registerLink" data-bs-toggle="tooltip" data-bs-placement="right" :title="trans['navbar.register']" type="button" @click="this.$parent.showPage('registerLink')"><BIconPersonLinesFill /> </button>
          <button class="btn btn-outline-warning btn-round" id="resetLink" data-bs-toggle="tooltip" data-bs-placement="right" :title="trans['navbar.reset']" type="button" @click="resetPass"><BIconInfoCircle /> </button>
       </form>
     </span>
@@ -62,7 +62,7 @@ export default {
     ],
   methods:{
     resetPass(){
-        this.$emit('getModal', 'Reset Password Process', '', 'resetModal');
+      this.$getModal( 'Reset Password Process', '', 'resetModal');
     }
   }
 }

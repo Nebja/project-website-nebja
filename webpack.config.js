@@ -90,5 +90,4 @@ Encore
         use: 'file-loader?name=videos/[name].[ext]',
         })
 ;
-
 module.exports = Encore.getWebpackConfig();

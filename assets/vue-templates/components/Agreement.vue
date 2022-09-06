@@ -173,7 +173,7 @@
 
 <script>
 export default {
-  name: "agreement",
+  name: "Agreement",
   props: ['trans']
 }
 </script>

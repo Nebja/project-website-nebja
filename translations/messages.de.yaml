@@ -72,3 +72,14 @@ accountPage:
 registerPage:
   hide: Datenschutzerklärung schließen
   show: Datenschutzerklärung anzeigen
+  error: Something went wrong, contact and Admin DE
+  usernameExists: A profile with the current Username Exists DE
+  emailExists: A profile with the current Email Exists DE
+other:
+  loginFirst: Please login first and then click the link DE
+  emailVerified: Your email address has been verified. DE
+  confirmEmail: Please Confirm your Email
+twigTemp:
+  pleaseConfirm: Please confirm your email address by clicking the following link DE
+  pleaseConfirm2: Confirm my Email DE
+  pleaseConfirm3: This link will expire in DE

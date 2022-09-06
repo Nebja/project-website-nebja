@@ -21,8 +21,8 @@
               <!--Grid column-->
               <div :class="this.viewData.user ? 'col-md-12':'col-md-6'">
                 <div class="md-form mb-0">
-                  <input v-if="this.viewData.user" v-model="email" type="text" id="email" name="email" class="form-control" hidden>
-                  <input type="text" id="name" name="name" v-model="name" class="form-control">
+                  <input v-if="this.viewData.user" v-model="email" data-name="email" type="text" id="email" name="email" class="form-control" hidden>
+                  <input type="text" id="name" name="name" v-model="name" data-name="name" class="form-control">
                   <label for="name" class="">{{ trans.name }}</label>
                 </div>
               </div>
@@ -31,7 +31,7 @@
               <!--Grid column-->
               <div class="col-md-6" v-if="!this.viewData.user">
                 <div class="md-form mb-0">
-                  <input type="text" id="email" v-model="email" name="email" class="form-control">
+                  <input type="text" id="email" v-model="email" data-name="email" name="email" class="form-control">
                   <label for="email" class="">{{ trans.email }}</label>
                 </div>
               </div>
@@ -44,7 +44,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="md-form mb-0">
-                  <input type="text" id="subject" v-model="subject" name="subject" class="form-control">
+                  <input type="text" id="subject" v-model="subject" data-name="subject" name="subject" class="form-control">
                   <label for="subject" class="">{{ trans.subject }}</label>
                 </div>
               </div>
@@ -58,7 +58,7 @@
               <div class="col-md-12">
 
                 <div class="md-form">
-                      <textarea type="text" id="message" v-model="message" name="message" rows="2"
+                      <textarea type="text" id="message" data-name="message" v-model="message" name="message" rows="2"
                                 class="form-control md-textarea"></textarea>
                   <label for="message">{{ trans.msg }}</label>
                 </div>
@@ -117,25 +117,21 @@ export default {
     sendMsg(e){
       e.preventDefault()
       if (!this.email){
-        this.$emit('getModal','Email Process', 'Email is required.', 'generalModal')
+        this.$getModal('Email Process', 'Email is required.', 'generalModal')
         return
       }else if (!this.name){
-        this.$emit('getModal','Email Process', 'Name is required.', 'generalModal')
+        this.$getModal('Email Process', 'Name is required.', 'generalModal')
         return
       }else if(!this.subject || !this.message){
-        this.$emit('getModal','Email Process', 'Subject and Message text is required.', 'generalModal')
+        this.$getModal('Email Process', 'Subject and Message text is required.', 'generalModal')
         return
       }else if (!this.validEmail(this.email)){
-        this.$emit('getModal','Email Process', 'Valid Email is required. ', 'generalModal')
+        this.$getModal('Email Process', 'Valid Email is required. ', 'generalModal')
         return
       }
-      let fd = new FormData
-      fd.append('name',document.getElementById('name').value)
-      fd.append('email',document.getElementById('email').value)
-      fd.append('subject',document.getElementById('subject').value)
-      fd.append('message',document.getElementById('message').value)
-      this.axios.post('/api/sendEmail', fd).then((res) => {
-        this.$emit('getModal','Email Process', res.data['msg'],'generalModal')
+      let fd = this.$CreateFD("contact-form")
+      this.$SendEmail(fd).then((res) => {
+        this.$getModal('Email Process', res.data['msg'],'generalModal')
       })
     },
     validEmail(email) {

@@ -41,9 +41,9 @@ class Validations {
     }
     #email(){
         this.validation = false
-        if (!/\w+@\w+\.(com|gr|de|org|eu)$/.test(this.elem.value)){
+        if (!/\w+@\w+\.(com|gr|de|org|eu|com.gr)$/.test(this.elem.value)){
             this.elem.setAttribute('data-validated', 'false')
-            return 'Please give a correct Email.(com,de,gr,eu,org)'
+            return 'Please give a correct Email.(com,de,gr,eu,org,com.gr)'
         }else {
             this.elem.setAttribute('data-validated', 'true')
             return ''

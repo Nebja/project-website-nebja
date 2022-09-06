@@ -7,14 +7,13 @@
     />
     <div id="view-show" ref="viewShow" class="overflow-hidden">
       <Transition name="fade" mode="out-in">
-        <register v-if="page==='registerLink'" @getModal="getModal" :trans="trans"/>
+        <register v-if="page==='registerLink'"  :trans="trans"/>
         <parallax v-else-if="page==='homeLink'" class="box" :trans="trans"/>
-        <movies v-else-if="page==='moviesLink'" class="box" @getModal="getModal" :trans="trans"/>
+        <movies v-else-if="page==='moviesLink'" class="box"  :trans="trans"/>
         <admin v-else-if="page==='adminLink'" class="box" :trans="trans"/>
-        <account v-else-if="page==='accountLink'" @getModal="getModal" :trans="trans"/>
-        <test v-else-if="page==='testLink'"  @getModal="getModal" :trans="trans"/>
-        <Contact v-else-if="page==='contactLink'" :viewData="viewData" :trans="trans" @getModal="getModal" class="box"/>
-        <About v-else-if="page==='aboutLink'" :trans="trans" class="box"/>
+        <account v-else-if="page==='accountLink'"  :trans="trans"/>
+        <Contact v-else-if="page==='contactLink'" :viewData="viewData" :trans="trans"  class="box"/>
+        <About v-else-if="page==='aboutLink'" :trans="trans"  class="box"/>
       </Transition>
     </div>
   </div>
@@ -22,12 +21,9 @@
 <script>
 import register from "./register";
 import parallax from "../components/parallax"
-import Modal from "bootstrap/js/src/modal";
-import Tooltip from  'bootstrap/js/src/tooltip'
 import navBar from "../components/navBar";
 import movies from "./movies";
 import admin from "./admin"
-import test from "./test"
 import Contact from "./Contact";
 import About from "./About";
 import account from "./account";
@@ -39,9 +35,9 @@ export default {
       token: '',
       viewData: '',
       page: 'homeLink',
-      smallScreen: '',
       flash: '',
-      trans: ''
+      trans: '',
+      mobile: window.innerWidth <= 1000
     }
   },
   components:{
@@ -52,7 +48,6 @@ export default {
     navBar,
     admin,
     parallax,
-    test,
     account,
   },
   created(){
@@ -63,41 +58,18 @@ export default {
     this.token = document.getElementById("app").getAttribute('token')
     this.flash = document.getElementById("app").getAttribute('flash')
     if(this.viewData.error != null){
-      this.getModal(this.trans['modal.logError'],this.viewData.error === 'Bad credentials.' ? this.trans['navbar.badCre']: this.trans['navbar.wrongPass'], 'generalModal')
+      this.$getModal(this.trans['modal.logError'],this.viewData.error === 'Bad credentials.' ? this.trans['navbar.badCre']: this.trans['navbar.wrongPass'], 'generalModal')
     }
     if (this.viewData.form){
-      this.getModal('Reset Password',this.viewData.form, 'generalModal')
+      this.$getModal('Reset Password',this.viewData.form, 'generalModal')
     }
-    this.refreshTooltip()
-    this.smallScreen = window.innerWidth <= 1000
+    this.$refreshTooltip()
     if(this.flash !== ''){
-      this.getModal('NebWeB', this.flash, 'generalModal')
+      this.$getModal('NebWeB', this.flash, 'generalModal')
     }
   },
   updated() {
-    this.refreshTooltip()
-  },
-  methods: {
-  refreshTooltip(){
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new Tooltip(tooltipTriggerEl, {
-        trigger: 'hover'
-      })
-    })
-  },
-    getModal(title, msg, name, show=true){
-      let modal = new Modal(document.getElementById(name), {})
-      if(show) {
-        if (name === 'generalModal' || name ==='deleteModal'){
-          document.getElementById(name + 'Title').innerHTML = title
-          document.getElementById(name + 'Body').innerHTML = msg
-        }
-        modal.show();
-      }else {
-        modal.hide();
-      }
-    },
+    this.$refreshTooltip()
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="root">
+  <div class="root" v-if="!this.$root.mobile">
     <img class="background" ref="background" src="/img/bg/earth.jpg"  alt="bg"/>
     <div class="section section-1" ref="first">
       <div class="first-box">
@@ -26,6 +26,16 @@
       <div class="box-parallax">
         <h2>{{ this.trans['home.thanks'] }}</h2>
         <img src="/img/carousel/boot.png" class="images" alt="image">
+      </div>
+    </div>
+  </div>
+  <div class="mobile-parallax" v-else>
+    <img class="background" ref="background" src="/img/bg/earth.jpg"  alt="bg"/>
+    <div class="mobile-section section-1">
+      <div class="mobile-box">
+        <h2>Frameworks</h2>
+        <img src="/img/carousel/1.png" class="images pos-right" alt="image">
+        <img src="/img/carousel/2.png" class="images pos-left" alt="image">
       </div>
     </div>
   </div>
@@ -115,7 +125,7 @@ img.background{
   left: 0;
 }
 .box-parallax{
-  width: 100vh;
+  width: 100%;
 }
 .section {
   min-height: 100vh;

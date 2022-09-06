@@ -15,7 +15,9 @@ import 'vue-plyr/dist/vue-plyr.css'
 import 'atropos/atropos.css'
 import LoginBox from './vue-templates/components/LoginBox'
 import modal from "./vue-templates/components/modal"
-import agreement from "./vue-templates/components/agreement";
+import Agreement from "./vue-templates/components/Agreement";
+import Globals from "@/plugins/Globals";
+import Apis from "@/plugins/Apis";
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.scss';
 import './styles/media.scss'
@@ -23,15 +25,20 @@ import './styles/mobile.scss'
 import './styles/transitions.scss'
 import './styles/animations.scss'
 import "/node_modules/flag-icons/css/flag-icons.min.css"
+import "bootstrap/dist/js/bootstrap.js"
 // start the Stimulus application
 import * as bootstrap from './bootstrap';
 const app = createApp(homepage)
 app.component('LoginBox', LoginBox)
-app.component('Agreement', agreement)
-app.component('modal', modal)
+    .component('Agreement', Agreement)
+    .component('modal', modal)
 app.use(VueAxios, axios)
+app.use(Globals)
+app.use(Apis)
 app.use(VuePlyr)
 app.use(BootstrapIconsPlugin, bootstrap);
 app.config.globalProperties.axios=axios
 app.mount('#app')
-import "bootstrap/dist/js/bootstrap.js"
+
+
+

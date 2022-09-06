@@ -14,7 +14,6 @@
 <script>
 export default {
   name: "movie-label",
-  emits:['getModal'],
   props: ['id','name','poster', 'type', 'episodes', 'trans'],
   data(){
     return {
@@ -23,7 +22,7 @@ export default {
   },
   methods:{
     openModal(){
-      this.$emit('getModal', 'Series', '', 'seriesModal'+this.name)
+      this.$getModal('Series', '', 'seriesModal'+this.name)
     }
   }
 }

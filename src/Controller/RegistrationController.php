@@ -25,10 +25,12 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
+    private TranslatorInterface $translator;
 
-    public function __construct(EmailVerifier $emailVerifier)
+    public function __construct(EmailVerifier $emailVerifier, TranslatorInterface $translator)
     {
         $this->emailVerifier = $emailVerifier;
+        $this->translator= $translator;
     }
 
     /**
@@ -42,7 +44,6 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request,UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, TransportInterface $mailer): Response
     {
-
         $user = new User();
         $user->setEmail($request->get('email'))
              ->setUsername($request->get('username'))
@@ -56,17 +57,27 @@ class RegistrationController extends AbstractController
         try {
             $entityManager->flush();
         }catch (Exception $e) {
-            return new JsonResponse(array('msg' => 'A profile with the current Email Exists'));
+            $msg = $this->translator->trans('registerPage.emailExists');
+            $email = $entityManager->getRepository(User::class)->findBy(['email' => $request->get('email')]);
+            if (empty($email)){
+                $username = $entityManager->getRepository(User::class)->findBy(['username' => $request->get('username')]);
+                if (empty($username)){
+                    $msg = $this->translator->trans('registerPage.error');
+                }else{
+                    $msg = $this->translator->trans('registerPage.usernameExists');
+                }
+            }
+            return new JsonResponse(array('msg' => $msg));
         }
         $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
             (new TemplatedEmail())
-                ->from(new Address('no-reply@nebja.eu', 'Nebja Mail Bot'))
+                ->from(new Address('support@nebweb.eu', 'Nebja Mail Bot'))
                 ->to($user->getEmail())
-                ->subject('Please Confirm your Email')
+                ->subject($this->translator->trans('other.confirmEmail'))
                 ->htmlTemplate('registration/confirmation_email.html.twig')
         );
         $inform = (new Email())
-            ->from('no-reply@nebja.eu')
+            ->from('support@nebweb.eu')
             ->to('nebwebsites@nebja.eu')
             ->subject('New Registration from '.$user->getEmail())
             ->text('New Registration Email')
@@ -76,19 +87,19 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
+    public function verifyUserEmail(Request $request): Response
     {
         if ($this->getUser() === null){
-            $this->addFlash('notice', 'Please login first and then click the link');
+            $this->addFlash('notice', $this->translator->trans('other.loginFirst'));
             $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         }
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
+            $this->addFlash('verify_email_error', $this->translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
             return $this->redirectToRoute('app_main');
         }
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->addFlash('success', $this->translator->trans('other.emailVerified'));
         return $this->redirectToRoute('app_main');
     }
 
@@ -100,7 +111,7 @@ class RegistrationController extends AbstractController
     public function new_Link(ManagerRegistry $doc): RedirectResponse
     {
         if ($this->getUser() === null){
-            $this->addFlash('notice', 'Please login first and then ask for new Link ');
+            $this->addFlash('notice', $this->translator->trans('other.loginFirst'));
             $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         }
         $user = $doc->getManager()->getRepository(User::class)->findBy(['email' => $this->getUser()->getUserIdentifier()]);

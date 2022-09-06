@@ -1,7 +1,7 @@
 <template>
   <modal id="generalModal" type="false" data="none" :trans="trans"/>
-  <modal id="resetModal" type="Reset" data="none" :trans="trans" @getModal="getModal"/>
-  <nav class="navbar fixed-top navbar-expand-lg no-padding navbar-light glowing" v-if="!this.$parent.smallScreen">
+  <modal id="resetModal" type="Reset" data="none" :trans="trans" />
+  <nav class="navbar fixed-top navbar-expand-lg no-padding navbar-light glowing" v-if="!this.$root.mobile">
     <div class="container-fluid moveArea padding-sm">
       <img src="/img/logo_new.png" class="logo" alt="nebWeb">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,7 +10,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-auto" id="navbar-list">
           <!-- Home Link  /-->
-          <li :class="this.$parent.smallScreen ? 'nav-item text-center': 'nav-item'">
+          <li :class="this.$root.mobile ? 'nav-item text-center': 'nav-item'">
             <a :class="this.$parent.page==='homeLink'?'nav-link active':'nav-link'" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.home']" id="homeLink" aria-current="page"  @click="showPage('homeLink')"><BIconHouseDoor class="nav-item-zoom"/></a>
           </li>
           <!-- Movie Link  /-->
@@ -46,7 +46,7 @@
           </li>
         </ul>
         <a href="javascript:void(0)" v-if="showArrow"   class="nav-link nav-item-zoom links" data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.login']" id="loginFormBtn" @click="loginAnimation($event)"><BIconBoxArrowInLeft/></a>
-        <LoginBox :modal="false" @getModal="getModal" :trans="trans"/>
+        <LoginBox :modal="false" :trans="trans"/>
       </div>
     </div>
   </nav>
@@ -60,16 +60,16 @@
           </a>
           <ul class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto text-center align-items-center">
             <li class="nav-item">
-              <a :class="this.$parent.page==='homeLink'?'nav-link active':'nav-link'" data-bs-toggle="tooltip" data-bs-placement="top" title="Home" id="homeLink" aria-current="page" href="#" @click="showPage('homeLink')"><BIconHouseDoor class="nav-item-zoom"/></a>
+              <a :class="this.$parent.page==='homeLink'?'nav-link active':'nav-link'" data-bs-toggle="tooltip" data-bs-placement="top" title="Home" id="homeLink" aria-current="page" href="javascript:void(0)" @click="showPage('homeLink')"><BIconHouseDoor class="nav-item-zoom"/></a>
             </li>
             <li class="nav-item" v-if="this.rolesDump?.includes('ROLE_FRIEND')">
-              <a :class="this.$parent.page==='moviesLink'?'nav-link active':'nav-link'" data-bs-toggle="tooltip" data-bs-placement="top" title="Movies" id="moviesLink" aria-current="page" href="#"  @click="showPage('moviesLink')"><BIconFilm class="nav-item-zoom"/></a>
+              <a :class="this.$parent.page==='moviesLink'?'nav-link active':'nav-link'" data-bs-toggle="tooltip" data-bs-placement="top" title="Movies" id="moviesLink" aria-current="page" href="javascript:void(0)"  @click="showPage('moviesLink')"><BIconFilm class="nav-item-zoom"/></a>
             </li>
             <li class="nav-item">
-              <a :class="this.$parent.page==='aboutLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="About" id="aboutLink" aria-current="page"  @click="showPage('aboutLink')"><BIconGlobe2 class="nav-item-zoom"/></a>
+              <a :class="this.$parent.page==='aboutLink'?'nav-link active':'nav-link'" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="About" id="aboutLink" aria-current="page"  @click="showPage('aboutLink')"><BIconGlobe2 class="nav-item-zoom"/></a>
             </li>
             <li class="nav-item">
-              <a :class="this.$parent.page==='contactLink'?'nav-link active':'nav-link'" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Contact" id="contactLink" aria-current="page"  @click="showPage('contactLink')"><BIconAt class="nav-item-zoom"/></a>
+              <a :class="this.$parent.page==='contactLink'?'nav-link active':'nav-link'" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" title="Contact" id="contactLink" aria-current="page"  @click="showPage('contactLink')"><BIconAt class="nav-item-zoom"/></a>
             </li>
             <li v-if="this.$parent.viewData.user">
               <a href="/logout" :class="this.$parent.page==='loginLink'?'nav-link active':'nav-link'" title="Logout" id="mobileLogoutLink" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Logout">
@@ -90,7 +90,6 @@
 
 <script>
 import animator from '/assets/js/animations';
-import Tooltip from "bootstrap/js/src/tooltip";
 export default {
   name: "navBar",
   props: [
@@ -107,11 +106,11 @@ export default {
   },
   computed:{
     showArrow: function () {
-      return !!(!this.viewData.user || this.$parent.smallScreen);
+      return !!(!this.viewData.user || this.$root.mobile);
     }
   },
   updated() {
-    this.updateTooltip();
+    this.$updateTooltip();
     this.rolesDump = this.viewData['role']
   },
   methods: {
@@ -126,17 +125,8 @@ export default {
       this.animator.rotate('0','-180')
     },
     mobileLogin(){
-      this.$parent.getModal('test', 'test', 'loginModal')
+      this.$getModal('test', 'test', 'loginModal')
     },
-    updateTooltip(){
-      let links = document.getElementsByClassName('nav-link')
-      links.forEach((link) => {
-        Tooltip.getOrCreateInstance(document.getElementById(link.id)).hide()
-      })
-    },
-    getModal(title, msg, name, show=true){
-      this.$parent.getModal(title, msg, name, show)
-    }
   }
 }
 </script>
