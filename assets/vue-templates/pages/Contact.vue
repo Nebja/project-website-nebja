@@ -109,7 +109,7 @@ export default {
     return {
       message: null,
       name: null,
-      email: this.viewData.user,
+      email: this.viewData.email,
       subject: null
     }
   },
@@ -117,21 +117,21 @@ export default {
     sendMsg(e){
       e.preventDefault()
       if (!this.email){
-        this.$getModal('Email Process', 'Email is required.', 'generalModal')
+        this.$getModal(this.trans['contactPage.emailPro'], this.trans['registerPage.validEmail'], 'generalModal')
         return
       }else if (!this.name){
-        this.$getModal('Email Process', 'Name is required.', 'generalModal')
+        this.$getModal(this.trans['contactPage.emailPro'], this.trans['contactPage.nameReq'], 'generalModal')
         return
       }else if(!this.subject || !this.message){
-        this.$getModal('Email Process', 'Subject and Message text is required.', 'generalModal')
+        this.$getModal(this.trans['contactPage.emailPro'], this.trans['contactPage.subAndMsg'], 'generalModal')
         return
       }else if (!this.validEmail(this.email)){
-        this.$getModal('Email Process', 'Valid Email is required. ', 'generalModal')
+        this.$getModal(this.trans['contactPage.emailPro'], this.trans['registerPage.validEmail'], 'generalModal')
         return
       }
       let fd = this.$CreateFD("contact-form")
       this.$SendEmail(fd).then((res) => {
-        this.$getModal('Email Process', res.data['msg'],'generalModal')
+        this.$getModal(this.trans['contactPage.emailPro'], res.data['msg'],'generalModal')
       })
     },
     validEmail(email) {

@@ -62,10 +62,10 @@ export default {
   methods: {
     register() {
       if (!this.email || !this.password){
-        this.$getModal('Register Process', 'Email and Password are required for the registration.', 'generalModal')
+        this.$getModal( this.trans['registerPage.regProcess'], this.trans['registerPage.reqEmailPass'], 'generalModal')
         return
       }else if (!this.validEmail(this.email)){
-        this.$getModal('Register Process', 'Valid Email is required. ', 'generalModal')
+        this.$getModal(this.trans['registerPage.regProcess'], this.trans['registerPage.validEmail'], 'generalModal')
         return
       }
       const fd = this.$CreateFD('form_register');
@@ -77,11 +77,11 @@ export default {
       thisPage.disableInputs(true)
         return config;
       }, function (error) {
-        this.$getModal('Error', error, 'generalModal')
+        this.$getModal(this.trans['registerPage.error'], error, 'generalModal')
         return Promise.reject(error);
       });
       this.$Register(fd).then((res) => {
-        this.$getModal('Register Process', res.data['msg'], 'generalModal')
+        this.$getModal(this.trans['registerPage.regProcess'], res.data['msg'], 'generalModal')
         thisPage.disableInputs(false)
       })
     },

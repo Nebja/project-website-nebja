@@ -36,11 +36,13 @@ modal:
   enterName: Geben Sie Ihren neuen Benutzernamen ein.
   enterEmail: Geben Sie Ihre neue E-Mail ein.
   change: Ändern
+  PassEmailSent: Password Reset Email Sent DE #TODO translate
+  EditInfo: Edit Info #TODO translate
+  EditInfoSaved: Your changes were Saved #TODO translate
 home:
   code: Programmiersprachen
   scroll: Scrollen Sie für weitere Informationen
   thanks: Mit der Hilfe von
-
 aboutPage:
   title: Über meine Arbeit
   text: Nachdem ich mich 2012 in Berlin zurechtgefunden hatte, entschied ich mich 2017, zu dem Job zurückzukehren, den ich 2005 so sehr geliebt habe, im Coding.<br>
@@ -57,6 +59,10 @@ aboutPage:
 contactPage:
   title: Kontaktiere sie mich
   text: Haben Sie irgendwelche Fragen? Bitte zögern Sie nicht, mich direkt zu kontaktieren. Ich werde mich innerhalb weniger Stunden bei Ihnen melden.
+  emailPro: Email Process DE #TODO translate
+  nameReq: Name is required. DE #TODO translate
+  subAndMsg: Subject and Message text is required. DE #TODO translate
+  emailSent: Your message was sent. I will try to contact you as soon as possible! DE #TODO translate
 accountPage:
   here: Du bist here als
   yEmail: Ihre E-Mail ist verifiziert.
@@ -69,17 +75,39 @@ accountPage:
     Ihr eigenes Konto mit Ihrer E-Mail-Adresse.
   del: Konto löschen
   edit: Konto bearbeiten
+  notOwner: You are not the owner of the account with email DE #TODO translate
+  notOwner2: , please contact an Administrator DE #TODO translate
+  accDeleted: We are sad to see you go but your account was delete. DE #TODO translate
+  accError: We encountered an error , please contact an Administrator DE #TODO translate
+  noUser: No user Found with id DE #TODO translate
 registerPage:
   hide: Datenschutzerklärung schließen
   show: Datenschutzerklärung anzeigen
-  error: Something went wrong, contact and Admin DE
-  usernameExists: A profile with the current Username Exists DE
-  emailExists: A profile with the current Email Exists DE
+  error: Something went wrong, contact and Admin DE #TODO translate
+  usernameExists: A profile with the current Username Exists DE #TODO translate
+  emailExists: A profile with the current Email Exists DE #TODO translate
+  regProcess: Register Process DE #TODO translate
+  reqEmailPass: Email and Password are required for the registration. DE #TODO translate
+  validEmail: Valid Email is required. DE #TODO translate
+  successReg: User registered , please confirm Your email. DE #TODO translate
 other:
-  loginFirst: Please login first and then click the link DE
-  emailVerified: Your email address has been verified. DE
-  confirmEmail: Please Confirm your Email
+  loginFirst: Please login first and then click the link DE #TODO translate
+  emailVerified: Your email address has been verified. DE #TODO translate
+  confirmEmail: Please Confirm your Email #TODO translate
 twigTemp:
-  pleaseConfirm: Please confirm your email address by clicking the following link DE
-  pleaseConfirm2: Confirm my Email DE
-  pleaseConfirm3: This link will expire in DE
+  pleaseConfirm: Please confirm your email address by clicking the following link DE #TODO translate
+  pleaseConfirm2: Confirm my Email DE #TODO translate
+  pleaseConfirm3: This link will expire in DE #TODO translate
+  pleaseConfirm4: Hi! Please confirm your email! DE #TODO translate
+  contactEmail: You send a message with name DE #TODO translate
+  contactEmail2: and email DE #TODO translate
+  contactEmail3: Your message was DE #TODO translate
+  contactEmail4: I will answer you as soon as possible DE #TODO translate
+  contactGreeting: With regards,<br> Benjamin Kotsaridis <br> Software Developer DE #TODO translate
+  resetPassForm: Reset your password DE #TODO translate
+  resetPassForm2: Please Type your new Password DE #TODO translate
+  resetPassEmail: To reset your password, please visit the following link DE #TODO translate
+  resetPassEmail1: This link will expire in DE #TODO translate
+  emailFooter: <p>Cheers!</p> DE #TODO translate
+  resetPassModal: An email was just sent that contains a link that you can use to reset your password. This link will expire in DE #TODO translate
+

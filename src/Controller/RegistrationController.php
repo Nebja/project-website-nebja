@@ -83,7 +83,7 @@ class RegistrationController extends AbstractController
             ->text('New Registration Email')
             ->html('New Registration with Email: '.$user->getEmail().'! (Dont Forget to check the Role)');
         $mailer->send($inform);
-        return new JsonResponse(array('msg' => 'User registered , please confirm Your email.'));
+        return new JsonResponse(array('msg' => $this->translator->trans('registerPage.successReg')));
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]

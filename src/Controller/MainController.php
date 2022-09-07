@@ -39,6 +39,7 @@ class MainController extends AbstractController
      * @param ManagerRegistry $doc
      * @param TranslatorInterface $translator
      * @param Request $request
+     * @param RequestStack $requestStack
      * @return Response
      */
     #[Route('{_locale<%app.supported_locales%>}/', name: 'main')]
@@ -60,6 +61,7 @@ class MainController extends AbstractController
             'page' => 'app' ,
             'toView' => $this->serializer->serialize(array(
                 'user' => $this->getUser() !== null ? $user[0]->getUserName() : null,
+                'email' => $this->getUser()?->getUserIdentifier() ?: null,
                 'role' => $this->getUser() !== null ? $this->getUser()->getRoles() : null,
                 'trans' => $this->serializer->serialize($translations->all()['messages'], 'json')
             ),'json')

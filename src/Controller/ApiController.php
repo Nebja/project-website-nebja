@@ -20,6 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/api', name: 'api_')]
 class ApiController extends AbstractController
@@ -28,8 +29,9 @@ class ApiController extends AbstractController
     private Helper $helper;
     private UserRepository $userRepository;
     private EntityManagerInterface $em;
+    private TranslatorInterface $translator;
 
-    public function __construct(Helper $helper, UserRepository $userRepo, EntityManagerInterface $em)
+    public function __construct(Helper $helper, UserRepository $userRepo, EntityManagerInterface $em, TranslatorInterface $translator)
     {
         $encoders = [new JsonEncoder()];
         $normalizer = [new ObjectNormalizer()];
@@ -37,6 +39,7 @@ class ApiController extends AbstractController
         $this->helper = $helper;
         $this->userRepository = $userRepo;
         $this->em = $em;
+        $this->translator = $translator;
 
     }
 
@@ -69,7 +72,7 @@ class ApiController extends AbstractController
     public function getUserInfo(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $user = $this->userRepository->findBy(['email' => $this->getUser()->getUserIdentifier()]);
+        $user = $this->userRepository->findBy(['email' => $this->getUser()?->getUserIdentifier()]);
         return new JsonResponse(array('data' => $this->serializer->serialize(array('user' => $user[0]), 'json')));
     }
 
@@ -85,10 +88,9 @@ class ApiController extends AbstractController
         $id = $request->get('id');
         $agree = $request->get('agree');
         $username = $request->get('username');
-        //$user = $doc->getManager()->find(User::class, $id);
         $user = $this->userRepository->find($id);
         if (!$user){
-            $this->addFlash('error', 'No user Found with id: '.$request->get('id'));
+            $this->addFlash('error', $this->translator->trans('accountPage.noUser').': '.$request->get('id'));
             return new JsonResponse(array('data' => 'error'));
         }
         $user->setEmail($email)
@@ -107,18 +109,17 @@ class ApiController extends AbstractController
     {
 
         $user = $this->userRepository->find($request->get('id'));
-        if ($user->getEmail() !== $this->getUser()->getUserIdentifier()){
-            return new JsonResponse(array('msg' => 'You are not the owner of the account with email '.$user->getEmail().' , please contact an Administrator'));
+        if ($user?->getEmail() !== $this->getUser()?->getUserIdentifier()){
+            return new JsonResponse(array('msg' => $this->translator->trans('accountPage.notOwner').' '.$user?->getEmail().$this->translator->trans('accountPage.notOwner2')));
         }
-
 
         try {
             $this->userRepository->remove($user, true);
             $request->getSession()->invalidate();
             $this->container->get('security.token_storage')->setToken(null);
-            $this->addFlash('notice', 'We are sad to see you go but your account was delete.');
+            $this->addFlash('notice', $this->translator->trans('accountPage.accDeleted'));
         }catch (Exception|NotFoundExceptionInterface|ContainerExceptionInterface $e){
-            $this->addFlash('notice', 'We encountered an error , please contact an Administrator');
+            $this->addFlash('notice', $this->translator->trans('accountPage.accError'));
         }
         return $this->render('main/index.html.twig', [
             'page' => 'app' ,
@@ -154,7 +155,7 @@ class ApiController extends AbstractController
             ]);
         try {
             $mailer->send($email);
-            $response = 'Your message was sent. I will try to contact you as soon as possible!';
+            $response = $this->translator->trans('contactPage.emailSent');
         }catch (TransportExceptionInterface $e){
             $response = $e->getMessage();
         }

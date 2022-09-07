@@ -80,7 +80,7 @@ export default {
     resetPass(){
       let fd = this.$CreateFD('form_reset_email')
       this.$ResetPass(fd).then((res) => {
-        this.$getModal( 'Password Reset Email Sent', res.data['view'], 'generalModal')
+        this.$getModal( this.trans['modal.PassEmailSent'], res.data['view'], 'generalModal')
       })
     },
     validateInput(){
@@ -96,12 +96,12 @@ export default {
       }
       let fd = this.$CreateFD('form_edit')
       this.$EditInfo(fd).then((res) => {
-        this.$getModal( 'Edit Info', 'Your changes were Saved', 'generalModal')
+        this.$getModal( this.trans['modal.EditInfo'], this.trans['modal.EditInfoSaved'], 'generalModal')
         this.$UserInfo()
       })
     },
     policy(){
-      this.$getModal( 'Privacy Policy', '', 'policyModal')
+      this.$getModal( this.trans['modal.policy'], '', 'policyModal')
     }
   }
 }

@@ -36,6 +36,9 @@ modal:
   enterName: Enter your new Username.
   enterEmail: Enter your new Email.
   change: Change
+  PassEmailSent: Password Reset Email Sent
+  EditInfo: Edit Info
+  EditInfoSaved: Your changes were Saved
 home:
   code: Coding Languages
   scroll: Scroll for more info
@@ -57,6 +60,10 @@ aboutPage:
 contactPage:
   title: Contact me
   text: Do you have any questions? Please do not hesitate to contact me directly.I will come back to you within a matter of hours.
+  emailPro: Email Process
+  nameReq: Name is required.
+  subAndMsg: Subject and Message text is required.
+  emailSent: Your message was sent. I will try to contact you as soon as possible!
 accountPage:
   here: You are here as
   yEmail: Your Email is verified.
@@ -69,12 +76,21 @@ accountPage:
     your own account with your email address.
   del: Delete Account
   edit: Edit Account
+  notOwner: You are not the owner of the account with email
+  notOwner2: , please contact an Administrator
+  accDeleted: We are sad to see you go but your account was delete.
+  accError: We encountered an error , please contact an Administrator
+  noUser: No user Found with id
 registerPage:
   hide: Hide Policy
   show: Show Policy
   error: Something went wrong, contact and Admin
   usernameExists: A profile with the current Username Exists
   emailExists: A profile with the current Email Exists
+  regProcess: Register Process
+  reqEmailPass: Email and Password are required for the registration.
+  validEmail: Valid Email is required.
+  successReg: User registered , please confirm Your email.
 other:
   loginFirst: Please login first and then click the link
   emailVerified: Your email address has been verified.
@@ -83,3 +99,15 @@ twigTemp:
   pleaseConfirm: Please confirm your email address by clicking the following link
   pleaseConfirm2: Confirm my Email
   pleaseConfirm3: This link will expire in
+  pleaseConfirm4: Hi! Please confirm your email!
+  contactEmail: You send a message with name
+  contactEmail2: and email
+  contactEmail3: Your message was
+  contactEmail4: I will answer you as soon as possible
+  contactGreeting: With regards,<br> Benjamin Kotsaridis <br> Software Developer
+  resetPassForm: Reset your password
+  resetPassForm2: Please Type your new Password
+  resetPassEmail: To reset your password, please visit the following link
+  resetPassEmail1: This link will expire in
+  emailFooter: <p>Cheers!</p>
+  resetPassModal: An email was just sent that contains a link that you can use to reset your password. This link will expire in
