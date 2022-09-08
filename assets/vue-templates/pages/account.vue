@@ -7,7 +7,7 @@
     <img class="background" ref="background" src="/img/bg/account.jpg"  alt="bg"/>
     <h5 class="card-header" id="email_header" :key="user">{{ user.email }}</h5>
     <div class="card-body">
-      <h5 class="card-title">{{ trans['accountPage.here']}} {{ user.email !== 'guest@nebja.eu' ? role : 'Guest' }}</h5>
+      <h5 class="card-title">{{ trans['accountPage.here']}} {{ user.email !== 'guest@nebja.eu' ? role : trans['roles.ROLE_GUEST'] }}</h5>
       <p class="card-text">
         <span v-if="user.email !== 'guest@nebja.eu'" :key="user">
           {{ user.verified ? trans['accountPage.yEmail'] : trans['accountPage.nEmail'] }} <br>
@@ -36,7 +36,7 @@ export default {
   created() {
     this.$UserInfo().then((res) => {
       this.user = JSON.parse(res.data['data']).user
-      this.role = this.$translateRole(this.user.roles[0])
+      this.role = this.trans['roles.'+this.user.roles[0]]
       document.getElementById('loggedInUser').innerHTML = this.user.username
       let box = document.getElementById('account-box')
       box.classList.add('fadeIn')

@@ -119,6 +119,7 @@ validator:
   passUpp: Ο κωδικός πρέπει να περιέχει τουλάχιστον ένα κεφαλαίο γράμμα<br>
   empty: Τα Κενά πεδία δεν κάνουν τίποτα
 roles:
-  admin: Διαχειριστής
-  user: Χρήστης
-  friend: Φίλος
+  ROLE_ADMIN: Διαχειριστής
+  ROLE_USER: Χρήστης
+  ROLE_FRIEND: Φίλος
+  ROLE_GUEST: Επισκέπτης

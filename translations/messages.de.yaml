@@ -119,6 +119,7 @@ validator:
   passUpp: Password must contain at least one Upper case character DE<br> #TODO translate
   empty: Empty field does nothing
 roles:
-  admin: Administrator DE #TODO translate
-  user: User DE #TODO translate
-  friend: Personal Friend DE #TODO translate
+  ROLE_ADMIN: Administrator DE #TODO translate
+  ROLE_USER: User DE #TODO translate
+  ROLE_FRIEND: Personal Friend DE #TODO translate
+  ROLE_GUEST: Guest DE #TODO translate

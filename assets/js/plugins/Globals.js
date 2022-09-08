@@ -32,26 +32,14 @@ export default {
                 Tooltip.getOrCreateInstance(document.getElementById(link.id)).hide()
             })
         }
-        app.config.globalProperties.$translateRole = (role) => {
-
-            switch (role){
-                case 'ROLE_ADMIN':
-                    return trans['roles.admin']
-                case 'ROLE_USER':
-                    return trans['roles.user']
-                case 'ROLE_FRIEND':
-                    return trans['roles.friend']
-            }
-        }
         app.config.globalProperties.$translate = trans
         app.config.globalProperties.$viewData = viewData
         app.config.globalProperties.$token = document.getElementById("app").getAttribute('token')
         app.provide('token')
         app.provide('translate')
         app.provide('viewData')
-        app.provide(['getModal', options])
-        app.provide( ['refreshTooltip', options])
-        app.provide( ['updateTooltip', options])
-        app.provide( ['translateRole', options])
+        app.provide('getModal')
+        app.provide( 'refreshTooltip')
+        app.provide( 'updateTooltip')
     }
 }

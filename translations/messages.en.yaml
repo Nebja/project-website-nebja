@@ -120,6 +120,7 @@ validator:
   passUpp: Password must contain at least one Upper case character<br>
   empty: Empty field does nothing
 roles:
-  admin: Administrator
-  user: User
-  friend: Personal Friend
+  ROLE_ADMIN: Administrator
+  ROLE_USER: User
+  ROLE_FRIEND: Personal Friend
+  ROLE_GUEST: Guest
