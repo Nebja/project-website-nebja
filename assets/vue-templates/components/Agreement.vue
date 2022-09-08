@@ -174,7 +174,11 @@
 <script>
 export default {
   name: "Agreement",
-  props: ['trans']
+  data(){
+    return{
+      trans:this.$translate
+    }
+  }
 }
 </script>
 

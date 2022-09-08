@@ -110,4 +110,15 @@ twigTemp:
   resetPassEmail1: This link will expire in DE #TODO translate
   emailFooter: <p>Cheers!</p> DE #TODO translate
   resetPassModal: An email was just sent that contains a link that you can use to reset your password. This link will expire in DE #TODO translate
-
+validator:
+  correctEmail: Please give a correct Email.(com,de,gr,eu,org,com.gr) DE #TODO translate
+  userSpecialChar: Username can´t contain special Characters and must be at least 3 DE #TODO translate
+  passSpecialChar: Password must contain at least one special character DE<br> #TODO translate
+  passLength: Password must be more than 5 characters DE<br> #TODO translate
+  passNum: Password must contain at least one Number DE<br> #TODO translate
+  passUpp: Password must contain at least one Upper case character DE<br> #TODO translate
+  empty: Empty field does nothing
+roles:
+  admin: Administrator DE #TODO translate
+  user: User DE #TODO translate
+  friend: Personal Friend DE #TODO translate

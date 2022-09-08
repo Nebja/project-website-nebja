@@ -111,3 +111,15 @@ twigTemp:
   resetPassEmail1: This link will expire in
   emailFooter: <p>Cheers!</p>
   resetPassModal: An email was just sent that contains a link that you can use to reset your password. This link will expire in
+validator:
+  correctEmail: Please give a correct Email.(com,de,gr,eu,org,com.gr)
+  userSpecialChar: Username can´t contain special Characters and must be at least 3
+  passSpecialChar: Password must contain at least one special character<br>
+  passLength: Password must be more than 5 characters<br>
+  passNum: Password must contain at least one Number<br>
+  passUpp: Password must contain at least one Upper case character<br>
+  empty: Empty field does nothing
+roles:
+  admin: Administrator
+  user: User
+  friend: Personal Friend

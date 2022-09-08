@@ -1,14 +1,14 @@
 <template>
   <div v-if="!modal">
-    <span class="d-flex" id="loginPanel" v-if="this.$parent.viewData.user" >
+    <span class="d-flex" id="loginPanel" v-if="this.viewData.user" >
       <form id="loginForm22" action="/logout" class="d-flex">
-          <span id="loggedInUser">{{ this.$parent.viewData.user }}</span>&nbsp;&nbsp;&nbsp;
+          <span id="loggedInUser">{{ this.viewData.user }}</span>&nbsp;&nbsp;&nbsp;
           <button class="btn btn-outline-danger"  data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.logout']" type="submit"><BIconDoorClosed /></button>&nbsp;&nbsp;
       </form>
     </span>
     <span class="d-flex" id="loginPanel"  v-else>
       <form id="loginForm" method="POST" class="d-flex" action="/login">
-        <input v-model="this.$parent.viewData.lastEmail" v-if="this.$parent.viewData.lastEmail" class="form-control me-2" placeholder="username" type="email" name="email" id="inputEmail" autocomplete="email" required autofocus>
+        <input v-model="this.viewData.lastEmail" v-if="this.viewData.lastEmail" class="form-control me-2" placeholder="username" type="email" name="email" id="inputEmail" autocomplete="email" required autofocus>
          <input v-else class="form-control me-2" :placeholder="trans['navbar.username']" type="email" name="email" id="inputEmail" autocomplete="email" required autofocus>
         <input class="form-control me-2" :placeholder="trans['navbar.pass']" type="password" name="password" id="inputPassword" autocomplete="current-password" required>
         <input v-model="this.$parent.token" type="hidden" name="_csrf_token" id="csrf_token" required>
@@ -27,15 +27,15 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" id="loginModalBody">
-          <span class="d-flex" id="loginPanel" v-if="this.$parent.viewData.user" >
+          <span class="d-flex" id="loginPanel" v-if="this.viewData.user" >
             <form id="loginForm" action="/logout" class="d-flex logged">
               <button class="btn btn-outline-danger"  data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.logout']" type="submit"><BIconDoorClosed /></button>&nbsp;&nbsp;
-               <span>{{ this.$parent.viewData.user }}</span>&nbsp;&nbsp;&nbsp;
+               <span>{{ this.viewData.user }}</span>&nbsp;&nbsp;&nbsp;
             </form>
           </span>
           <span class="d-flex" id="loginPanel"  v-else>
             <form id="loginForm" method="post" class="d-flex" action="/login">
-              <input v-model="this.$parent.viewData.lastEmail" v-if="this.$parent.viewData.lastEmail" class="form-control me-2" placeholder="username" type="email" name="email" id="inputEmail" autocomplete="email" required autofocus>
+              <input v-model="this.viewData.lastEmail" v-if="this.viewData.lastEmail" class="form-control me-2" placeholder="username" type="email" name="email" id="inputEmail" autocomplete="email" required autofocus>
                <input v-else class="form-control me-2" placeholder="username" type="email" name="email" id="inputEmail" autocomplete="email" required autofocus>
               <input class="form-control me-2" placeholder="password" type="password" name="password" id="inputPassword" autocomplete="current-password" required>
               <input v-model="this.$parent.token" type="hidden" name="_csrf_token" id="csrf_token" required>
@@ -56,10 +56,13 @@
 <script>
 export default {
   name: "LoginBox",
-  props:[
-    'modal',
-    'trans'
-    ],
+  props:['modal'],
+  data(){
+    return{
+      viewData: this.$viewData,
+      trans: this.$translate
+    }
+  },
   methods:{
     resetPass(){
       this.$getModal( 'Reset Password Process', '', 'resetModal');

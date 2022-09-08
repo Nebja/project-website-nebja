@@ -1,9 +1,9 @@
 <template>
   <div class="card custom-box accountBox" id="account-box">
-    <modal id="deleteModal" type="Delete" :data="user.id"  :trans="trans"/>
-    <modal id="logoutModal" type="Logout" :data="user.id"  :trans="trans"/>
-    <modal id="editModal" type="Edit" :data="user.id" :trans="trans"/>
-    <modal id="policyModal" type="Policy" data="0" :trans="trans" />
+    <modal id="deleteModal" type="Delete" :data="user.id" />
+    <modal id="logoutModal" type="Logout" :data="user.id" />
+    <modal id="editModal" type="Edit" :data="user.id" />
+    <modal id="policyModal" type="Policy" data="0" />
     <img class="background" ref="background" src="/img/bg/account.jpg"  alt="bg"/>
     <h5 class="card-header" id="email_header" :key="user">{{ user.email }}</h5>
     <div class="card-body">
@@ -26,11 +26,11 @@
 <script>
 export default {
   name: "account",
-  props: ['trans'],
   data (){
     return {
       user: '',
-      role: ''
+      role: '',
+      trans: this.$translate
     }
   },
   created() {

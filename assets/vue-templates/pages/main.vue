@@ -1,19 +1,19 @@
 <template>
+  <div class="loading-stuff">
+    <div class="spinner-border loader" role="status"></div>
+    <div class="loader"> <img src="/img/logo_new.png"></div>
+  </div>
   <div class="container-fluid justify-content-center overflow-hidden">
-    <navBar
-        :viewData="viewData"
-        :token="token"
-        :trans="trans"
-    />
+    <navBar/>
     <div id="view-show" ref="viewShow" class="overflow-hidden">
       <Transition name="fade" mode="out-in">
-        <register v-if="page==='registerLink'"  :trans="trans"/>
-        <parallax v-else-if="page==='homeLink'" class="box" :trans="trans"/>
-        <movies v-else-if="page==='moviesLink'" class="box"  :trans="trans"/>
-        <admin v-else-if="page==='adminLink'" class="box" :trans="trans"/>
-        <account v-else-if="page==='accountLink'"  :trans="trans"/>
-        <Contact v-else-if="page==='contactLink'" :viewData="viewData" :trans="trans"  class="box"/>
-        <About v-else-if="page==='aboutLink'" :trans="trans"  class="box"/>
+        <register v-if="page==='registerLink'" />
+        <parallax v-else-if="page==='homeLink'" class="box" />
+        <movies v-else-if="page==='moviesLink'" class="box" />
+        <admin v-else-if="page==='adminLink'" class="box" />
+        <account v-else-if="page==='accountLink'" />
+        <Contact v-else-if="page==='contactLink'" class="box"/>
+        <About v-else-if="page==='aboutLink'" class="box"/>
       </Transition>
     </div>
   </div>
@@ -51,17 +51,17 @@ export default {
     account,
   },
   created(){
-    this.viewData = JSON.parse(document.getElementById("app").getAttribute('data-view'))
-    this.trans = JSON.parse(this.viewData.trans)
+    this.viewData = this.$viewData
+    this.trans = this.$translate
   },
   mounted(){
-    this.token = document.getElementById("app").getAttribute('token')
+    this.token = this.$token
     this.flash = document.getElementById("app").getAttribute('flash')
-    if(this.viewData.error != null){
-      this.$getModal(this.trans['modal.logError'],this.viewData.error === 'Bad credentials.' ? this.trans['navbar.badCre']: this.trans['navbar.wrongPass'], 'generalModal')
+    if(this.$viewData.error != null){
+      this.$getModal(this.trans['modal.logError'],this.$viewData.error === 'Bad credentials.' ? this.trans['navbar.badCre']: this.trans['navbar.wrongPass'], 'generalModal')
     }
-    if (this.viewData.form){
-      this.$getModal('Reset Password',this.viewData.form, 'generalModal')
+    if (this.$viewData.form){
+      this.$getModal('Reset Password',this.$viewData.form, 'generalModal')
     }
     this.$refreshTooltip()
     if(this.flash !== ''){
@@ -74,4 +74,17 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.loader{
+  position: absolute;
+  margin: auto;
+  left: 40%;
+  z-index: -1;
+  top: 30%;
+  width: 20rem;
+  height: 20rem;
+}
+.loader img{
+  width: 15rem;
+  margin: 93px 0 0 30px;
+}
 </style>

@@ -6,7 +6,7 @@
       <div style="margin: 20px">
         <h4>Vue.js upload Files</h4>
       </div>
-      <button class="btn btn-warning" @click="refreshFiles">Refresh Files</button>
+      <button class="btn btn-warning" @click="refresh">Refresh Files</button>
       <upload-files></upload-files>
     </div>
   </div>
@@ -16,13 +16,16 @@
 import UploadFiles from "../components/UploadFiles";
 export default {
   name: "admin",
+  data(){
+    return {
+      trans: this.$translate,
+      refresh: () => {
+        this.$AddMovies()
+      }
+    }
+  },
   components: {
     UploadFiles
-  },
-  methods:{
-    refreshFiles(){
-      this.$AddMovies()
-    }
   }
 }
 </script>

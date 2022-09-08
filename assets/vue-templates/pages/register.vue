@@ -28,7 +28,7 @@
       <div class="row mb-3">
         <div class="col-sm-10 offset-sm-2">
           <transition name="fade">
-            <Agreement ref="agreement" :trans="trans" v-show="showAgreement"/>
+            <Agreement ref="agreement" v-show="showAgreement"/>
           </transition>
           <a href="javascript:void(0)" class="link-info" @click="showAgreement = !showAgreement">{{ showAgreement ? trans['registerPage.hide'] : trans['registerPage.show']}}</a>
           <div class="form-check">
@@ -43,17 +43,21 @@
   </div>
 </template>
 <script>
-import validations from "../../js/Validations";
+import Agreement from "../components/Agreement";
 export default {
   name: "register",
-  props: ['trans'],
+  components: {
+    Agreement
+  },
   data(){
     return{
       showAgreement: false,
       email: null,
       password: null,
       username: null,
-      agreement: null
+      agreement: null,
+      trans: this.$translate,
+      validate: ()=>{this.$validator.validate()}
     }
   },
   mounted() {
@@ -64,14 +68,11 @@ export default {
       if (!this.email || !this.password){
         this.$getModal( this.trans['registerPage.regProcess'], this.trans['registerPage.reqEmailPass'], 'generalModal')
         return
-      }else if (!this.validEmail(this.email)){
+      }else if (!this.$validEmail(this.email)){
         this.$getModal(this.trans['registerPage.regProcess'], this.trans['registerPage.validEmail'], 'generalModal')
         return
       }
       const fd = this.$CreateFD('form_register');
-      for (const pair of fd.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]);
-      }
       let thisPage = this
       this.axios.interceptors.request.use(function (config) {
       thisPage.disableInputs(true)
@@ -85,18 +86,11 @@ export default {
         thisPage.disableInputs(false)
       })
     },
-    validate(){
-      validations.validate()
-    },
     disableInputs(bool){
       let inputs = document.getElementsByTagName('input')
       inputs.forEach(elem => {
         elem.disabled = bool
       })
-    },
-    validEmail(email) {
-      let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
     }
   }
 }

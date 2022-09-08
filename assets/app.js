@@ -15,9 +15,9 @@ import 'vue-plyr/dist/vue-plyr.css'
 import 'atropos/atropos.css'
 import LoginBox from './vue-templates/components/LoginBox'
 import modal from "./vue-templates/components/modal"
-import Agreement from "./vue-templates/components/Agreement";
 import Globals from "@/plugins/Globals";
 import Apis from "@/plugins/Apis";
+import Validations from "@/plugins/Validations"
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.scss';
 import './styles/media.scss'
@@ -30,11 +30,11 @@ import "bootstrap/dist/js/bootstrap.js"
 import * as bootstrap from './bootstrap';
 const app = createApp(homepage)
 app.component('LoginBox', LoginBox)
-    .component('Agreement', Agreement)
     .component('modal', modal)
 app.use(VueAxios, axios)
 app.use(Globals)
 app.use(Apis)
+app.use(Validations)
 app.use(VuePlyr)
 app.use(BootstrapIconsPlugin, bootstrap);
 app.config.globalProperties.axios=axios

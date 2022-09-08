@@ -1,5 +1,5 @@
 <template>
-    <modal v-if="type!=='movie'" :id="'seriesModal'+name" type="Series" :data="array" :trans="trans"/>
+    <modal v-if="type!=='movie'" :id="'seriesModal'+name" type="Series" :data="array" />
     <div class="movies-label">
       <a :href="'/movies/'+id" v-if="type==='movie'"  target="_blank">
             <img :src="'/img/posters/'+poster" data-atropos-offset="-5" alt="" class="w-25 p-3" />
@@ -14,10 +14,11 @@
 <script>
 export default {
   name: "movie-label",
-  props: ['id','name','poster', 'type', 'episodes', 'trans'],
+  props: ['id','name','poster', 'type', 'episodes'],
   data(){
     return {
-      array:{'name': this.name,'poster':this.poster, 'ep': this.episodes}
+      array:{'name': this.name,'poster':this.poster, 'ep': this.episodes},
+      trans: this.$translate
     }
   },
   methods:{

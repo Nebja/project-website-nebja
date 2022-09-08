@@ -14,15 +14,15 @@
           <div v-else-if="type==='Edit'" id="form_edit">
             <p id="edit_text_email">{{ trans['modal.enterEmail'] }}</p>
             <input name="edit_id" id="edit_id" data-name="id" :value="data" hidden>
-            <input class="form-control input-group" id="edit_email" data-name="email" type="email" placeholder="Email" data-validate="edit_text_email" name="edit_email" @keyup="validateInput">
+            <input class="form-control input-group" id="edit_email" data-name="email" type="email" placeholder="Email" data-validate="edit_text_email" name="edit_email" @keyup="validate">
             <br>
             <p id="edit_text_username">{{ trans['modal.enterName'] }}</p>
-            <input class="form-control input-group" id="edit_username" data-name="username" type="text" placeholder="Username" data-validate="edit_text_username" name="edit_username" @keyup="validateInput">
+            <input class="form-control input-group" id="edit_username" data-name="username" type="text" placeholder="Username" data-validate="edit_text_username" name="edit_username" @keyup="validate">
             <p>{{ trans['modal.agree'] }}</p>
             <input type="checkbox"  id="edit_agreement" data-name="agree" name="edit_agreement">&nbsp;<label for="edit_agreement">{{ trans['modal.agreeWith'] }}<a href="javascript:void(0)" @click="policy">{{ trans['modal.policy'] }}</a></label>
           </div>
           <div v-else-if="type==='Policy'">
-            <Agreement :trans="trans" />
+            <Agreement />
           </div>
           <div v-else-if="type==='Series'" class="seriesC">
             <h2>{{data.name}}</h2>
@@ -51,20 +51,21 @@
 </template>
 
 <script>
-import validations from "../../js/Validations";
+import Agreement from "./Agreement";
 import Youtube from "./youtube";
 export default {
   name: "modal",
-  components: {Youtube},
+  components: {Youtube, Agreement},
   props:[
     'id',
     'type',
-    'data',
-    'trans'
+    'data'
     ],
   data(){
     return {
-      editUser: ''
+      editUser: '',
+      trans: this.$translate,
+      validate: () => {this.$validator.validate()}
     }
   },
   updated() {
@@ -82,9 +83,6 @@ export default {
       this.$ResetPass(fd).then((res) => {
         this.$getModal( this.trans['modal.PassEmailSent'], res.data['view'], 'generalModal')
       })
-    },
-    validateInput(){
-      validations.validate()
     },
     changeInfo(){
       let editEmail = document.getElementById('edit_email')

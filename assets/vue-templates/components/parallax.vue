@@ -45,7 +45,11 @@
 import { ref } from 'vue'
 export default {
   name: 'parallax',
-  props: [ 'trans' ],
+  data(){
+    return{
+      trans:this.$translate
+    }
+  },
   setup() {
     const background = ref(background)
     const first = ref(first)

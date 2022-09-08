@@ -1,6 +1,6 @@
 <template>
-  <modal id="generalModal" type="false" data="none" :trans="trans"/>
-  <modal id="resetModal" type="Reset" data="none" :trans="trans" />
+  <modal id="generalModal" type="false" data="none" />
+  <modal id="resetModal" type="Reset" data="none" />
   <nav class="navbar fixed-top navbar-expand-lg no-padding navbar-light glowing" v-if="!this.$root.mobile">
     <div class="container-fluid moveArea padding-sm">
       <img src="/img/logo_new.png" class="logo" alt="nebWeb">
@@ -46,13 +46,13 @@
           </li>
         </ul>
         <a href="javascript:void(0)" v-if="showArrow"   class="nav-link nav-item-zoom links" data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.login']" id="loginFormBtn" @click="loginAnimation($event)"><BIconBoxArrowInLeft/></a>
-        <LoginBox :modal="false" :trans="trans"/>
+        <LoginBox :modal="false" />
       </div>
     </div>
   </nav>
   <div class="mobile-bar glowing" v-else>
     <div class="">
-      <LoginBox :modal="true" :trans="trans"/>
+      <LoginBox :modal="true"/>
       <div class="col-sm-auto">
         <div class="d-flex flex-sm-column flex-row align-items-center">
           <a href="/" class="d-block p-3 link-dark text-decoration-none">
@@ -92,26 +92,23 @@
 import animator from '/assets/js/animations';
 export default {
   name: "navBar",
-  props: [
-    'viewData',
-    'token',
-    'trans'
-  ],
   data(){
     return {
       x:0,
-      rolesDump: '',
-      animator: new animator()
+      rolesDump: this.$viewData['role'],
+      animator: new animator(),
+      trans: this.$translate,
+      token: this.$token
     }
   },
   computed:{
     showArrow: function () {
-      return !!(!this.viewData.user || this.$root.mobile);
+      return !!(!this.$viewData.user || this.$root.mobile);
     }
   },
   updated() {
     this.$updateTooltip();
-    this.rolesDump = this.viewData['role']
+    this.rolesDump = this.$viewData['role']
   },
   methods: {
     showPage(page){
@@ -119,7 +116,7 @@ export default {
     },
     loginAnimation(el){
       this.animator.changeEl(document.getElementById('loginForm'))
-      let width = this.viewData.user ? '310px' : '562px'
+      let width = this.$viewData.user ? '310px' : '562px'
       this.animator.width('5px',width)
       this.animator.changeEl(el.target)
       this.animator.rotate('0','-180')

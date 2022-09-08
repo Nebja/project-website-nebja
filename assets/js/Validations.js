@@ -6,12 +6,20 @@ class Validations {
         this.label = "none"
         this.type = "none"
         this.btn = "none"
+        this.trans = 'none'
         this.validation = false
     }
     getValidation(){
         return this.validation
     }
+    getTrans(){
+        return this.trans
+    }
+    setTrans(trans){
+        this.trans = trans
+    }
     validate (){
+        this.#translate()
         let text;
         this.#findInputs()
         this.elements.forEach(element => {
@@ -19,7 +27,7 @@ class Validations {
             this.#createVars()
             if(element.value === ''){
                 this.elem.setAttribute('data-validated', 'false')
-                text = 'Empty field does nothing :D'
+                text = this.trans['validator.empty']
             }else{
                 switch (this.type){
                     case 'email':
@@ -43,7 +51,7 @@ class Validations {
         this.validation = false
         if (!/\w+@\w+\.(com|gr|de|org|eu|com.gr)$/.test(this.elem.value)){
             this.elem.setAttribute('data-validated', 'false')
-            return 'Please give a correct Email.(com,de,gr,eu,org,com.gr)'
+            return this.trans['validator.correctEmail']
         }else {
             this.elem.setAttribute('data-validated', 'true')
             return ''
@@ -53,7 +61,7 @@ class Validations {
         this.validation = false
         if (!/[a-zA-Z]{3}[a-zA-Z]+$/.test(this.elem.value)){
             this.elem.setAttribute('data-validated', 'false')
-            return'Username can´t contain special Characters and must be at least 3'
+            return this.trans['validator.userSpecialChar']
         }else {
             this.elem.setAttribute('data-validated', 'true')
             this.validation = true
@@ -65,21 +73,35 @@ class Validations {
         let  text = '';
         if (!/[^a-zA-Z\d]/.test(this.elem.value)){
             this.elem.setAttribute('data-validated', 'false')
-            text += 'Password must contain at least one special character<br>'
+            text += this.trans['validator.passSpecialChar']
         }
         if(!/^.{6}/.test(this.elem.value)){
             this.elem.setAttribute('data-validated', 'false')
-            text += 'Password must be more than 5 characters<br>'
+            text += this.trans['validator.passLength']
         }
         if (!/\d/.test(this.elem.value)){
             this.elem.setAttribute('data-validated', 'false')
-            text += 'Password must contain at least one Number<br>'
+            text += this.trans['validator.passNum']
         }
         if (!/[A-Z]/.test(this.elem.value)){
             this.elem.setAttribute('data-validated', 'false')
-            text += 'Password must contain at least one Upper case character<br>'
+            text += this.trans['validator.passUpp']
         }
         return text
+    }
+    #translate(){
+        console.log(typeof this.trans)
+        if (typeof this.trans !== 'object' || !('validator.correctEmail' in this.trans)){
+            this.trans = {
+                'validator.correctEmail': 'Please give a correct Email.',
+                'validator.userSpecialChar':'Username can´t contain special Characters and must be longer',
+                'validator.passSpecialChar': 'Password must contain at least one special character<br>',
+                'validator.passLength': 'Password must be longer<br>',
+                'validator.passNum': 'Password must contain at least one Number<br>',
+                'validator.passUpp': 'Password must contain at least one Upper case character<br>',
+                'validator.empty': 'Empty field does nothing'
+            }
+        }
     }
     #findInputs(){
         this.elements = document.querySelectorAll('input[data-validate]');

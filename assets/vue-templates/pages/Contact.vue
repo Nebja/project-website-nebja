@@ -104,13 +104,14 @@
 <script>
 export default {
   name: "Contact",
-  props:['viewData', 'trans'],
   data(){
     return {
       message: null,
       name: null,
-      email: this.viewData.email,
-      subject: null
+      email: this.$viewData.email,
+      subject: null,
+      viewData: this.$viewData,
+      trans: this.$translate
     }
   },
   methods:{
@@ -125,7 +126,7 @@ export default {
       }else if(!this.subject || !this.message){
         this.$getModal(this.trans['contactPage.emailPro'], this.trans['contactPage.subAndMsg'], 'generalModal')
         return
-      }else if (!this.validEmail(this.email)){
+      }else if (!this.$validEmail(this.email)){
         this.$getModal(this.trans['contactPage.emailPro'], this.trans['registerPage.validEmail'], 'generalModal')
         return
       }
@@ -133,10 +134,6 @@ export default {
       this.$SendEmail(fd).then((res) => {
         this.$getModal(this.trans['contactPage.emailPro'], res.data['msg'],'generalModal')
       })
-    },
-    validEmail(email) {
-      let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
     }
   }
 }
