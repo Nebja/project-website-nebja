@@ -25,8 +25,11 @@ export default {
             const fd = new FormData()
             let f = document.getElementById(form).querySelectorAll('input[data-name], textarea[data-name]')
             for (const item of f){
-                console.log(item.dataset.name+" - "+item.value)
-                fd.append(item.dataset.name, item.value)
+                if (item.type !== 'checkbox'){
+                    fd.append(item.dataset.name, item.value)
+                }else {
+                    fd.append(item.dataset.name, item.checked)
+                }
             }
             return fd
         }

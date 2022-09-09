@@ -95,6 +95,14 @@ export default {
       let fd = this.$CreateFD('form_edit')
       this.$EditInfo(fd).then((res) => {
         this.$getModal( this.trans['modal.EditInfo'], this.trans['modal.EditInfoSaved'], 'generalModal')
+        if (res.data['data'] === 'updated'){
+          console.log('INfo change')
+          let userInfo = res.data['info']
+          console.log(userInfo)
+          document.getElementById('email_header').innerHTML = userInfo['email']
+          document.getElementById('loggedInUser').innerHTML = userInfo['username']
+          document.getElementById('user-agreement').innerHTML = userInfo['agreement'] === 1?this.trans['accountPage.yAgree'] : this.trans['accountPage.nAgree']
+        }
         this.$UserInfo()
       })
     },

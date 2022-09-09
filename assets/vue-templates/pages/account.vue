@@ -11,7 +11,7 @@
       <p class="card-text">
         <span v-if="user.email !== 'guest@nebja.eu'" :key="user">
           {{ user.verified ? trans['accountPage.yEmail'] : trans['accountPage.nEmail'] }} <br>
-          {{ user.agreement ? trans['accountPage.yAgree'] : trans['accountPage.nAgree'] }}
+          <text id="user-agreement">{{ user.agreement ? trans['accountPage.yAgree'] : trans['accountPage.nAgree'] }}</text>
         </span>
         <span v-else>
           {{ trans['accountPage.gText1'] }} guest@nebja.eu. <span v-html="trans['accountPage.gText2']"></span>
@@ -34,13 +34,7 @@ export default {
     }
   },
   created() {
-    this.$UserInfo().then((res) => {
-      this.user = JSON.parse(res.data['data']).user
-      this.role = this.trans['roles.'+this.user.roles[0]]
-      document.getElementById('loggedInUser').innerHTML = this.user.username
-      let box = document.getElementById('account-box')
-      box.classList.add('fadeIn')
-    })
+    this.getUserInfo()
   },
   methods:{
     openModal(type){
@@ -49,6 +43,15 @@ export default {
       }else {
         this.$getModal( 'Edit Account', '', 'editModal')
       }
+    },
+    getUserInfo(){
+      this.$UserInfo().then((res) => {
+        this.user = JSON.parse(res.data['data']).user
+        this.role = this.trans['roles.'+this.user.roles[0]]
+        document.getElementById('loggedInUser').innerHTML = this.user.username
+        let box = document.getElementById('account-box')
+        box.classList.add('fadeIn')
+      })
     }
   }
 }

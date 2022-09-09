@@ -84,20 +84,29 @@ class ApiController extends AbstractController
     public function editEmail(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $email = $request->get('email');
-        $id = $request->get('id');
-        $agree = $request->get('agree');
-        $username = $request->get('username');
-        $user = $this->userRepository->find($id);
+        $infoArr = [
+            'id' => $request->get('id'),
+            'email' => $request->get('email'),
+            'username' => $request->get('username'),
+            'agreement' => $request->get('agree')==='true'?1:0
+        ];
+        dump($request->get('agree'));
+        dump($infoArr);
+        $user = $this->userRepository->find($infoArr['id']);
         if (!$user){
-            $this->addFlash('error', $this->translator->trans('accountPage.noUser').': '.$request->get('id'));
+            $this->addFlash('error', $this->translator->trans('accountPage.noUser').': '.$infoArr['id']);
             return new JsonResponse(array('data' => 'error'));
         }
-        $user->setEmail($email)
-                ->setUsername($username)
-                ->setAgreement($agree==='true'?1:0);
-        $this->em->flush();
-        return new JsonResponse(array('data' => 'updated'));
+        try {
+            $user->setEmail($infoArr['email'])
+                ->setUsername($infoArr['username'])
+                ->setAgreement($infoArr['agreement']);
+            $this->em->flush();
+        }catch (\Exception $e){
+            $this->addFlash('error', $this->translator->trans('accountPage.accError'));
+            return new JsonResponse(array('data' => $e->getMessage()));
+        }
+        return new JsonResponse(array('data' => 'updated', 'info' => $infoArr));
     }
 
     /**
