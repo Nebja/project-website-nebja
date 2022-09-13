@@ -28,6 +28,7 @@ import "/node_modules/flag-icons/css/flag-icons.min.css"
 import "bootstrap/dist/js/bootstrap.js"
 // start the Stimulus application
 import * as bootstrap from './bootstrap';
+import testClass from "@/testClass";
 const app = createApp(homepage)
 app.component('LoginBox', LoginBox)
     .component('modal', modal)

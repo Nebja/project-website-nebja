@@ -109,4 +109,4 @@ class testClass {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 }
-export default new testClass()
+export default testClass
