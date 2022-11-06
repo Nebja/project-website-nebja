@@ -15,7 +15,11 @@
           </li>
           <!-- Movie Link  /-->
           <li class="nav-item" v-if="this.rolesDump?.includes('ROLE_FRIEND')">
-            <a :class="this.$parent.page==='moviesLink'?'nav-link active':'nav-link'" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.movies']" id="moviesLink" aria-current="page" @click="showPage('moviesLink')"><BIconCameraReels class="nav-item-zoom"/></a>
+            <a :class="this.$parent.page==='moviesLink'?'nav-link active':'nav-link'" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.movies']" id="moviesLink" aria-current="page" @click="showPage('moviesLink')"><BIconFilm class="nav-item-zoom"/></a>
+          </li>
+          <!-- Personal Video /-->
+          <li class="nav-item">
+            <a :class="this.$parent.page==='personalVideo'?'nav-link active':'nav-link'" href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" :title="trans['navbar.personalVideo']" id="personalVideoLink" aria-current="page" @click="showPage('personalVideo')"><BIconCameraReels class="nav-item-zoom"/></a>
           </li>
           <!-- Account Link  /-->
           <li class="nav-item" v-if="this.rolesDump?.includes('ROLE_USER')">

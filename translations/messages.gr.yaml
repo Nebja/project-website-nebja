@@ -27,6 +27,7 @@ navbar:
   admin: Πίνακας Διαχείρισης
   badCre: Αυτό το email δεν υπάρχει
   wrongPass: Λάθος Κωδικός
+  personalVideo: Προσωπικά Βίντεο
 modal:
   logError: Σφάλμα Σύνδεσης
   policy: Πολιτική απορρήτου

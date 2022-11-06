@@ -14,12 +14,14 @@
         <account v-else-if="page==='accountLink'" />
         <Contact v-else-if="page==='contactLink'" class="box"/>
         <About v-else-if="page==='aboutLink'" class="box"/>
+        <personal-video v-else-if="page==='personalVideo'" class="box"/>
       </Transition>
     </div>
   </div>
 </template>
 <script>
 import register from "./register";
+import personalVideo from "./PersonalVideo";
 import parallax from "../components/parallax"
 import navBar from "../components/navBar";
 import movies from "./movies";
@@ -49,6 +51,7 @@ export default {
     admin,
     parallax,
     account,
+    personalVideo
   },
   created(){
     this.viewData = this.$viewData

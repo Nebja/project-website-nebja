@@ -34,6 +34,7 @@ class FileManager
         $response['images']= $this->findFiles('img');
         $response['videos']= $this->findFiles('Videos');
         $response['subs']= $this->findFiles('subs');
+        $response['home']= $this->findFiles('Home');
         return $response;
     }
 

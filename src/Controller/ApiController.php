@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\HomeRepository;
 use App\Repository\UserRepository;
 use App\Repository\VideosRepository;
 use App\Service\Helper;
@@ -64,6 +65,14 @@ class ApiController extends AbstractController
         $this->helper->addNewMovieFiles($this->getParameter('kernel.project_dir'), $videosRepository);
         return new JsonResponse(array('toView' => 'added'));
     }
+    #[Route('/addHomeMovies', name: 'addHomeMovies', methods: 'GET')]
+    public function addHomeMovies(HomeRepository $homeRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $this->helper->addNewHomeMovies($this->getParameter('kernel.project_dir'), $homeRepository);
+        return new JsonResponse(array('toView' => 'added'));
+    }
 
     /**
      * @return Response
@@ -90,8 +99,6 @@ class ApiController extends AbstractController
             'username' => $request->get('username'),
             'agreement' => $request->get('agree')==='true'?1:0
         ];
-        dump($request->get('agree'));
-        dump($infoArr);
         $user = $this->userRepository->find($infoArr['id']);
         if (!$user){
             $this->addFlash('error', $this->translator->trans('accountPage.noUser').': '.$infoArr['id']);

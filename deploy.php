@@ -11,7 +11,7 @@ set('project_path', '');
 set('environment', '');
 set('keep_releases', 3);
 add('shared_files', ['.env']);
-add('shared_dirs', ['public/Videos', 'public/subs', 'public/img/posters']);
+add('shared_dirs', ['public/Videos', 'public/subs', 'public/img/posters', 'public/Home']);
 add('writable_dirs', []);
 
 // Hosts

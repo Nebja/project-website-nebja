@@ -39,6 +39,7 @@ class AdminController extends AbstractController
         $files = $request->files->get('file');
         $folder = $request->get('folder');
         $filename =  $request->get('name');
+
         $fileUpload = new Uploads($this->getParameter('kernel.project_dir').'/public/', $folder);
         $answer= $fileUpload->upload($files, $filename);
         return new JsonResponse(array('message' => $answer['msg'], 'error' => $answer['error']));

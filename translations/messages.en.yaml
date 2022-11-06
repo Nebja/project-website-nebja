@@ -27,6 +27,7 @@ navbar:
   admin: Admin Panel
   badCre: Email doesnt exists
   wrongPass: Wrong Password
+  personalVideo: Home video
 modal:
   logError: Login Error
   policy: Privacy Policy

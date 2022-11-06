@@ -27,6 +27,7 @@ navbar:
   admin: Administrationsmenü
   badCre: Email existiert nicht
   wrongPass: Falshe passwort
+  personalVideo: Heimvideo
 modal:
   logError: Login Fehler
   policy: Datenschutz
@@ -39,6 +40,7 @@ modal:
   PassEmailSent: Password Reset Email Sent DE #TODO translate
   EditInfo: Edit Info #TODO translate
   EditInfoSaved: Your changes were Saved #TODO translate
+
 home:
   code: Programmiersprachen
   scroll: Scrollen Sie für weitere Informationen

@@ -6,8 +6,15 @@
       <div style="margin: 20px">
         <h4>Vue.js upload Files</h4>
       </div>
+      <button class="btn btn-warning" @click="home">Refresh Home</button><br><br>
+      <button class="btn btn-success" @click="getFiles">Files</button><br><br>
       <button class="btn btn-warning" @click="refresh">Refresh Files</button>
-      <upload-files></upload-files>
+      <br><br><input type="text" id="title"><br><br>
+      <button class="btn btn-success" @click="imdb">Title</button><br><br>
+      <select id="yearSelect" @change="imdbDetails($event)">
+        <option>Search for Movie name</option>
+      </select>
+      <div id="results"></div>
     </div>
   </div>
 </template>
@@ -21,14 +28,46 @@ export default {
       trans: this.$translate,
       refresh: () => {
         this.$AddMovies()
+      },
+      home: () =>{
+        this.$AddHomeMovies()
       }
     }
   },
   components: {
     UploadFiles
+  },
+  methods: {
+    imdb(){
+      const title = document.getElementById('title').value
+      this.$Imdb({'q': title}).then((res) => {
+        let string = '<option value="none" selected>Pick a choice</option>';
+        console.log(res.data)
+        res.data.d.forEach((item) => {
+          string += '<option value="'+item.id+'">'+item.y + ' - ' + item.l + '</option>'
+        })
+        document.getElementById('yearSelect').innerHTML = string
+      })
+    },
+    imdbDetails(event){
+      let string = ''
+        this.$ImdbFind({'tconst': event.target.value}).then((res) => {
+          if(res.data.image !== undefined){
+             string = '<img style="width: 450px" src="'+res.data.image.url+'">'
+          }else {
+            string = 'NO IMAGE TO DISPLAY'
+          }
+          string +='<br>'+res.headers['x-ratelimit-requests-remaining']+'<br>'
+          document.getElementById('results').innerHTML = string
+        })
+    },
+    getFiles(){
+      this.axios.get('/admin/files').then(p => {
+        console.log(p)
+      })
+    }
   }
 }
 </script>
 <style scoped>
-
 </style>

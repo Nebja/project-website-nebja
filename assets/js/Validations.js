@@ -90,7 +90,6 @@ class Validations {
         return text
     }
     #translate(){
-        console.log(typeof this.trans)
         if (typeof this.trans !== 'object' || !('validator.correctEmail' in this.trans)){
             this.trans = {
                 'validator.correctEmail': 'Please give a correct Email.',
