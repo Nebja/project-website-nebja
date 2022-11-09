@@ -31,6 +31,13 @@ export default {
       },
       home: () =>{
         this.$AddHomeMovies()
+      },
+      getFiles : () =>{
+        let fd = new FormData()
+        fd.append('folder', 'Home' )
+        this.$getFiles(fd).then(d => {
+          console.log(d.data)
+        })
       }
     }
   },
@@ -60,11 +67,6 @@ export default {
           string +='<br>'+res.headers['x-ratelimit-requests-remaining']+'<br>'
           document.getElementById('results').innerHTML = string
         })
-    },
-    getFiles(){
-      this.axios.get('/admin/files').then(p => {
-        console.log(p)
-      })
     }
   }
 }

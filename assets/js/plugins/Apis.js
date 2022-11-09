@@ -9,6 +9,8 @@ export default {
         app.config.globalProperties.$Movies =() => {return axios.get('/api/movies')}
         app.provide('Movies')
             // Post Requests
+        app.config.globalProperties.$getFiles =(fd) => {return axios.post('/admin/files', fd)}
+        app.provide('getFiles')
         app.config.globalProperties.$ResetPass =(fd) => {return axios.post('/reset-password', fd)}
         app.provide('ResetPass')
         app.config.globalProperties.$EditInfo =(fd) => {return axios.post('/api/editEmail', fd)}

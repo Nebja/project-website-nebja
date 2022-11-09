@@ -8,7 +8,6 @@ use App\Repository\HomeRepository;
 use App\Repository\VideosRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Repository\RepositoryFactory;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\Finder;
@@ -96,27 +95,26 @@ class Helper
      */
     private function addHomeVideosToDB(HomeRepository $homeRepository, String $path): array
     {
-        return array('path' => $path);
-/*        $array = array();
+        $array = array();
         $finder = new Finder();
-            $finder->files()->depth('== 0')->in($path . '/public/Home');
-            foreach ($finder->files()->name('*.mp4') as $file) {
-                $fileNameWithExtension = $file->getRelativePathname();
-                $filenameWithoutExtension = basename($file->getFilename(), '.' . $file->getExtension());
-                $file_exists = $homeRepository->findBy(['fileName' => $fileNameWithExtension]);
-                if (empty($file_exists)) {
-                    $object = new Home();
-                    $object->setFileName($fileNameWithExtension)
-                        ->setName($filenameWithoutExtension)
-                        ->setCreated(new DateTimeImmutable())
-                        ->setComments('NONE')
-                        ->setPermissions(array("ROLE_USER"));
-                    $homeRepository->add($object, true);
-                    $this->logger->info($fileNameWithExtension . ' was added as Entry in Database');
-                }
-                $array[] = $fileNameWithExtension;
+        $finder->files()->depth('== 0')->in($path . '/public/Home');
+        foreach ($finder->files()->name('*.mp4') as $file) {
+            $fileNameWithExtension = $file->getRelativePathname();
+            $filenameWithoutExtension = basename($file->getFilename(), '.' . $file->getExtension());
+            $file_exists = $homeRepository->findBy(['file' => $fileNameWithExtension]);
+            if (empty($file_exists)) {
+                $object = new Home();
+                $object->setFile($fileNameWithExtension)
+                    ->setName($filenameWithoutExtension)
+                    ->setCreated(new DateTimeImmutable())
+                    ->setComments('NONE')
+                    ->setPermissions(array("ROLE_USER"));
+                $homeRepository->add($object, true);
+                $this->logger->info($fileNameWithExtension . ' was added as Entry in Database');
             }
-        return $array;*/
+            $array[] = $fileNameWithExtension;
+        }
+        return $array;
     }
     /**
      * @param EntityRepository $repository
@@ -128,8 +126,8 @@ class Helper
         $dbFile = $repository->findAll();
         foreach ($dbFile as $dbVideo){
             if (!in_array($dbVideo->getFile(), $videosArray, true)){
-                $repository->remove($dbFile, true);
-                $this->logger->info($dbFile->getFile().' was deleted from Database');
+                $repository->remove($dbVideo, true);
+                $this->logger->info($dbVideo->getFile().' was deleted from Database');
             }
         }
     }

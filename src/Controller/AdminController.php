@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Service\FileManager;
 use App\Service\Uploads;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,9 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminController extends AbstractController
 {
     private FileManager $filesystem ;
-    public function __construct()
+    public function __construct(ManagerRegistry $doc)
     {
-        $this->filesystem = new FileManager();
+        $this->filesystem = new FileManager($doc);
     }
     #[Route('', name: 'index')]
     public function index(): Response
@@ -28,10 +29,12 @@ class AdminController extends AbstractController
         ]);
     }
     #[Route('/files', name: 'files')]
-    public function getFiles(): Response
+    public function getFiles(Request $request): Response
     {
-        $this->filesystem->setProjectDir($this->getParameter('kernel.project_dir').'/public/');
-        return new JsonResponse($this->filesystem->serverFiles());
+        $folder = $request->get('folder');
+        $path = $this->getParameter('kernel.project_dir').'/public/';
+        $this->filesystem->setProjectDir($path.$folder);
+        return new JsonResponse($this->filesystem->serverFiles($folder));
     }
     #[Route('/upload', name: 'upload')]
     public function uploadFile(Request $request): Response

@@ -38,6 +38,18 @@ class VideosRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    /**
+     * @param $value
+     * @return float|int|array|string
+     */
+    public function findByFile($value): float|int|array|string
+    {
+        return $this->createQueryBuilder('v')
+            ->where('v.file = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getArrayResult();
+    }
 
 //    /**
 //     * @return Videos[] Returns an array of Videos objects
